@@ -10,7 +10,7 @@
 				parallel
 
 	echo "Install Bio-Perl"
-	cpanm Bio::Perl
+	cpanm Bio::Perl Bio::Root:Version
 
 
 	echo "Install prodigal"
