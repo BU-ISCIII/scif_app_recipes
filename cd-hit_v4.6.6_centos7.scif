@@ -1,36 +1,22 @@
-%appinstall samtools
-	echo "Install samtools dependencies"
-	yum -y install  zlib \
-				    zlib-devel \
-					ncurses \
-					ncurses-libs \
-					ncurses-devel \
-					bzip2 \
-					bzip2-libs \
-					bzip2-devel \
-					xz \
-					xz-libs \
-					xz-devel
+%appinstall cdhit
+    echo "Install CD-HIT"
+    CDHIT_VERSION="4.6.6"
+	curl -fsSL https://github.com/weizhongli/cdhit/archive/V${CDHIT_VERSION}.tar.gz -o cdhit-${CDHIT_VERSION}.tar.gz && \
+    tar xvf cdhit-${CDHIT_VERSION}.tar.gz -C . && \
+    cd cdhit-${CDHIT_VERSION};make;cd - && \
+    rm -f cdhit-${CDHIT_VERSION}.tar.gz
 
-    echo "Install SAMTools"
-    SAMTOOLS_VERSION="1.9"
+	ln -s ../cdhit-${CDHIT_VERSION}/*.h ../cdhit-${CDHIT_VERSION}/*.o lib
+	ln -s ../cdhit-${CDHIT_VERSION}/cd-hit* ../cdhit-${CDHIT_VERSION}/*.pl bin
 
-	curl -fsSL https://github.com/samtools/samtools/releases/download/${SAMTOOLS_VERSION}/samtools-${SAMTOOLS_VERSION}.tar.bz2 -o samtools-${SAMTOOLS_VERSION}.tar.bz2 && \
-    tar xvjf samtools-${SAMTOOLS_VERSION}.tar.bz2 -C . && \
-    cd samtools-${SAMTOOLS_VERSION};make;cd - && \
-    rm samtools-${SAMTOOLS_VERSION}.tar.bz2
-
-	ln -s ../samtools-${SAMTOOLS_VERSION}/* lib
-	ln -s ../samtools-${SAMTOOLS_VERSION}/samtools bin
-
-%apphelp samtools
-    Samtools
-%apprun samtools
-    exec samtools "$@"
-%applabels samtools
-    VERSION 1.9
-%apptest samtools
-    samtools --version
+%apphelp cdhit
+    This app runs cd-hit software
+%apprun cdhit
+    exec cdhit "$@"
+%applabels cdhit
+    VERSION 4.6.6
+%apptest cdhit
+    cd-hit --version
 	if [ $? -ne 0 ] ; then
 	   echo 1
 	else

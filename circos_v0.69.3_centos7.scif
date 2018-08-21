@@ -1,36 +1,36 @@
-%appinstall samtools
-	echo "Install samtools dependencies"
-	yum -y install  zlib \
-				    zlib-devel \
-					ncurses \
-					ncurses-libs \
-					ncurses-devel \
-					bzip2 \
-					bzip2-libs \
-					bzip2-devel \
-					xz \
-					xz-libs \
-					xz-devel
+%appinstall circos
+	echo "Install circos dependencies"
+	yum -y install cpan \
+				   gd \
+				   gd-devel \
+				   freetype \
+				   freetype-devel \
+				   libpng \
+				   libpng-devel \
+				   libjpeg-turbo \
+				   libjpeg-turbo-devel
 
-    echo "Install SAMTools"
-    SAMTOOLS_VERSION="1.9"
+	cpan -i App::cpanminus
+	cpanm Digest::MD5 Font::TTF::Font List::MoreUtils Math::Bezier Math::Round Math::VecStat Params::Validate Readonly Regexp::Common SVG Set::IntSpan Statistics::Basic Text::Format Clone Config::General Font::TTF::Font GD
 
-	curl -fsSL https://github.com/samtools/samtools/releases/download/${SAMTOOLS_VERSION}/samtools-${SAMTOOLS_VERSION}.tar.bz2 -o samtools-${SAMTOOLS_VERSION}.tar.bz2 && \
-    tar xvjf samtools-${SAMTOOLS_VERSION}.tar.bz2 -C . && \
-    cd samtools-${SAMTOOLS_VERSION};make;cd - && \
-    rm samtools-${SAMTOOLS_VERSION}.tar.bz2
+    echo "Install Circos"
+    CIRCOS_VERSION="0.69-6"
 
-	ln -s ../samtools-${SAMTOOLS_VERSION}/* lib
-	ln -s ../samtools-${SAMTOOLS_VERSION}/samtools bin
+	curl -fsSL http://circos.ca/distribution/circos-${CIRCOS_VERSION}.tgz -o circos-${CIRCOS_VERSION}.tgz && \
+    tar xvf circos-${CIRCOS_VERSION}.tgz -C . && \
+    rm circos-${CIRCOS_VERSION}.tgz
 
-%apphelp samtools
-    Samtools
-%apprun samtools
-    exec samtools "$@"
-%applabels samtools
-    VERSION 1.9
-%apptest samtools
-    samtools --version
+	ln -s ../circos-${CIRCOS_VERSION}/lib/* lib
+	ln -s ../circos-${CIRCOS_VERSION}/circos bin
+
+%apphelp circos
+    This app runs circos software.
+%apprun circos
+    exec circos "$@"
+%applabels circos
+    VERSION 0.69-6
+%apptest circos
+    circos --version
 	if [ $? -ne 0 ] ; then
 	   echo 1
 	else

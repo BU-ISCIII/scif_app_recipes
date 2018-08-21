@@ -10,14 +10,14 @@
     rm bowtie2-${BOWTIE2_VERSION}.tar.bz2
 
 	ln -s ../bowtie2-${BOWTIE2_VERSION}/* lib
-	ln -s ../bowtie2-${BOWTIE2_VERSION}/bowtie2 bin
+	ln -s ../bowtie2-${BOWTIE2_VERSION}/bowtie* bin
 
 %apphelp bowtie2
     bowtie2
 %apprun bowtie2
     exec bowtie2 "$@"
 %applabels bowtie2
-    VERSION 1.9
+    VERSION 2.2.4
 %apptest bowtie2
     bowtie2 --version
 	if [ $? -ne 0 ] ; then
