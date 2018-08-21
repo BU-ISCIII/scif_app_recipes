@@ -5,7 +5,7 @@
 
 	# Install BEDTools
 	echo "Install Bedtools"
-	BEDTOOLS_VERSION="2.25.0"
+	BEDTOOLS_VERSION="2.26.0"
 	curl -fsSL https://github.com/arq5x/bedtools2/releases/download/v${BEDTOOLS_VERSION}/bedtools-${BEDTOOLS_VERSION}.tar.gz -o /opt/bedtools-${BEDTOOLS_VERSION}.tar.gz && \
 	tar xvzf /opt/bedtools-${BEDTOOLS_VERSION}.tar.gz -C /opt/ && \
 	cd /opt/bedtools2; make; cd - && \
@@ -18,7 +18,7 @@
 %apprun bedtools
     exec bedtools "$@"
 %applabels bedtools
-    VERSION 2.25
+    VERSION 2.26
 %apptest bedtools
     bedtools --version
 	if [ $? -ne 0 ] ; then
