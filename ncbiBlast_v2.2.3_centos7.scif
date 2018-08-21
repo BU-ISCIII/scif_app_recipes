@@ -1,36 +1,20 @@
-%appinstall samtools
-	echo "Install samtools dependencies"
-	yum -y install  zlib \
-				    zlib-devel \
-					ncurses \
-					ncurses-libs \
-					ncurses-devel \
-					bzip2 \
-					bzip2-libs \
-					bzip2-devel \
-					xz \
-					xz-libs \
-					xz-devel
+%appinstall ncbiblast
+	echo "Install Blast +"
+	NCBIBLAST_VERSION="2.7.1"
+	wget ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/${NCBIBLAST_VERSION}/ncbi-blast-${NCBIBLAST_VERSION}+-x64-linux.tar.gz && \
+	tar -xvf ncbi-blast-${NCBIBLAST_VERSION}+-x64-linux.tar.gz && \
+	rm -f ncbi-blast-${NCBIBLAST_VERSION}+-x64-linux.tar.gz
 
-    echo "Install SAMTools"
-    SAMTOOLS_VERSION="1.9"
+	ln -s ../ncbi-blast-${NCBIBLAST_VERSION}/bin/* bin
 
-	curl -fsSL https://github.com/samtools/samtools/releases/download/${SAMTOOLS_VERSION}/samtools-${SAMTOOLS_VERSION}.tar.bz2 -o samtools-${SAMTOOLS_VERSION}.tar.bz2 && \
-    tar xvjf samtools-${SAMTOOLS_VERSION}.tar.bz2 -C . && \
-    cd samtools-${SAMTOOLS_VERSION};make;cd - && \
-    rm samtools-${SAMTOOLS_VERSION}.tar.bz2
-
-	ln -s ../samtools-${SAMTOOLS_VERSION}/* lib
-	ln -s ../samtools-${SAMTOOLS_VERSION}/samtools bin
-
-%apphelp samtools
-    Samtools
-%apprun samtools
-    exec samtools "$@"
-%applabels samtools
-    VERSION 1.9
+%apphelp ncbiblast
+    This app runs NCBI BLAST +
+%apprun ncbiblast
+    exec blastp "$@"
+%applabels ncbiblast
+    VERSION 2.7.1
 %apptest samtools
-    samtools --version
+    blastp --version
 	if [ $? -ne 0 ] ; then
 	   echo 1
 	else

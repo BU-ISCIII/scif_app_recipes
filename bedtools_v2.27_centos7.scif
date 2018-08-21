@@ -1,0 +1,28 @@
+%appinstall bedtools
+	echo "Install bedtools dependencies"
+	yum -y install zlib \
+	               zlib-devel
+
+	# Install BEDTools
+	echo "Install Bedtools"
+	BEDTOOLS_VERSION="2.27.0"
+	curl -fsSL https://github.com/arq5x/bedtools2/releases/download/v${BEDTOOLS_VERSION}/bedtools-${BEDTOOLS_VERSION}.tar.gz -o bedtools-${BEDTOOLS_VERSION}.tar.gz && \
+	tar xvzf bedtools-${BEDTOOLS_VERSION}.tar.gz -C . && \
+	cd bedtools2; make; cd - && \
+	rm -f bedtools-${BEDTOOLS_VERSION}.tar.gz
+
+	ln -s ../bedtools2/bin bin
+
+%apphelp bedtools
+    This app runs Bedtools suite
+%apprun bedtools
+    exec bedtools "$@"
+%applabels bedtools
+    VERSION 2.27
+%apptest bedtools
+    bedtools --version
+	if [ $? -ne 0 ] ; then
+	   echo 1
+	else
+	   echo 0
+	fi
