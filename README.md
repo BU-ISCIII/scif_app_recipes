@@ -3,6 +3,13 @@
 
 This repository contains installation recipes for software usually used by BU-ISCIII. This recipes are meant to be used with Singularity/Docker recipe and [Scientific Filesystem](https://sci-f.github.io) (SCIF).
 
+## Singularity/Docker base SO image
+Each recipe has been build to work with only one base OS image. When choosing a base OS, keep in mind that newer OS versions may not be compatible with old kernels, and vice versa. For this reason, we recommend checking that the base OS image works on the systems you intent to use it on before starting developing repices for it.
+
+Here we list all the images we have recipes for, followed by the command to download them. If you want to upload recipes for a new base, please add it to the list:
+  - Centos 7: `singularity pull docker://centos:7
+`
+
 ## How to develop a new recipe.
 
 - **Mandatory fields** in scif recipe, the fields must contain as much information as possible:
