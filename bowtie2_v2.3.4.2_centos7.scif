@@ -3,7 +3,7 @@
 	yum -y install which
 
     echo "Install bowtie2"
-    BOWTIE2_VERSION="2.2.4"
+    BOWTIE2_VERSION="2.2.4.2"
 	curl -fsSL https://sourceforge.net/projects/bowtie-bio/files/bowtie2/${BOWTIE2_VERSION}/bowtie2-${BOWTIE2_VERSION}-source.zip/download -o bowtie2-${BOWTIE2_VERSION}.zip && \
     unzip bowtie2-${BOWTIE2_VERSION}.zip && \
     cd bowtie2-${BOWTIE2_VERSION};make;cd - && \
