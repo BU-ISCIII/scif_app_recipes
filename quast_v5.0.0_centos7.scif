@@ -1,0 +1,44 @@
+%appinstall quast
+    echo "Install quast dependencies"
+    yum -y groupinstall "Development Tools"
+    yum install -y java-1.8.0-openjdk \
+        unzip \
+        perl-CPAN \
+        epel-release \
+        R \
+        centos-release-scl \
+        rh-python36
+    scl enable rh-python36 bash
+    pip install matplotlib
+    cpan App::cpanminus
+    cpanm Time::HiRes
+
+    echo "Install quast"
+    QUAST_VERSION="5.0.0"
+    
+    curl -fsSL https://github.com/ablab/quast/archive/quast_${QUAST_VERSION}.zip -o quast_${QUAST_VERSION}.zip && \
+    unzip quast_${QUAST_VERSION}.zip && \
+    rm -f quast_${QUAST_VERSION}.zip && \
+    mv quast-quast_${QUAST_VERSION} quast_${QUAST_VERSION} && \
+    cd quast_${QUAST_VERSION} && \
+    ./setup.py install_full && \
+    cd ..
+
+    ln -s $PWD/quast_${QUAST_VERSION}/icarus.py bin
+    ln -s $PWD/quast_${QUAST_VERSION}/metaquast.py bin
+    ln -s $PWD/quast_${QUAST_VERSION}/quast.py bin
+    ln -s $PWD/quast_${QUAST_VERSION}/quast-lg.py bin
+    
+%apphelp quast
+    This app has quast installed
+%apprun quast
+    exec quast "$@"
+%applabels quast
+    VERSION 5.0.0
+%apptest quast
+    quast -version
+	if [ $? -ne 0 ] ; then
+	   echo 1
+	else
+	   echo 0
+	fi
