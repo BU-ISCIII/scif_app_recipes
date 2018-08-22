@@ -4,8 +4,10 @@
 
     echo "Install bowtie2"
     BOWTIE2_VERSION="2.3.4.2"
+	
 	curl -fsSL https://sourceforge.net/projects/bowtie-bio/files/bowtie2/${BOWTIE2_VERSION}/bowtie2-${BOWTIE2_VERSION}-source.zip/download -o bowtie2-${BOWTIE2_VERSION}.zip && \
     unzip bowtie2-${BOWTIE2_VERSION}.zip && \
+	rm -rf bowtie2-${BOWTIE2_VERSION}.zip && \
     cd bowtie2-${BOWTIE2_VERSION};make;cd - && \
     rm bowtie2-${BOWTIE2_VERSION}.tar.bz2
 

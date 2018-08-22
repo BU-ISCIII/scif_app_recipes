@@ -81,6 +81,21 @@
 
 	ln -s $PWD/minced-${MINCED_VERSION}/minced bin
 
+	echo "Install bedtools dependencies"
+	yum -y install zlib \
+	               zlib-devel
+
+	# Install BEDTools
+	echo "Install Bedtools"
+	BEDTOOLS_VERSION="2.27.0"
+
+	curl -fsSL https://github.com/arq5x/bedtools2/releases/download/v${BEDTOOLS_VERSION}/bedtools-${BEDTOOLS_VERSION}.tar.gz -o bedtools-${BEDTOOLS_VERSION}.tar.gz && \
+	tar xvzf bedtools-${BEDTOOLS_VERSION}.tar.gz -C . && \
+	cd bedtools2; make; cd - && \
+	rm -f bedtools-${BEDTOOLS_VERSION}.tar.gz
+
+	ln -s $PWD/bedtools2/bin/* bin
+
 	echo "Install SignalP - not install (optional)"
 	## Not installed due to license issues. Not used in plasmidID, install separately when needed.
 

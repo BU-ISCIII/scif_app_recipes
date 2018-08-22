@@ -6,6 +6,7 @@
 	# Install BEDTools
 	echo "Install Bedtools"
 	BEDTOOLS_VERSION="2.25.0"
+	
 	curl -fsSL https://github.com/arq5x/bedtools2/releases/download/v${BEDTOOLS_VERSION}/bedtools-${BEDTOOLS_VERSION}.tar.gz -o bedtools-${BEDTOOLS_VERSION}.tar.gz && \
 	tar xvzf bedtools-${BEDTOOLS_VERSION}.tar.gz -C . && \
 	cd bedtools2; make; cd - && \

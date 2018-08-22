@@ -5,16 +5,18 @@
         perl
 
     echo "Install fastqc"
-    curl -fsSL https://www.bioinformatics.babraham.ac.uk/projects/fastqc/fastqc_v0.11.7.zip -o fastqc_v0.11.7.zip
-    unzip fastqc_v0.11.7.zip
-    rm -f fastqc_v0.11.7.zip
-    mv FastQC FastQC_v0.11.7
-    cd FastQC_v0.11.7/
-    chmod 755 fastqc
+    FASTQ_VERSION="0.11.7"
+    
+    curl -fsSL https://www.bioinformatics.babraham.ac.uk/projects/fastqc/fastqc_v${FASTQ_VERSION}.zip -o fastqc_v${FASTQ_VERSION}.zip && \
+    unzip fastqc_v${FASTQ_VERSION}.zip && \
+    rm -f fastqc_v${FASTQ_VERSION}.zip && \
+    mv FastQC FastQC_${FASTQ_VERSION} && \
+    cd FastQC_${FASTQ_VERSION}/ && \
+    chmod 755 fastqc && \
     cd ..
 
-    ln -s $PWD/FastQC_v0.11.7/fastqc bin
-
+    ln -s $PWD/FastQC_${FASTQ_VERSION}/fastqc bin
+    
 %apphelp fastqc
     This app has fastqc installed
 %apprun fastqc
