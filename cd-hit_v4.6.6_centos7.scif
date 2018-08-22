@@ -1,6 +1,7 @@
 %appinstall cdhit
     echo "Install CD-HIT"
     CDHIT_VERSION="4.6.6"
+    
 	curl -fsSL https://github.com/weizhongli/cdhit/archive/V${CDHIT_VERSION}.tar.gz -o cdhit-${CDHIT_VERSION}.tar.gz && \
     tar xvf cdhit-${CDHIT_VERSION}.tar.gz -C . && \
     cd cdhit-${CDHIT_VERSION};make;cd - && \

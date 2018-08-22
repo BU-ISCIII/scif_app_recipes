@@ -12,7 +12,6 @@
 	echo "Install Bio-Perl"
 	cpanm Bio::Perl Bio::Root:Version
 
-
 	echo "Install prodigal"
 	PRODIGAL_VERSION="2.6.3"
 

@@ -11,6 +11,7 @@
 
     echo "Install bcftools"
     BCFTOOLS_VERSION="1.9"
+	
 	curl -fsSL https://github.com/samtools/bcftools/releases/download/${BCFTOOLS_VERSION}/bcftools-${BCFTOOLS_VERSION}.tar.bz2 -o bcftools-${BCFTOOLS_VERSION}.tar.bz2 && \
     tar xvjf bcftools-${BCFTOOLS_VERSION}.tar.bz2 -C . && \
     cd bcftools-${BCFTOOLS_VERSION};make;cd - && \
