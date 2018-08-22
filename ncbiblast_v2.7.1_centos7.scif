@@ -5,7 +5,7 @@
 	tar -xvf ncbi-blast-${NCBIBLAST_VERSION}+-x64-linux.tar.gz && \
 	rm -f ncbi-blast-${NCBIBLAST_VERSION}+-x64-linux.tar.gz
 
-	ln -s $PWD/ncbi-blast-${NCBIBLAST_VERSION}/bin/* bin
+	ln -s $PWD/ncbi-blast-${NCBIBLAST_VERSION}+/bin/* bin
 
 %apphelp ncbiblast
     This app runs NCBI BLAST +

@@ -12,6 +12,13 @@
 	echo "Install Bio-Perl"
 	cpanm Bio::Perl Bio::Root:Version
 
+	echo "Install Blast +"
+	NCBIBLAST_VERSION="2.7.1"
+	wget ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/${NCBIBLAST_VERSION}/ncbi-blast-${NCBIBLAST_VERSION}+-x64-linux.tar.gz && \
+	tar -xvf ncbi-blast-${NCBIBLAST_VERSION}+-x64-linux.tar.gz && \
+	rm -f ncbi-blast-${NCBIBLAST_VERSION}+-x64-linux.tar.gz
+
+	ln -s $PWD/ncbi-blast-${NCBIBLAST_VERSION}/bin/* bin
 
 	echo "Install prodigal"
 	PRODIGAL_VERSION="2.6.3"
@@ -51,7 +58,7 @@
 	cd hmmer-${HMMER3_VERSION}; ./configure --prefix $PWD; make; cd - && \
 	rm -f hmmer3-${HMMER3_VERSION}.tar.gz
 
-	ln -s $PWD/hmmer-${HMMER3_VERSION}/src/*hmm* ../hmmer-${HMMER3_VERSION}/src/alimask bin
+	ln -s $PWD/hmmer-${HMMER3_VERSION}/src/*hmm*[!.cohtstamp] ../hmmer-${HMMER3_VERSION}/src/alimask bin
 
 	echo "Install BARRNAP"
 
@@ -91,8 +98,8 @@
     rm -f prokka-${PROKKA_VERSION}.tar.gz && \
     ./prokka-${PROKKA_VERSION}/bin/prokka --setupdb
 
-	ln -s $PWD/prokka-${prokka_VERSION}/lib lib
-	ln -s $PWD/prokka-${prokka_VERSION}/bin/* bin
+	ln -s $PWD/prokka-${PROKKA_VERSION}/lib lib
+	ln -s $PWD/prokka-PROKKA_VERSION}/bin/* bin
 
 %apphelp prokka
     prokka

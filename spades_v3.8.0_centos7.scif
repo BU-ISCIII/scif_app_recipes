@@ -8,7 +8,7 @@
     tar xvf spades-${SPADES_VERSION}.tar.gz -C . && \
     rm spades-${SPADES_VERSION}.tar.gz
 
-	ln -s $PWD/spades-${SPADES_VERSION}/*.py bin
+	ln -s $PWD/SPAdes-${SPADES_VERSION}/*.py bin
 
 %apphelp spades
     This app runs spades assembler

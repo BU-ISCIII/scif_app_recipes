@@ -21,7 +21,7 @@
     rm circos-${CIRCOS_VERSION}.tgz
 
 	ln -s $PWD/circos-${CIRCOS_VERSION}/lib/* lib
-	ln -s $PWD/circos-${CIRCOS_VERSION}/circos bin
+	ln -s $PWD/circos-${CIRCOS_VERSION}/bin/circos bin
 
 %apphelp circos
     This app runs circos software.
