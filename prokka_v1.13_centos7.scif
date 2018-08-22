@@ -21,7 +21,7 @@
 	cd Prodigal-${PRODIGAL_VERSION}; make; cd - && \
 	rm -f prodigal-${PRODIGAL_VERSION}.tar.gz
 
-	ln -s ../Prodigal-${PRODIGAL_VERSION}/prodigal bin
+	ln -s $PWD/Prodigal-${PRODIGAL_VERSION}/prodigal bin
 
 	echo "Install TBL2ASN"
 
@@ -41,7 +41,7 @@
 	cd - && \
 	rm -f aragorn-${ARAGORN_VERSION}.tgz
 
-	ln -s ../aragorn${ARAGORN_VERSION}/aragorn bin
+	ln -s $PWD/aragorn${ARAGORN_VERSION}/aragorn bin
 
 	echo "Install HMMER3"
 	## HMMER3 MUST be installed before Barrnap as it is a dependency.
@@ -51,7 +51,7 @@
 	cd hmmer-${HMMER3_VERSION}; ./configure --prefix $PWD; make; cd - && \
 	rm -f hmmer3-${HMMER3_VERSION}.tar.gz
 
-	ln -s ../hmmer-${HMMER3_VERSION}/src/*hmm* ../hmmer-${HMMER3_VERSION}/src/alimask bin
+	ln -s $PWD/hmmer-${HMMER3_VERSION}/src/*hmm* ../hmmer-${HMMER3_VERSION}/src/alimask bin
 
 	echo "Install BARRNAP"
 
@@ -60,7 +60,7 @@
 	tar -xvf barrnap-${BARRNAP_VERSION}.tar.gz && \
 	rm -f barrnap-${BARRNAP_VERSION}.tar.gz
 
-	ln -s ../barrnap-${BARRNAP_VERSION}/bin/* bin
+	ln -s $PWD/barrnap-${BARRNAP_VERSION}/bin/* bin
 
 	echo "Install minced"
 	echo "Install minced dependencies"
@@ -72,7 +72,7 @@
 	cd minced-${MINCED_VERSION}; make; cd - && \
 	rm -f minced-${MINCED_VERSION}.tar.gz
 
-	ln -s minced-${MINCED_VERSION}/minced bin
+	ln -s $PWD/minced-${MINCED_VERSION}/minced bin
 
 	echo "Install SignalP - not install (optional)"
 	## Not installed due to license issues. Not used in plasmidID, install separately when needed.
@@ -91,8 +91,8 @@
     rm -f prokka-${PROKKA_VERSION}.tar.gz && \
     ./prokka-${PROKKA_VERSION}/bin/prokka --setupdb
 
-	ln -s ../prokka-${prokka_VERSION}/lib lib
-	ln -s ../prokka-${prokka_VERSION}/bin/* bin
+	ln -s $PWD/prokka-${prokka_VERSION}/lib lib
+	ln -s $PWD/prokka-${prokka_VERSION}/bin/* bin
 
 %apphelp prokka
     prokka

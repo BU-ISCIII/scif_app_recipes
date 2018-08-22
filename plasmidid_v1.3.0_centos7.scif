@@ -7,8 +7,8 @@
     tar xvf plasmidID-${PLASMIDID_VERSION}.tar.gz -C . && \
     rm plasmidID-${PLASMIDID_VERSION}.tar.gz
 
-	ln -s ../plasmidID-${PLASMIDID_VERSION}/plasmidID.sh bin
-	ln -s ../plasmidID-${PLASMIDID_VERSION}/bin/* bin
+	ln -s $PWD/plasmidID-${PLASMIDID_VERSION}/plasmidID.sh bin
+	ln -s $PWD/plasmidID-${PLASMIDID_VERSION}/bin/* bin
 
 %apphelp plasmidid
     This app runs plasmidID pipeline for plasmid characterization.

@@ -9,8 +9,8 @@
     cd bwa-${BWA_VERSION};make;cd - && \
     rm bwa-${BWA_VERSION}.tar.bz2
 
-	ln -s ../bwa-${BWA_VERSION}/* lib
-	ln -s ../bwa-${BWA_VERSION}/bwa bin
+	ln -s $PWD/bwa-${BWA_VERSION}/* lib
+	ln -s $PWD/bwa-${BWA_VERSION}/bwa bin
 
 %apphelp bwa
     Burrows-Wheeler Aligner

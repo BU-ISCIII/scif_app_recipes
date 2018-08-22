@@ -20,8 +20,8 @@
     tar xvf circos-${CIRCOS_VERSION}.tgz -C . && \
     rm circos-${CIRCOS_VERSION}.tgz
 
-	ln -s ../circos-${CIRCOS_VERSION}/lib/* lib
-	ln -s ../circos-${CIRCOS_VERSION}/circos bin
+	ln -s $PWD/circos-${CIRCOS_VERSION}/lib/* lib
+	ln -s $PWD/circos-${CIRCOS_VERSION}/circos bin
 
 %apphelp circos
     This app runs circos software.
