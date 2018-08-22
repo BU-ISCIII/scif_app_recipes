@@ -13,7 +13,7 @@
     exec blastp "$@"
 %applabels ncbiblast
     VERSION 2.7.1
-%apptest samtools
+%apptest ncbiblast
     blastp --version
 	if [ $? -ne 0 ] ; then
 	   echo 1
