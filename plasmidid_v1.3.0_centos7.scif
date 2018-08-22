@@ -1,11 +1,11 @@
 %appinstall plasmidid
 
     echo "Install PlasmidID"
-    PLASMIDID_VERSION="1.3"
+    PLASMIDID_VERSION="1.3.0"
 
 	curl -fsSL https://github.com/BU-ISCIII/plasmidID/archive/v${PLASMIDID_VERSION}.tar.gz -o plasmidID-${PLASMIDID_VERSION}.tar.gz && \
-    tar xvjf plasmidID-${PLASMIDID_VERSION}.tar.gz -C . && \
-    rm plasmidID-${PLASMIDID_VERSION_VERSION}.tar.gz
+    tar xvf plasmidID-${PLASMIDID_VERSION}.tar.gz -C . && \
+    rm plasmidID-${PLASMIDID_VERSION}.tar.gz
 
 	ln -s ../plasmidID-${PLASMIDID_VERSION}/plasmidID.sh bin
 	ln -s ../plasmidID-${PLASMIDID_VERSION}/bin/* bin
@@ -15,7 +15,7 @@
 %apprun plasmidid
     exec plasmidID.sh "$@"
 %applabels plasmidid
-    VERSION 1.3
+    VERSION 1.3.0
 %apptest plasmidid
     plasmidID.sh --version
 	if [ $? -ne 0 ] ; then
