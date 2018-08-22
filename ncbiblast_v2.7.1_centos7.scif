@@ -6,7 +6,7 @@
 	tar -xvf ncbi-blast-${NCBIBLAST_VERSION}+-x64-linux.tar.gz && \
 	rm -f ncbi-blast-${NCBIBLAST_VERSION}+-x64-linux.tar.gz
 
-	ln -s ../ncbi-blast-${NCBIBLAST_VERSION}/bin/* bin
+	ln -s $PWD/ncbi-blast-${NCBIBLAST_VERSION}/bin/* bin
 
 %apphelp ncbiblast
     This app runs NCBI BLAST +
@@ -14,7 +14,7 @@
     exec blastp "$@"
 %applabels ncbiblast
     VERSION 2.7.1
-%apptest samtools
+%apptest ncbiblast
     blastp --version
 	if [ $? -ne 0 ] ; then
 	   echo 1

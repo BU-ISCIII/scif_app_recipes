@@ -20,8 +20,8 @@
     cd samtools-${SAMTOOLS_VERSION};make;cd - && \
     rm samtools-${SAMTOOLS_VERSION}.tar.bz2
 
-	ln -s ../samtools-${SAMTOOLS_VERSION}/* lib
-	ln -s ../samtools-${SAMTOOLS_VERSION}/samtools bin
+	ln -s $PWD/samtools-${SAMTOOLS_VERSION}/* lib
+	ln -s $PWD/samtools-${SAMTOOLS_VERSION}/samtools bin
 
 %apphelp samtools
     Samtools

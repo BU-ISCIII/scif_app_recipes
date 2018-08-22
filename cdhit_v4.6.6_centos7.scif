@@ -7,8 +7,8 @@
     cd cdhit-${CDHIT_VERSION};make;cd - && \
     rm -f cdhit-${CDHIT_VERSION}.tar.gz
 
-	ln -s ../cdhit-${CDHIT_VERSION}/*.h ../cdhit-${CDHIT_VERSION}/*.o lib
-	ln -s ../cdhit-${CDHIT_VERSION}/cd-hit* ../cdhit-${CDHIT_VERSION}/*.pl bin
+	ln -s $PWD/cdhit-${CDHIT_VERSION}/*.h ../cdhit-${CDHIT_VERSION}/*.o lib
+	ln -s $PWD/cdhit-${CDHIT_VERSION}/cd-hit* ../cdhit-${CDHIT_VERSION}/*.pl bin
 
 %apphelp cdhit
     This app runs cd-hit software

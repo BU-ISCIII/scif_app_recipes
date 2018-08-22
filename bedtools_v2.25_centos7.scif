@@ -11,8 +11,8 @@
 	tar xvzf bedtools-${BEDTOOLS_VERSION}.tar.gz -C . && \
 	cd bedtools2; make; cd - && \
 	rm -f bedtools-${BEDTOOLS_VERSION}.tar.gz
-	
-	ln -s ../bedtools2/bin/* bin
+
+	ln -s $PWD/bedtools2/bin/* bin
 
 %apphelp bedtools
     This app runs Bedtools suite

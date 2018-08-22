@@ -9,10 +9,10 @@
     unzip bowtie2-${BOWTIE2_VERSION}.zip && \
 	rm -rf bowtie2-${BOWTIE2_VERSION}.zip && \
     cd bowtie2-${BOWTIE2_VERSION};make;cd - && \
-    rm bowtie2-${BOWTIE2_VERSION}.tar.bz2
+    rm bowtie2-${BOWTIE2_VERSION}.zip
 
-	ln -s ../bowtie2-${BOWTIE2_VERSION}/* lib
-	ln -s ../bowtie2-${BOWTIE2_VERSION}/bowtie* bin
+	ln -s $PWD/bowtie2-${BOWTIE2_VERSION}/* lib
+	ln -s $PWD/bowtie2-${BOWTIE2_VERSION}/bowtie2* bin
 
 %apphelp bowtie2
     bowtie2

@@ -17,8 +17,8 @@
     cd bcftools-${BCFTOOLS_VERSION};make;cd - && \
     rm bcftools-${BCFTOOLS_VERSION}.tar.bz2
 
-	ln -s ../bcftools-${BCFTOOLS_VERSION}/* lib
-	ln -s ../bcftools-${BCFTOOLS_VERSION}/bcftools bin
+	ln -s $PWD/bcftools-${BCFTOOLS_VERSION}/* lib
+	ln -s $PWD/bcftools-${BCFTOOLS_VERSION}/bcftools bin
 
 %apphelp bcftools
     This app has bcftools installed
