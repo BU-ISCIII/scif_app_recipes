@@ -13,11 +13,11 @@
 %apphelp spades
     This app runs spades assembler
 %apprun spades
-    exec spades "$@"
+    exec spades.py "$@"
 %applabels spades
     VERSION 3.8.0
 %apptest spades
-    spades --version
+    spades.py --version
 	if [ $? -ne 0 ] ; then
 	   echo 1
 	else

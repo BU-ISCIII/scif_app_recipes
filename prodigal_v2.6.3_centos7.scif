@@ -1,0 +1,24 @@
+%appinstall prodigal
+	echo "Install prodigal"
+	PRODIGAL_VERSION="2.6.3"
+
+	curl -fsSL https://github.com/hyattpd/Prodigal/archive/v${PRODIGAL_VERSION}.tar.gz -o prodigal-${PRODIGAL_VERSION}.tar.gz && \
+	tar -xvf prodigal-${PRODIGAL_VERSION}.tar.gz && \
+	cd Prodigal-${PRODIGAL_VERSION}; make; cd - && \
+	rm -f prodigal-${PRODIGAL_VERSION}.tar.gz
+
+	ln -s $PWD/Prodigal-${PRODIGAL_VERSION}/prodigal bin
+
+%apphelp prodigal
+	This app runs prodigal software for ORF prediction
+%apprun prodigal
+	exec prodigal "$@"
+%applabels prodigal
+	VERSION 2.6.3
+%apptest
+    prodigal --version
+	if [ $? -ne 0 ] ; then
+	   echo 1
+	else
+	   echo 0
+	fi

@@ -23,3 +23,496 @@
 	else
 	   echo 0
 	fi
+%appinstall trimmomatic
+	echo "Install trimmomatic dependencies"
+	yum install -y java-1.8.0-openjdk \
+        unzip
+
+    echo "Install trimmomatic"
+	TRIMMOMATIC_VERSION="0.38"
+
+	curl -fsSL http://www.usadellab.org/cms/uploads/supplementary/Trimmomatic/Trimmomatic-${TRIMMOMATIC_VERSION}.zip -o Trimmomatic-${TRIMMOMATIC_VERSION}.zip && \
+	unzip Trimmomatic-${TRIMMOMATIC_VERSION}.zip && \
+	rm -rf Trimmomatic-${TRIMMOMATIC_VERSION}.zip
+
+	echo '#!/bin/bash' > bin/trimmomatic
+	echo "java -jar /scif/apps/trimmomatic/Trimmomatic-${TRIMMOMATIC_VERSION}/trimmomatic-${TRIMMOMATIC_VERSION}.jar \$@" >> bin/trimmomatic
+	chmod 755 bin/trimmomatic
+
+%apphelp trimmomatic
+    trimmomatic
+%apprun trimmomatic
+    exec trimmomatic "$@"
+%applabels trimmomatic
+    VERSION 0.38
+%apptest trimmomatic
+    trimmomatic -version
+	if [ $? -ne 0 ] ; then
+	   echo 1
+	else
+	   echo 0
+	fi
+%appinstall samtools
+	echo "Install samtools dependencies"
+	yum -y install  zlib \
+				    zlib-devel \
+					ncurses \
+					ncurses-libs \
+					ncurses-devel \
+					bzip2 \
+					bzip2-libs \
+					bzip2-devel \
+					xz \
+					xz-libs \
+					xz-devel
+
+    echo "Install SAMTools"
+    SAMTOOLS_VERSION="1.9"
+
+	curl -fsSL https://github.com/samtools/samtools/releases/download/${SAMTOOLS_VERSION}/samtools-${SAMTOOLS_VERSION}.tar.bz2 -o samtools-${SAMTOOLS_VERSION}.tar.bz2 && \
+    tar xvjf samtools-${SAMTOOLS_VERSION}.tar.bz2 -C . && \
+    cd samtools-${SAMTOOLS_VERSION};make;cd - && \
+    rm samtools-${SAMTOOLS_VERSION}.tar.bz2
+
+	ln -s $PWD/samtools-${SAMTOOLS_VERSION}/* lib
+	ln -s $PWD/samtools-${SAMTOOLS_VERSION}/samtools bin
+
+%apphelp samtools
+    Samtools
+%apprun samtools
+    exec samtools "$@"
+%applabels samtools
+    VERSION 1.9
+%apptest samtools
+    samtools --version
+	if [ $? -ne 0 ] ; then
+	   echo 1
+	else
+	   echo 0
+	fi
+%appinstall spades
+	echo "Install spades dependencies"
+
+    echo "Install spades"
+    SPADES_VERSION="3.8.0"
+
+	curl -fsSL https://github.com/ablab/spades/releases/download/v${SPADES_VERSION}/SPAdes-${SPADES_VERSION}.tar.gz -o spades-${SPADES_VERSION}.tar.gz && \
+    tar xvf spades-${SPADES_VERSION}.tar.gz -C . && \
+    rm spades-${SPADES_VERSION}.tar.gz
+
+	ln -s $PWD/SPAdes-${SPADES_VERSION}/*.py bin
+
+%apphelp spades
+    This app runs spades assembler
+%apprun spades
+    exec spades.py "$@"
+%applabels spades
+    VERSION 3.8.0
+%apptest spades
+    spades.py --version
+	if [ $? -ne 0 ] ; then
+	   echo 1
+	else
+	   echo 0
+	fi
+%appinstall ncbiblast
+	echo "Install Blast +"
+	NCBIBLAST_VERSION="2.7.1"
+
+	wget ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/${NCBIBLAST_VERSION}/ncbi-blast-${NCBIBLAST_VERSION}+-x64-linux.tar.gz && \
+	tar -xvf ncbi-blast-${NCBIBLAST_VERSION}+-x64-linux.tar.gz && \
+	rm -f ncbi-blast-${NCBIBLAST_VERSION}+-x64-linux.tar.gz
+
+	ln -s $PWD/ncbi-blast-${NCBIBLAST_VERSION}+/bin/* bin
+
+%apphelp ncbiblast
+    This app runs NCBI BLAST +
+%apprun ncbiblast
+    exec blastp "$@"
+%applabels ncbiblast
+    VERSION 2.7.1
+%apptest ncbiblast
+    blastp --version
+	if [ $? -ne 0 ] ; then
+	   echo 1
+	else
+	   echo 0
+	fi
+%appinstall bedtools
+	echo "Install bedtools dependencies"
+	yum -y install zlib \
+	               zlib-devel
+
+	# Install BEDTools
+	echo "Install Bedtools"
+	BEDTOOLS_VERSION="2.27.0"
+
+	curl -fsSL https://github.com/arq5x/bedtools2/releases/download/v${BEDTOOLS_VERSION}/bedtools-${BEDTOOLS_VERSION}.tar.gz -o bedtools-${BEDTOOLS_VERSION}.tar.gz && \
+	tar xvzf bedtools-${BEDTOOLS_VERSION}.tar.gz -C . && \
+	cd bedtools2; make; cd - && \
+	rm -f bedtools-${BEDTOOLS_VERSION}.tar.gz
+
+	ln -s $PWD/bedtools2/bin/* bin
+
+%apphelp bedtools
+    This app runs Bedtools suite
+%apprun bedtools
+    exec bedtools "$@"
+%applabels bedtools
+    VERSION 2.27
+%apptest bedtools
+    bedtools --version
+	if [ $? -ne 0 ] ; then
+	   echo 1
+	else
+	   echo 0
+	fi
+%appinstall bowtie2
+	echo "Install bowtie2 dependencies"
+	yum -y groupinstall "Development Tools"
+	yum -y install which \
+			unzip \
+			zlib \
+            zlib-devel \
+            tbb \
+            tbb-devel
+
+    echo "Install bowtie2"
+    BOWTIE2_VERSION="2.3.4.2"
+
+	curl -fsSL https://sourceforge.net/projects/bowtie-bio/files/bowtie2/${BOWTIE2_VERSION}/bowtie2-${BOWTIE2_VERSION}-source.zip/download -o bowtie2-${BOWTIE2_VERSION}.zip && \
+    unzip bowtie2-${BOWTIE2_VERSION}.zip && \
+	rm -rf bowtie2-${BOWTIE2_VERSION}.zip && \
+    cd bowtie2-${BOWTIE2_VERSION};make;cd - && \
+    rm -f bowtie2-${BOWTIE2_VERSION}.zip
+
+	ln -s $PWD/bowtie2-${BOWTIE2_VERSION}/* lib
+	ln -s $PWD/bowtie2-${BOWTIE2_VERSION}/bowtie2* bin
+
+%apphelp bowtie2
+    bowtie2
+%apprun bowtie2
+    exec bowtie2 "$@"
+%applabels bowtie2
+    VERSION 2.3.4.2
+%apptest bowtie2
+    bowtie2 --version
+	if [ $? -ne 0 ] ; then
+	   echo 1
+	else
+	   echo 0
+	fi
+%appinstall prokka
+	echo "Install prokka dependencies"
+	yum install -y perl-Time-Piece \
+				perl-XML-Simple \
+				perl-Digest-MD5 \
+				perl-App-cpanminus \
+				java \
+				perl-CPAN \
+				perl-Module-Build \
+				parallel
+
+	echo "Install Bio-Perl"
+	cpanm Bio::Perl Bio::Root:Version
+
+    echo "Install prokka"
+    PROKKA_VERSION="1.13"
+
+	curl -fsSL https://github.com/tseemann/prokka/archive/v${PROKKA_VERSION}.tar.gz -o prokka-${PROKKA_VERSION}.tar.gz && \
+    tar xvf prokka-${PROKKA_VERSION}.tar.gz -C . && \
+    rm -f prokka-${PROKKA_VERSION}.tar.gz && \
+    ./prokka-${PROKKA_VERSION}/bin/prokka --setupdb
+
+	ln -s $PWD/prokka-${PROKKA_VERSION}/lib lib
+	ln -s $PWD/prokka-PROKKA_VERSION}/bin/* bin
+
+	echo "Install SignalP - not install (optional)"
+	## Not installed due to license issues. Not used in plasmidID, install separately when needed.
+
+	echo "Install Infernal - not install (optional)"
+	## Not installed because I don't like the installation instructions
+
+	echo "Install RNAmmer - not install (optional)"
+
+	## Not installed due to license issues.
+%apphelp prokka
+    prokka
+%apprun prokka
+    exec prokka "$@"
+%applabels prokka
+    VERSION 1.13
+%apptest prokka
+    prokka --version
+	if [ $? -ne 0 ] ; then
+	   echo 1
+	else
+	   echo 0
+	fi
+
+
+%appinstall ncbiblast
+	echo "Install Blast +"
+	NCBIBLAST_VERSION="2.7.1"
+	wget ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/${NCBIBLAST_VERSION}/ncbi-blast-${NCBIBLAST_VERSION}+-x64-linux.tar.gz && \
+	tar -xvf ncbi-blast-${NCBIBLAST_VERSION}+-x64-linux.tar.gz && \
+	rm -f ncbi-blast-${NCBIBLAST_VERSION}+-x64-linux.tar.gz
+
+	ln -s $PWD/ncbi-blast-${NCBIBLAST_VERSION}/bin/* bin
+
+%apphelp ncbiblast
+	This app runs NCBI-BLAST +
+%apprun ncbiblast
+	exec blastp "$@"
+%applabels ncbiblast
+	VERSION 2.7.1
+%apptest ncbiblast
+    blastp --version
+	if [ $? -ne 0 ] ; then
+	   echo 1
+	else
+	   echo 0
+	fi
+
+
+%appinstall prodigal
+	echo "Install prodigal"
+	PRODIGAL_VERSION="2.6.3"
+
+	curl -fsSL https://github.com/hyattpd/Prodigal/archive/v${PRODIGAL_VERSION}.tar.gz -o prodigal-${PRODIGAL_VERSION}.tar.gz && \
+	tar -xvf prodigal-${PRODIGAL_VERSION}.tar.gz && \
+	cd Prodigal-${PRODIGAL_VERSION}; make; cd - && \
+	rm -f prodigal-${PRODIGAL_VERSION}.tar.gz
+
+	ln -s $PWD/Prodigal-${PRODIGAL_VERSION}/prodigal bin
+
+%apphelp prodigal
+	This app runs prodigal software for ORF prediction
+%apprun prodigal
+	exec prodigal "$@"
+%applabels prodigal
+	VERSION 2.6.3
+%apptest prodigal
+    prodigal --version
+	if [ $? -ne 0 ] ; then
+	   echo 1
+	else
+	   echo 0
+	fi
+
+%appinstall tbl2asn
+	echo "Install TBL2ASN"
+
+	wget ftp://ftp.ncbi.nih.gov/toolbox/ncbi_tools/converters/by_program/tbl2asn/linux.tbl2asn.gz && \
+    gzip -d linux.tbl2asn.gz && \
+    mv linux.tbl2asn tbl2asn && \
+    chmod +x tbl2asn && \
+    mv tbl2asn bin
+%apphelp tbl2asn
+	This app runs ncbi tool tbl2asn
+%apprun tbl2asn
+	exec tbl2asn "$@"
+%applabels tbl2asn
+	VERSION latest
+%apptest tbl2asn
+    tbl2asn --version
+	if [ $? -ne 0 ] ; then
+	   echo 1
+	else
+	   echo 0
+	fi
+
+%appinstall aragorn
+	echo "Install Aragorn"
+	ARAGORN_VERSION="1.2.38"
+
+	curl -fsSL http://mbio-serv2.mbioekol.lu.se/ARAGORN/Downloads/aragorn${ARAGORN_VERSION}.tgz -o aragorn-${ARAGORN_VERSION}.tgz && \
+	tar -xvf aragorn-${ARAGORN_VERSION}.tgz && \
+	cd aragorn${ARAGORN_VERSION} && \
+	gcc -O3 -ffast-math -finline-functions -o aragorn aragorn1.2.38.c && \
+	cd - && \
+	rm -f aragorn-${ARAGORN_VERSION}.tgz
+
+	ln -s $PWD/aragorn${ARAGORN_VERSION}/aragorn bin
+%apphelp aragorn
+	This app runs aragorn software.
+
+%apprun aragorn
+	exec aragorn "$@"
+%applabels aragorn
+	VERSION 1.2.38
+%apptest aragorn
+    aragorn -h
+	if [ $? -ne 0 ] ; then
+	   echo 1
+	else
+	   echo 0
+	fi
+
+%appinstall hmmer3
+	echo "Install HMMER3"
+	## HMMER3 MUST be installed before Barrnap as it is a dependency.
+ 	HMMER3_VERSION="3.2.1"
+	curl -fsSL http://eddylab.org/software/hmmer/hmmer-${HMMER3_VERSION}.tar.gz -o hmmer3-${HMMER3_VERSION}.tar.gz
+	tar -xvf hmmer3-${HMMER3_VERSION}.tar.gz && \
+	cd hmmer-${HMMER3_VERSION}; ./configure --prefix $PWD; make; cd - && \
+	rm -f hmmer3-${HMMER3_VERSION}.tar.gz
+
+	ln -s $PWD/hmmer-${HMMER3_VERSION}/src/*hmm*[!.cohtstamp] ../hmmer-${HMMER3_VERSION}/src/alimask bin
+%apphelp hmmer3
+	This app runs hmmer3 software
+%applabels hmmer3
+	VERSION 3.2.1
+%apptest hmmer3
+    nhmmer -h
+	if [ $? -ne 0 ] ; then
+	   echo 1
+	else
+	   echo 0
+	fi
+%apprun hmmer3
+	nhmmer "$@"
+
+%appinstall barrnap
+	echo "Install BARRNAP"
+
+	BARRNAP_VERSION="0.9"
+	curl -fsSL https://github.com/tseemann/barrnap/archive/${BARRNAP_VERSION}.tar.gz -o barrnap-${BARRNAP_VERSION}.tar.gz && \
+	tar -xvf barrnap-${BARRNAP_VERSION}.tar.gz && \
+	rm -f barrnap-${BARRNAP_VERSION}.tar.gz
+
+	ln -s $PWD/barrnap-${BARRNAP_VERSION}/bin/* bin
+%apphelp barrnap
+	This app runs barnnap tool.
+
+%applabels barrnap
+	VERSION 0.9
+%apprun barrnap
+	exec barnnap "$@"
+%apptest
+    barnnap --versionn
+	if [ $? -ne 0 ] ; then
+	   echo 1
+	else
+	   echo 0
+	fi
+
+%appinstall minced
+	echo "Install minced"
+	echo "Install minced dependencies"
+	yum install -y java java-devel
+
+	MINCED_VERSION="0.3.0"
+	curl -fsSL https://github.com/ctSkennerton/minced/archive/${MINCED_VERSION}.tar.gz -o minced-${MINCED_VERSION}.tar.gz && \
+	tar -xvf minced-${MINCED_VERSION}.tar.gz && \
+	cd minced-${MINCED_VERSION}; make; cd - && \
+	rm -f minced-${MINCED_VERSION}.tar.gz
+
+	ln -s $PWD/minced-${MINCED_VERSION}/minced bin
+
+%apphelp minced
+	This app runs minced software
+%apprun minced
+	exec minced "$@"
+%applabels minced
+	VERSION 0.3.0
+%apptest minced
+    minced --version
+	if [ $? -ne 0 ] ; then
+	   echo 1
+	else
+	   echo 0
+	fi
+
+%appinstall bedtools
+	echo "Install bedtools dependencies"
+	yum -y install zlib \
+	               zlib-devel
+
+	# Install Bedtools
+	echo "Install Bedtools"
+	BEDTOOLS_VERSION="2.27.0"
+
+	curl -fsSL https://github.com/arq5x/bedtools2/releases/download/v${BEDTOOLS_VERSION}/bedtools-${BEDTOOLS_VERSION}.tar.gz -o bedtools-${BEDTOOLS_VERSION}.tar.gz && \
+	tar xvzf bedtools-${BEDTOOLS_VERSION}.tar.gz -C . && \
+	cd bedtools2; make; cd - && \
+	rm -f bedtools-${BEDTOOLS_VERSION}.tar.gz
+
+	ln -s $PWD/bedtools2/bin/* bin
+
+%apphelp bedtools
+	This app runs bedtools suite software
+%apprun bedtools
+	exec bedtools "$@"
+%applabels bedtools
+	VERSION 2.27
+%apptest bedtools
+    bedtools --version
+	if [ $? -ne 0 ] ; then
+	   echo 1
+	else
+	   echo 0
+	fi
+%appinstall cdhit
+    echo "Install CD-HIT"
+    CDHIT_VERSION="4.6.6"
+
+	curl -fsSL https://github.com/weizhongli/cdhit/archive/V${CDHIT_VERSION}.tar.gz -o cdhit-${CDHIT_VERSION}.tar.gz && \
+    tar xvf cdhit-${CDHIT_VERSION}.tar.gz -C . && \
+    cd cdhit-${CDHIT_VERSION};make;cd - && \
+    rm -f cdhit-${CDHIT_VERSION}.tar.gz
+
+	ln -s $PWD/cdhit-${CDHIT_VERSION}/*.h ../cdhit-${CDHIT_VERSION}/*.o lib
+	ln -s $PWD/cdhit-${CDHIT_VERSION}/cd-hit* ../cdhit-${CDHIT_VERSION}/*.pl bin
+
+%apphelp cdhit
+    This app runs cd-hit software
+%apprun cdhit
+    exec cd-hit "$@"
+%applabels cdhit
+    VERSION 4.6.6
+%apptest cdhit
+    cd-hit --version
+	if [ $? -ne 0 ] ; then
+	   echo 1
+	else
+	   echo 0
+	fi
+%appinstall circos
+	echo "Install circos dependencies"
+	yum -y install cpan \
+				   gd \
+				   gd-devel \
+				   freetype \
+				   freetype-devel \
+				   libpng \
+				   libpng-devel \
+				   libjpeg-turbo \
+				   libjpeg-turbo-devel
+
+	cpan -i App::cpanminus
+	cpanm Digest::MD5 Font::TTF::Font List::MoreUtils Math::Bezier Math::Round Math::VecStat Params::Validate Readonly Regexp::Common SVG Set::IntSpan Statistics::Basic Text::Format Clone Config::General Font::TTF::Font GD
+
+    echo "Install Circos"
+    CIRCOS_VERSION="0.69-6"
+
+	curl -fsSL http://circos.ca/distribution/circos-${CIRCOS_VERSION}.tgz -o circos-${CIRCOS_VERSION}.tgz && \
+    tar xvf circos-${CIRCOS_VERSION}.tgz -C . && \
+    rm circos-${CIRCOS_VERSION}.tgz
+
+	ln -s $PWD/circos-${CIRCOS_VERSION}/lib/* lib
+	ln -s $PWD/circos-${CIRCOS_VERSION}/bin/circos bin
+
+%apphelp circos
+    This app runs circos software.
+%apprun circos
+    exec circos "$@"
+%applabels circos
+    VERSION 0.69-6
+%apptest circos
+    circos --version
+	if [ $? -ne 0 ] ; then
+	   echo 1
+	else
+	   echo 0
+	fi
