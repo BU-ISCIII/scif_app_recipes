@@ -1,6 +1,8 @@
 %appinstall bowtie2
 	echo "Install bowtie2 dependencies"
-	yum -y install which
+	yum -y groupinstall "Development Tools"
+	yum -y install which \
+			unzip
 
     echo "Install bowtie2"
     BOWTIE2_VERSION="2.2.4"
@@ -9,7 +11,7 @@
     unzip bowtie2-${BOWTIE2_VERSION}.zip && \
 	rm -rf bowtie2-${BOWTIE2_VERSION}.zip && \
     cd bowtie2-${BOWTIE2_VERSION};make;cd - && \
-    rm bowtie2-${BOWTIE2_VERSION}.zip
+    rm -f bowtie2-${BOWTIE2_VERSION}.zip
 
 	ln -s $PWD/bowtie2-${BOWTIE2_VERSION}/* lib
 	ln -s $PWD/bowtie2-${BOWTIE2_VERSION}/bowtie2* bin
