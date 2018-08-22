@@ -5,13 +5,13 @@
 
     echo "Install trimmomatic"
 	TRIMMOMATIC_VERSION="0.38"
-	
+
 	curl -fsSL http://www.usadellab.org/cms/uploads/supplementary/Trimmomatic/Trimmomatic-${TRIMMOMATIC_VERSION}.zip -o Trimmomatic-${TRIMMOMATIC_VERSION}.zip && \
 	unzip Trimmomatic-${TRIMMOMATIC_VERSION}.zip && \
 	rm -rf Trimmomatic-${TRIMMOMATIC_VERSION}.zip
 
 	echo '#!/bin/bash' > bin/trimmomatic
-	echo 'java -jar /scif/apps/trimmomatic/Trimmomatic-0.38/trimmomatic-${TRIMMOMATIC_VERSION}.jar $@' >> bin/trimmomatic
+	echo "java -jar /scif/apps/trimmomatic/Trimmomatic-${TRIMMOMATIC_VERSION}/trimmomatic-${TRIMMOMATIC_VERSION}.jar \$@" >> bin/trimmomatic
 	chmod 755 bin/trimmomatic
 
 %apphelp trimmomatic
