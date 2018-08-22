@@ -21,7 +21,7 @@
     ./prokka-${PROKKA_VERSION}/bin/prokka --setupdb
 
 	ln -s $PWD/prokka-${PROKKA_VERSION}/lib lib
-	ln -s $PWD/prokka-PROKKA_VERSION}/bin/* bin
+	ln -s $PWD/prokka-${PROKKA_VERSION}/bin/* bin
 
 	echo "Install SignalP - not install (optional)"
 	## Not installed due to license issues. Not used in plasmidID, install separately when needed.
@@ -54,7 +54,7 @@
 	tar -xvf ncbi-blast-${NCBIBLAST_VERSION}+-x64-linux.tar.gz && \
 	rm -f ncbi-blast-${NCBIBLAST_VERSION}+-x64-linux.tar.gz
 
-	ln -s $PWD/ncbi-blast-${NCBIBLAST_VERSION}/bin/* bin
+	ln -s $PWD/ncbi-blast-${NCBIBLAST_VERSION}+/bin/* bin
 
 %apphelp ncbiblast
 	This app runs NCBI-BLAST +
@@ -184,9 +184,9 @@
 %applabels barrnap
 	VERSION 0.9
 %apprun barrnap
-	exec barnnap "$@"
+	exec barrnap "$@"
 %apptest
-    barnnap --versionn
+    barrnap --versionn
 	if [ $? -ne 0 ] ; then
 	   echo 1
 	else
