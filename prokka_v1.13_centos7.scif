@@ -12,6 +12,14 @@
 	echo "Install Bio-Perl"
 	cpanm Bio::Perl Bio::Root:Version
 
+	echo "Install Blast +"
+	NCBIBLAST_VERSION="2.7.1"
+	wget ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/${NCBIBLAST_VERSION}/ncbi-blast-${NCBIBLAST_VERSION}+-x64-linux.tar.gz && \
+	tar -xvf ncbi-blast-${NCBIBLAST_VERSION}+-x64-linux.tar.gz && \
+	rm -f ncbi-blast-${NCBIBLAST_VERSION}+-x64-linux.tar.gz
+
+	ln -s $PWD/ncbi-blast-${NCBIBLAST_VERSION}/bin/* bin
+
 	echo "Install prodigal"
 	PRODIGAL_VERSION="2.6.3"
 
@@ -50,7 +58,7 @@
 	cd hmmer-${HMMER3_VERSION}; ./configure --prefix $PWD; make; cd - && \
 	rm -f hmmer3-${HMMER3_VERSION}.tar.gz
 
-	ln -s $PWD/hmmer-${HMMER3_VERSION}/src/*hmm* ../hmmer-${HMMER3_VERSION}/src/alimask bin
+	ln -s $PWD/hmmer-${HMMER3_VERSION}/src/*hmm*[!.cohtstamp] ../hmmer-${HMMER3_VERSION}/src/alimask bin
 
 	echo "Install BARRNAP"
 
@@ -73,6 +81,21 @@
 
 	ln -s $PWD/minced-${MINCED_VERSION}/minced bin
 
+	echo "Install bedtools dependencies"
+	yum -y install zlib \
+	               zlib-devel
+
+	# Install BEDTools
+	echo "Install Bedtools"
+	BEDTOOLS_VERSION="2.27.0"
+
+	curl -fsSL https://github.com/arq5x/bedtools2/releases/download/v${BEDTOOLS_VERSION}/bedtools-${BEDTOOLS_VERSION}.tar.gz -o bedtools-${BEDTOOLS_VERSION}.tar.gz && \
+	tar xvzf bedtools-${BEDTOOLS_VERSION}.tar.gz -C . && \
+	cd bedtools2; make; cd - && \
+	rm -f bedtools-${BEDTOOLS_VERSION}.tar.gz
+
+	ln -s $PWD/bedtools2/bin/* bin
+
 	echo "Install SignalP - not install (optional)"
 	## Not installed due to license issues. Not used in plasmidID, install separately when needed.
 
@@ -90,8 +113,8 @@
     rm -f prokka-${PROKKA_VERSION}.tar.gz && \
     ./prokka-${PROKKA_VERSION}/bin/prokka --setupdb
 
-	ln -s $PWD/prokka-${prokka_VERSION}/lib lib
-	ln -s $PWD/prokka-${prokka_VERSION}/bin/* bin
+	ln -s $PWD/prokka-${PROKKA_VERSION}/lib lib
+	ln -s $PWD/prokka-PROKKA_VERSION}/bin/* bin
 
 %apphelp prokka
     prokka
