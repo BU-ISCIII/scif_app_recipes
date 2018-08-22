@@ -1,0 +1,25 @@
+%appinstall plasmidid
+
+    echo "Install PlasmidID"
+    PLASMIDID_VERSION="1.3"
+
+	curl -fsSL https://github.com/BU-ISCIII/plasmidID/archive/v${PLASMIDID_VERSION}.tar.gz -o plasmidID-${PLASMIDID_VERSION}.tar.gz && \
+    tar xvjf plasmidID-${PLASMIDID_VERSION}.tar.gz -C . && \
+    rm plasmidID-${PLASMIDID_VERSION_VERSION}.tar.gz
+
+	ln -s ../plasmidID-${PLASMIDID_VERSION}/plasmidID.sh bin
+	ln -s ../plasmidID-${PLASMIDID_VERSION}/bin/* bin
+
+%apphelp plasmidid
+    This app runs plasmidID pipeline for plasmid characterization.
+%apprun plasmidid
+    exec plasmidID.sh "$@"
+%applabels plasmidid
+    VERSION 1.3
+%apptest plasmidid
+    plasmidID.sh --version
+	if [ $? -ne 0 ] ; then
+	   echo 1
+	else
+	   echo 0
+	fi
