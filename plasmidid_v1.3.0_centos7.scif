@@ -105,8 +105,8 @@
 
 	curl -fsSL https://github.com/ablab/spades/releases/download/v${SPADES_VERSION}/SPAdes-${SPADES_VERSION}.tar.gz -o spades-${SPADES_VERSION}.tar.gz && \
     tar xvf spades-${SPADES_VERSION}.tar.gz -C . && \
-    cd spades-${SPADES_VERSION}; ./spades_compile.sh;cd - && \
-    rm spades-${SPADES_VERSION}.tar.gz
+    cd SPAdes-${SPADES_VERSION}; ./spades_compile.sh;cd - && \
+    rm -f spades-${SPADES_VERSION}.tar.gz
 
 	ln -s $PWD/SPAdes-${SPADES_VERSION}/*.py bin
 
@@ -259,31 +259,6 @@
 	else
 	   echo 0
 	fi
-
-
-%appinstall ncbiblast
-	echo "Install Blast +"
-	NCBIBLAST_VERSION="2.7.1"
-	wget ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/${NCBIBLAST_VERSION}/ncbi-blast-${NCBIBLAST_VERSION}+-x64-linux.tar.gz && \
-	tar -xvf ncbi-blast-${NCBIBLAST_VERSION}+-x64-linux.tar.gz && \
-	rm -f ncbi-blast-${NCBIBLAST_VERSION}+-x64-linux.tar.gz
-
-	ln -s $PWD/ncbi-blast-${NCBIBLAST_VERSION}/bin/* bin
-
-%apphelp ncbiblast
-	This app runs NCBI-BLAST +
-%apprun ncbiblast
-	exec blastp "$@"
-%applabels ncbiblast
-	VERSION 2.7.1
-%apptest ncbiblast
-    blastp --version
-	if [ $? -ne 0 ] ; then
-	   echo 1
-	else
-	   echo 0
-	fi
-
 
 %appinstall prodigal
 	echo "Install prodigal"

@@ -12,8 +12,8 @@
 
 	curl -fsSL https://github.com/ablab/spades/releases/download/v${SPADES_VERSION}/SPAdes-${SPADES_VERSION}.tar.gz -o spades-${SPADES_VERSION}.tar.gz && \
     tar xvf spades-${SPADES_VERSION}.tar.gz -C . && \
-    cd spades-${SPADES_VERSION}; ./spades_compile.sh;cd - && \
-    rm spades-${SPADES_VERSION}.tar.gz
+    cd SPAdes-${SPADES_VERSION}; ./spades_compile.sh;cd - && \
+    rm -f spades-${SPADES_VERSION}.tar.gz
 
 	ln -s $PWD/SPAdes-${SPADES_VERSION}/*.py bin
 
