@@ -10,7 +10,7 @@
 				   libjpeg-turbo \
 				   libjpeg-turbo-devel
 
-	cpan -i App::cpanminus
+	echo 'yes' | cpan -i App::cpanminus
 	cpanm Digest::MD5 Font::TTF::Font List::MoreUtils Math::Bezier Math::Round Math::VecStat Params::Validate Readonly Regexp::Common SVG Set::IntSpan Statistics::Basic Text::Format Clone Config::General Font::TTF::Font GD
 
     echo "Install Circos"
