@@ -1,7 +1,7 @@
 %appinstall quast
     echo "Install quast dependencies"
     yum -y groupinstall "Development Tools"
-    yum install -y java-1.8.0-openjdk \
+    yum install -y java-1.8.0-openjdk-devel \
         unzip \
         perl-CPAN \
         epel-release
@@ -12,14 +12,17 @@
     cpanm Time::HiRes
 
     echo "Install quast"
-    QUAST_VERSION="5.0.0"
+    QUAST_VERSION="4.1"
     
     curl -fsSL https://github.com/ablab/quast/archive/quast_${QUAST_VERSION}.zip -o quast_${QUAST_VERSION}.zip && \
     unzip quast_${QUAST_VERSION}.zip && \
     rm -f quast_${QUAST_VERSION}.zip && \
     mv quast-quast_${QUAST_VERSION} quast_${QUAST_VERSION} && \
     cd quast_${QUAST_VERSION} && \
-    ./setup.py install_full && \
+    python quast.py --test && \
+    python quast.py --test-sv && \
+    python metaquast.py --test  && \
+    python metaquast.py --test-no-ref && \
     cd ..
 
     ln -s $PWD/quast_${QUAST_VERSION}/icarus.py bin
@@ -32,7 +35,7 @@
 %apprun quast
     exec quast.py "$@"
 %applabels quast
-    VERSION 5.0.0
+    VERSION 4.1
 %apptest quast
     quast -version
 	if [ $? -ne 0 ] ; then
