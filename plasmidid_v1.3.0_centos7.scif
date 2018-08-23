@@ -90,15 +90,23 @@
 	else
 	   echo 0
 	fi
+
 %appinstall spades
 	echo "Install spades dependencies"
+	yum groupinstall -y "Development Tools"
+	yum install -y zlib \
+				   zlib-devel \
+				   bzip2 \
+				   bzip2-devel \
+				   cmake
 
     echo "Install spades"
-    SPADES_VERSION="3.8.0"
+    SPADES_VERSION="3.12.0"
 
 	curl -fsSL https://github.com/ablab/spades/releases/download/v${SPADES_VERSION}/SPAdes-${SPADES_VERSION}.tar.gz -o spades-${SPADES_VERSION}.tar.gz && \
     tar xvf spades-${SPADES_VERSION}.tar.gz -C . && \
-    rm spades-${SPADES_VERSION}.tar.gz
+    cd SPAdes-${SPADES_VERSION}; ./spades_compile.sh;cd - && \
+    rm -f spades-${SPADES_VERSION}.tar.gz
 
 	ln -s $PWD/SPAdes-${SPADES_VERSION}/*.py bin
 
@@ -107,7 +115,7 @@
 %apprun spades
     exec spades.py "$@"
 %applabels spades
-    VERSION 3.8.0
+    VERSION 3.12.0
 %apptest spades
     spades.py --version
 	if [ $? -ne 0 ] ; then
@@ -115,6 +123,7 @@
 	else
 	   echo 0
 	fi
+
 %appinstall ncbiblast
 	echo "Install Blast +"
 	NCBIBLAST_VERSION="2.7.1"
@@ -138,6 +147,7 @@
 	else
 	   echo 0
 	fi
+
 %appinstall bedtools
 	echo "Install bedtools dependencies"
 	yum -y install zlib \
@@ -225,7 +235,7 @@
     ./prokka-${PROKKA_VERSION}/bin/prokka --setupdb
 
 	ln -s $PWD/prokka-${PROKKA_VERSION}/lib lib
-	ln -s $PWD/prokka-PROKKA_VERSION}/bin/* bin
+	ln -s $PWD/prokka-${PROKKA_VERSION}/bin/* bin
 
 	echo "Install SignalP - not install (optional)"
 	## Not installed due to license issues. Not used in plasmidID, install separately when needed.
@@ -249,31 +259,6 @@
 	else
 	   echo 0
 	fi
-
-
-%appinstall ncbiblast
-	echo "Install Blast +"
-	NCBIBLAST_VERSION="2.7.1"
-	wget ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/${NCBIBLAST_VERSION}/ncbi-blast-${NCBIBLAST_VERSION}+-x64-linux.tar.gz && \
-	tar -xvf ncbi-blast-${NCBIBLAST_VERSION}+-x64-linux.tar.gz && \
-	rm -f ncbi-blast-${NCBIBLAST_VERSION}+-x64-linux.tar.gz
-
-	ln -s $PWD/ncbi-blast-${NCBIBLAST_VERSION}/bin/* bin
-
-%apphelp ncbiblast
-	This app runs NCBI-BLAST +
-%apprun ncbiblast
-	exec blastp "$@"
-%applabels ncbiblast
-	VERSION 2.7.1
-%apptest ncbiblast
-    blastp --version
-	if [ $? -ne 0 ] ; then
-	   echo 1
-	else
-	   echo 0
-	fi
-
 
 %appinstall prodigal
 	echo "Install prodigal"
@@ -388,9 +373,9 @@
 %applabels barrnap
 	VERSION 0.9
 %apprun barrnap
-	exec barnnap "$@"
+	exec barrnap "$@"
 %apptest
-    barnnap --versionn
+    barrnap --versionn
 	if [ $? -ne 0 ] ; then
 	   echo 1
 	else
