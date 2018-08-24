@@ -463,6 +463,7 @@
 	else
 	   echo 0
 	fi
+
 %appinstall circos
 	echo "Install circos dependencies"
 	yum -y install cpan \
@@ -475,7 +476,8 @@
 				   libjpeg-turbo \
 				   libjpeg-turbo-devel
 
-	cpan -i App::cpanminus
+	echo 'yes' | cpan -i App::cpanminus
+
 	cpanm Digest::MD5 Font::TTF::Font List::MoreUtils Math::Bezier Math::Round Math::VecStat Params::Validate Readonly Regexp::Common SVG Set::IntSpan Statistics::Basic Text::Format Clone Config::General Font::TTF::Font GD
 
     echo "Install Circos"
@@ -490,10 +492,13 @@
 
 %apphelp circos
     This app runs circos software.
+
 %apprun circos
     exec circos "$@"
+
 %applabels circos
     VERSION 0.69-6
+
 %apptest circos
     circos --version
 	if [ $? -ne 0 ] ; then
@@ -501,3 +506,5 @@
 	else
 	   echo 0
 	fi
+
+
