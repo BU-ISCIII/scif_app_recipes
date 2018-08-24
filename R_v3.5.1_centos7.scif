@@ -1,0 +1,54 @@
+%appinstall R
+    echo "Install quast dependencies"
+    yum -y groupinstall "Development Tools"
+    yum install -y readline-devel \
+            java-1.8.0-openjdk-devel \
+            zlib-devel \
+            bzip2-devel \
+            xz-devel \
+            pcre-devel \
+            libcurl-devel
+
+    echo "Install R"
+    R_VERSION="3.5.1"
+    
+   curl -fsSL https://cran.r-project.org/src/base/R-3/R-${R_VERSION}.tar.gz -o R-${R_VERSION}.tar.gz && \
+   tar -xvzf R-${R_VERSION}.tar.gz && \
+   rm -f R-${R_VERSION}.tar.gz && \
+   cd R-${R_VERSION} && \
+   curl -fsSL https://cran.r-project.org/src/contrib/3.5.1/Recommended/KernSmooth_2.23-15.tar.gz -o ./src/library/Recommended/KernSmooth_2.23-15.tar.gz && \
+   curl -fsSL https://cran.r-project.org/src/contrib/3.5.1/Recommended/MASS_7.3-50.tar.gz -o ./src/library/Recommended/MASS_7.3-50.tar.gz  && \
+   curl -fsSL https://cran.r-project.org/src/contrib/3.5.1/Recommended/Matrix_1.2-14.tar.gz -o ./src/library/Recommended/Matrix_1.2-14.tar.gz && \
+   curl -fsSL https://cran.r-project.org/src/contrib/3.5.1/Recommended/boot_1.3-20.tar.gz -o ./src/library/Recommended/boot_1.3-20.tar.gz && \
+   curl -fsSL https://cran.r-project.org/src/contrib/3.5.1/Recommended/class_7.3-14.tar.gz -o ./src/library/Recommended/class_7.3-14.tar.gz && \
+   curl -fsSL https://cran.r-project.org/src/contrib/3.5.1/Recommended/cluster_2.0.7-1.tar.gz -o ./src/library/Recommended/cluster_2.0.7-1.tar.gz && \
+   curl -fsSL https://cran.r-project.org/src/contrib/3.5.1/Recommended/codetools_0.2-15.tar.gz -o ./src/library/Recommended/codetools_0.2-15.tar.gz && \
+   curl -fsSL https://cran.r-project.org/src/contrib/3.5.1/Recommended/foreign_0.8-70.tar.gz -o ./src/library/Recommended/foreign_0.8-70.tar.gz && \
+   curl -fsSL https://cran.r-project.org/src/contrib/3.5.1/Recommended/lattice_0.20-35.tar.gz -o ./src/library/Recommended/lattice_0.20-35.tar.gz && \
+   curl -fsSL https://cran.r-project.org/src/contrib/3.5.1/Recommended/mgcv_1.8-24.tar.gz -o ./src/library/Recommended/mgcv_1.8-24.tar.gz && \
+   curl -fsSL https://cran.r-project.org/src/contrib/3.5.1/Recommended/nlme_3.1-137.tar.gz -o ./src/library/Recommended/nlme_3.1-137.tar.gz && \
+   curl -fsSL https://cran.r-project.org/src/contrib/3.5.1/Recommended/nnet_7.3-12.tar.gz -o ./src/library/Recommended/nnet_7.3-12.tar.gz && \
+   curl -fsSL https://cran.r-project.org/src/contrib/3.5.1/Recommended/rpart_4.1-13.tar.gz -o ./src/library/Recommended/rpart_4.1-13.tar.gz && \
+   curl -fsSL https://cran.r-project.org/src/contrib/3.5.1/Recommended/spatial_7.3-11.tar.gz -o ./src/library/Recommended/spatial_7.3-11.tar.gz && \
+   curl -fsSL https://cran.r-project.org/src/contrib/3.5.1/Recommended/survival_2.42-3.tar.gz -o ./src/library/Recommended/survival_2.42-3.tar.gz && \
+   ./configure --with-x=no && \
+   make && \
+   make install && \
+   cd ..
+
+    ln -s $PWD/R_${R_VERSION}/bin/R bin
+    ln -s $PWD/R_${R_VERSION}/bin/Rscript bin
+    
+%apphelp R
+    This app has R installed
+%apprun R
+    exec R "$@"
+%applabels R
+    VERSION 3.5.1
+%apptest R
+    quast -version
+	if [ $? -ne 0 ] ; then
+	   echo 1
+	else
+	   echo 0
+	fi
