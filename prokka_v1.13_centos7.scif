@@ -1,7 +1,7 @@
 %appfiles prokka
-	/tmp/scif_app_recipes/ncbiblast_v2.7.1_centos7.scif
-	/tmp/scif_app_recipes/prodigal_v2.6.3_centos7.scif
-	/tmp/scif_app_recipes/bedtools_v2.27_centos7.scif
+	/opt/ncbiblast_v2.7.1_centos7.scif
+	/opt/prodigal_v2.6.3_centos7.scif
+	/opt/bedtools_v2.27_centos7.scif
 
 %appinstall prokka
 	echo "Install prokka dependencies"
