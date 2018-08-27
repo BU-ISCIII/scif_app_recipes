@@ -1,5 +1,5 @@
 %appinstall R
-    echo "Install quast dependencies"
+    echo "Install R dependencies"
     yum -y groupinstall "Development Tools"
     yum install -y readline-devel \
             java-1.8.0-openjdk-devel \
@@ -46,7 +46,7 @@
 %applabels R
     VERSION 3.4.1
 %apptest R
-    quast -version
+    R --version
 	if [ $? -ne 0 ] ; then
 	   echo 1
 	else
