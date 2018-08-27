@@ -31,7 +31,7 @@
    curl -fsSL https://cran.r-project.org/src/contrib/3.4.1/Recommended/rpart_4.1-11.tar.gz -o ./src/library/Recommended/rpart_4.1-11.tar.gz
    curl -fsSL https://cran.r-project.org/src/contrib/3.4.1/Recommended/spatial_7.3-11.tar.gz -o ./src/library/Recommended/spatial_7.3-11.tar.gz
    curl -fsSL https://cran.r-project.org/src/contrib/3.4.1/Recommended/survival_2.41-3.tar.gz -o ./src/library/Recommended/survival_2.41-3.tar.gz
-   ./configure --with-x=no && \
+   ./configure --with-x=no --enable-R-shlib && \
    make && \
    make install && \
    cd ..
