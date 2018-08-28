@@ -1,3 +1,8 @@
+%appfiles prokka
+	/opt/ncbiblast_v2.7.1_centos7.scif
+	/opt/prodigal_v2.6.3_centos7.scif
+	/opt/bedtools_v2.27_centos7.scif
+
 %appinstall prokka
 	echo "Install prokka dependencies"
 	yum install -y perl-Time-Piece \
@@ -8,6 +13,51 @@
 				perl-CPAN \
 				perl-Module-Build \
 				parallel
+
+	echo "Install dependencies with scif recipe"
+	check_version() {
+		RED='\033[0;31m'
+		NC='\033[0m'
+		GREEN='\033[0;32m'
+		version=$1
+		version_installed=$2
+		program=$3
+		if [[ "$version" > "$version_installed" ]];then
+			echo -e "\n----------------------------------------------------------------------\n"
+			echo -e "${RED}WARNING:${NC} $program version installed is lower than required for plasmidID. Check dependencies recipes, and/or change installation order. Omitting installation."
+			echo -e "\n----------------------------------------------------------------------\n"
+		elif [[ "$version" == "$version_installed" ]];then
+			echo -e "\n----------------------------------------------------------------------\n"
+			echo -e "${GREEN}INFO:${NC} Version of $program is already installed with same version, omitting."
+			echo -e "\n----------------------------------------------------------------------\n"
+		else
+			echo -e "\n----------------------------------------------------------------------\n"
+			echo -e "${GREEN}INFO:${NC} Version greater of $program is already installed, omitting."
+			echo -e "\n----------------------------------------------------------------------\n"
+		fi
+
+	}
+
+	echo "Install Blast+"
+	if [ ! -d /scif/apps/ncbiblast ]; then
+		scif install ncbiblast_v2.7.1_centos7.scif
+	else
+		ver=$(blastp -version 2>&1 | awk '/blastp/{print $2}')
+		check_version "2.7.1" $ver "Blast+"
+	fi
+	echo "Install Bedtools"
+	if [ ! -d /scif/apps/bedtools ]; then
+		scif install bedtools_v2.27_centos7.scif
+	else
+		ver=$(bedtools --version 2>&1 | awk '{print $2}')
+		check_version "v2.27" $ver "Bedtools"
+	fi
+	echo "Install Prodigal"
+	if [ ! -d /scif/apps/prodigal ]; then
+		scif install prodigal_v2.6.3_centos7.scif
+	else
+		echo "${RED}WARNING:${NC}There is a prodigal version already installed. You should check the other dependencies installed in order to check which version is installed."
+	fi
 
 	echo "Install Bio-Perl"
 	cpanm Bio::Perl Bio::Root:Version
@@ -40,56 +90,6 @@
     VERSION 1.13
 %apptest prokka
     prokka --version
-	if [ $? -ne 0 ] ; then
-	   echo 1
-	else
-	   echo 0
-	fi
-
-
-%appinstall ncbiblast
-	echo "Install Blast +"
-	NCBIBLAST_VERSION="2.7.1"
-	wget ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/${NCBIBLAST_VERSION}/ncbi-blast-${NCBIBLAST_VERSION}+-x64-linux.tar.gz && \
-	tar -xvf ncbi-blast-${NCBIBLAST_VERSION}+-x64-linux.tar.gz && \
-	rm -f ncbi-blast-${NCBIBLAST_VERSION}+-x64-linux.tar.gz
-
-	ln -s $PWD/ncbi-blast-${NCBIBLAST_VERSION}+/bin/* bin
-
-%apphelp ncbiblast
-	This app runs NCBI-BLAST +
-%apprun ncbiblast
-	exec blastp "$@"
-%applabels ncbiblast
-	VERSION 2.7.1
-%apptest ncbiblast
-    blastp --version
-	if [ $? -ne 0 ] ; then
-	   echo 1
-	else
-	   echo 0
-	fi
-
-
-%appinstall prodigal
-	echo "Install prodigal"
-	PRODIGAL_VERSION="2.6.3"
-
-	curl -fsSL https://github.com/hyattpd/Prodigal/archive/v${PRODIGAL_VERSION}.tar.gz -o prodigal-${PRODIGAL_VERSION}.tar.gz && \
-	tar -xvf prodigal-${PRODIGAL_VERSION}.tar.gz && \
-	cd Prodigal-${PRODIGAL_VERSION}; make; cd - && \
-	rm -f prodigal-${PRODIGAL_VERSION}.tar.gz
-
-	ln -s $PWD/Prodigal-${PRODIGAL_VERSION}/prodigal bin
-
-%apphelp prodigal
-	This app runs prodigal software for ORF prediction
-%apprun prodigal
-	exec prodigal "$@"
-%applabels prodigal
-	VERSION 2.6.3
-%apptest prodigal
-    prodigal --version
 	if [ $? -ne 0 ] ; then
 	   echo 1
 	else
@@ -214,36 +214,6 @@
 	VERSION 0.3.0
 %apptest minced
     minced --version
-	if [ $? -ne 0 ] ; then
-	   echo 1
-	else
-	   echo 0
-	fi
-
-%appinstall bedtools
-	echo "Install bedtools dependencies"
-	yum -y install zlib \
-	               zlib-devel
-
-	# Install Bedtools
-	echo "Install Bedtools"
-	BEDTOOLS_VERSION="2.27.0"
-
-	curl -fsSL https://github.com/arq5x/bedtools2/releases/download/v${BEDTOOLS_VERSION}/bedtools-${BEDTOOLS_VERSION}.tar.gz -o bedtools-${BEDTOOLS_VERSION}.tar.gz && \
-	tar xvzf bedtools-${BEDTOOLS_VERSION}.tar.gz -C . && \
-	cd bedtools2; make; cd - && \
-	rm -f bedtools-${BEDTOOLS_VERSION}.tar.gz
-
-	ln -s $PWD/bedtools2/bin/* bin
-
-%apphelp bedtools
-	This app runs bedtools suite software
-%apprun bedtools
-	exec bedtools "$@"
-%applabels bedtools
-	VERSION 2.27
-%apptest bedtools
-    bedtools --version
 	if [ $? -ne 0 ] ; then
 	   echo 1
 	else
