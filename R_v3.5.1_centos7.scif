@@ -36,8 +36,8 @@
    make install && \
    cd ..
 
-    ln -s $PWD/R_${R_VERSION}/bin/R bin
-    ln -s $PWD/R_${R_VERSION}/bin/Rscript bin
+    ln -s $PWD/R-${R_VERSION}/bin/R bin
+    ln -s $PWD/R-${R_VERSION}/bin/Rscript bin
     
 %apphelp R
     This app has R installed
