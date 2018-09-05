@@ -75,4 +75,4 @@ Some times software does not provide a --version parameter, and the version is n
 	fi
 ```
 
->**NOTE**: dependency checks can fail when you compare version like this v2.7 > 2.8, you MUST check hoy --version outputs the version information and use equivalent comparison: pe. 2.7 > 2.6 or v2.7 > v2.6.
+>**NOTE**: dependency checks can fail when you compare version like this v2.7 > 2.8, you MUST check how --version outputs the version information and use equivalent comparison: pe. 2.7 > 2.6 or v2.7 > v2.6.
