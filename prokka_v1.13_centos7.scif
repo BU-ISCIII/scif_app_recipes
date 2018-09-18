@@ -24,7 +24,7 @@
 		program=$3
 		if [[ "$version" > "$version_installed" ]];then
 			echo -e "\n----------------------------------------------------------------------\n"
-			echo -e "${RED}WARNING:${NC} $program version installed is lower than required for plasmidID. Check dependencies recipes, and/or change installation order. Omitting installation."
+			echo -e "${RED}WARNING:${NC} $program version installed is lower than required for prokka. Check dependencies recipes, and/or change installation order. Omitting installation."
 			echo -e "\n----------------------------------------------------------------------\n"
 		elif [[ "$version" == "$version_installed" ]];then
 			echo -e "\n----------------------------------------------------------------------\n"
@@ -50,7 +50,7 @@
 		scif install bedtools_v2.27_centos7.scif
 	else
 		ver=$(bedtools --version 2>&1 | awk '{print $2}')
-		check_version "v2.27" $ver "Bedtools"
+		check_version "v2.27.0" $ver "Bedtools"
 	fi
 	echo "Install Prodigal"
 	if [ ! -d /scif/apps/prodigal ]; then

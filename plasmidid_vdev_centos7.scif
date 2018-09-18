@@ -70,7 +70,7 @@
 		scif install bedtools_v2.27_centos7.scif
 	else
 		ver=$(bedtools --version 2>&1 | awk '{print $2}')
-		check_version "v2.27" $ver "Bedtools"
+		check_version "v2.27.0" $ver "Bedtools"
 	fi
 	echo "Install bowtie2"
 	if [ ! -d /scif/apps/bowtie2 ]; then
