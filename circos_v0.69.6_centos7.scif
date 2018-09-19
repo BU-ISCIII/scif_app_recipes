@@ -20,6 +20,7 @@
     tar xvf circos-${CIRCOS_VERSION}.tgz -C . && \
     rm circos-${CIRCOS_VERSION}.tgz
 
+	echo "Added additional max points per track to circos configuration"
 	sed -i "s/max_points_per_track = 25000/max_points_per_track = 2000000/g" circos-${CIRCOS_VERSION}/etc/housekeeping.conf
 
 	ln -s $PWD/circos-${CIRCOS_VERSION}/lib/* lib
