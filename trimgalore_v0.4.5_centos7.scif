@@ -1,0 +1,21 @@
+%appinstall trimgalore
+	TRIMGALORE_VERSION="0.4.5"
+	curl -fsSL https://github.com/FelixKrueger/TrimGalore/archive/${TRIMGALORE_VERSION}.tar.gz -o /opt/trimgalore_${TRIMGALORE_VERSION}.tar.gz && \
+    tar xvzf /opt/trimgalore_${TRIMGALORE_VERSION}.tar.gz -C . && \
+    rm /opt/trimgalore_${TRIMGALORE_VERSION}.tar.gz
+
+	ln -s ../TrimGalore-${TRIMGALORE_VERSION}/trim_galore bin
+
+%apphelp trimgalore
+    trimgalore
+%apprun trimgalore
+    exec trimgalore "$@"
+%applabels trimgalore
+    VERSION 0.4.5
+%apptest trimgalore
+    trimgalore -version
+	if [ $? -ne 0 ] ; then
+	   echo 1
+	else
+	   echo 0
+	fi
