@@ -1,0 +1,17 @@
+%appinstall cutadapt
+	CUTADAPT_VERSION="1.16"
+	echo "Install cutadapt software"
+	pip install cutadapt==${CUTADAPT_VERSION}
+%apphelp cutadapt
+    This app runs cutadapt software
+%apprun cutadapt
+    exec cutadapt "$@"
+%applabels cutadapt
+    VERSION 1.16
+%apptest cutadapt
+    cutadapt --version
+	if [ $? -ne 0 ] ; then
+	   echo 1
+	else
+	   echo 0
+	fi

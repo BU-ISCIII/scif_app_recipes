@@ -7,13 +7,13 @@
 	ln -s ../TrimGalore-${TRIMGALORE_VERSION}/trim_galore bin
 
 %apphelp trimgalore
-    trimgalore
+    trim_galore
 %apprun trimgalore
-    exec trimgalore "$@"
+    exec trim_galore "$@"
 %applabels trimgalore
     VERSION 0.4.5
 %apptest trimgalore
-    trimgalore -version
+    trim_galore -version
 	if [ $? -ne 0 ] ; then
 	   echo 1
 	else
