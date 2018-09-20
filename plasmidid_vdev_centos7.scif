@@ -108,7 +108,7 @@
 
 	git clone https://github.com/BU-ISCIII/plasmidID && \
     cd plasmidID && \
-    git checkout feature/circle-testing && \
+    git checkout develop && \
     cd -
 
 	ln -s $PWD/plasmidID/plasmidID.sh bin
