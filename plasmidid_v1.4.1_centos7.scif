@@ -106,7 +106,7 @@
     echo "Install PlasmidID"
     PLASMIDID_VERSION="1.4.1"
 
-	curl -fsSL https://github.com/BU-ISCIII/plasmidID/archive/v${PLASMIDID_VERSION}.tar.gz -o plasmidID-${PLASMIDID_VERSION}.tar.gz && \
+	curl -fsSL https://github.com/BU-ISCIII/plasmidID/archive/${PLASMIDID_VERSION}.tar.gz -o plasmidID-${PLASMIDID_VERSION}.tar.gz && \
     tar xvf plasmidID-${PLASMIDID_VERSION}.tar.gz -C . && \
     rm plasmidID-${PLASMIDID_VERSION}.tar.gz
 
