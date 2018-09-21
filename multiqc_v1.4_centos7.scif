@@ -1,0 +1,53 @@
+%appfiles multiqc
+	/opt/python3_v3.4.9_centos7.scif
+%appinstall multiqc
+
+	echo "Install dependencies with scif recipe"
+	check_version() {
+		RED='\033[0;31m'
+		NC='\033[0m'
+		GREEN='\033[0;32m'
+		version=$1
+		version_installed=$2
+		program=$3
+		if [[ "$version" > "$version_installed" ]];then
+			echo -e "\n----------------------------------------------------------------------\n"
+			echo -e "${RED}WARNING:${NC} $program version installed is lower than required for prokka. Check dependencies recipes, and/or change installation order. Omitting installation."
+			echo -e "\n----------------------------------------------------------------------\n"
+		elif [[ "$version" == "$version_installed" ]];then
+			echo -e "\n----------------------------------------------------------------------\n"
+			echo -e "${GREEN}INFO:${NC} Version of $program is already installed with same version, omitting."
+			echo -e "\n----------------------------------------------------------------------\n"
+		else
+			echo -e "\n----------------------------------------------------------------------\n"
+			echo -e "${GREEN}INFO:${NC} Version greater of $program is already installed, omitting."
+			echo -e "\n----------------------------------------------------------------------\n"
+		fi
+
+	}
+
+	echo "Install python3"
+	if [ ! -d /scif/apps/python3 ]; then
+		scif install python3_v3.4.9_centos7.scif
+	else
+		ver=$(python3 --version 2>&1 | awk '/Python/{print $2}')
+		check_version "3.4.9" $ver "Python3"
+	fi
+
+	echo "Installing multiqc"
+	MULTIQC_VERSION="1.4"
+	pip3 install multiqc==${MULTIQC_VERSION}
+
+%apphelp multiqc
+    This app runs multiqc software
+%apprun multiqc
+    exec multiqc "$@"
+%applabels multiqc
+    VERSION 1.4
+%apptest multiqc
+    multiqc --version
+	if [ $? -ne 0 ] ; then
+	   echo 1
+	else
+	   echo 0
+	fi

@@ -1,0 +1,60 @@
+%appinstall get_homologues
+
+	echo "Install dependencies with scif recipe"
+	check_version() {
+		RED='\033[0;31m'
+		NC='\033[0m'
+		GREEN='\033[0;32m'
+		version=$1
+		version_installed=$2
+		program=$3
+		if [[ "$version" > "$version_installed" ]];then
+			echo -e "\n----------------------------------------------------------------------\n"
+			echo -e "${RED}WARNING:${NC} $program version installed is lower than required for prokka. Check dependencies recipes, and/or change installation order. Omitting installation."
+			echo -e "\n----------------------------------------------------------------------\n"
+		elif [[ "$version" == "$version_installed" ]];then
+			echo -e "\n----------------------------------------------------------------------\n"
+			echo -e "${GREEN}INFO:${NC} Version of $program is already installed with same version, omitting."
+			echo -e "\n----------------------------------------------------------------------\n"
+		else
+			echo -e "\n----------------------------------------------------------------------\n"
+			echo -e "${GREEN}INFO:${NC} Version greater of $program is already installed, omitting."
+			echo -e "\n----------------------------------------------------------------------\n"
+		fi
+
+	}
+
+	echo "Install R"
+	if [ ! -d /scif/apps/R ]; then
+		scif install R_v3.5.1_centos7.scif
+	else
+		ver=$(R --version 2>&1 | awk '/R version/{print $3}')
+		check_version "3.5.1" $ver "R"
+	fi
+
+	echo "Install dependencies"
+	yum -y install perl-GD
+
+	echo "Installing get_homologues"
+	GETHOMOLOGUES_VERSION="3.1.4"
+
+	curl -fsSL https://github.com/eead-csic-compbio/get_homologues/archive/v${GETHOMOLOGUES_VERSION}.tar.gz -o get_homologues_v${GETHOMOLOGUES_VERSION}.tar.gz && \
+	tar -xvf get_homologues_v${GETHOMOLOGUES_VERSION}.tar.gz && \
+	cd get_homologues-${GETHOMOLOGUES_VERSION}; yes yes | perl install.pl; cd - && \
+	rm get_homologues_v${GETHOMOLOGUES_VERSION}.tar.gz
+
+	ln -s $PWD/get_homologues_v${GETHOMOLOGUES_VERSION}/get_homologues.pl bin
+
+%apphelp get_homologues
+    This app runs get_homologues software
+%apprun get_homologues
+    exec get_homologues "$@"
+%applabels get_homologues
+    VERSION 3.4.9
+%apptest get_homologues
+    get_homologues --version
+	if [ $? -ne 0 ] ; then
+	   echo 1
+	else
+	   echo 0
+	fi
