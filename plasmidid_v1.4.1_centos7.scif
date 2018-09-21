@@ -107,7 +107,7 @@
     PLASMIDID_VERSION="1.4.1"
 
 	curl -fsSL https://github.com/BU-ISCIII/plasmidID/archive/${PLASMIDID_VERSION}.tar.gz -o plasmidID.tar.gz && \
-    tar xvf plasmidID-${PLASMIDID_VERSION}.tar.gz -C . && \
+    tar xvf plasmidID.tar.gz -C . && \
     rm plasmidID.tar.gz
 
 	ln -s $PWD/plasmidID/plasmidID.sh bin
