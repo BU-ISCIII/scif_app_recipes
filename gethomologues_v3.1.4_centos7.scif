@@ -50,7 +50,7 @@
 %apprun get_homologues
     exec get_homologues "$@"
 %applabels get_homologues
-    VERSION 3.4.9
+    VERSION 3.1.4
 %apptest get_homologues
     get_homologues --version
 	if [ $? -ne 0 ] ; then

@@ -1,0 +1,65 @@
+%appfiles srst2
+	/opt/samtools_v1.9_centos7.scif
+	/opt/bowtie2_v2.3.4.2_centos7.scif
+%appinstall srst2
+
+	echo "Install dependencies with scif recipe"
+	check_version() {
+		RED='\033[0;31m'
+		NC='\033[0m'
+		GREEN='\033[0;32m'
+		version=$1
+		version_installed=$2
+		program=$3
+		if [[ "$version" > "$version_installed" ]];then
+			echo -e "\n----------------------------------------------------------------------\n"
+			echo -e "${RED}WARNING:${NC} $program version installed is lower than required for prokka. Check dependencies recipes, and/or change installation order. Omitting installation."
+			echo -e "\n----------------------------------------------------------------------\n"
+		elif [[ "$version" == "$version_installed" ]];then
+			echo -e "\n----------------------------------------------------------------------\n"
+			echo -e "${GREEN}INFO:${NC} Version of $program is already installed with same version, omitting."
+			echo -e "\n----------------------------------------------------------------------\n"
+		else
+			echo -e "\n----------------------------------------------------------------------\n"
+			echo -e "${GREEN}INFO:${NC} Version greater of $program is already installed, omitting."
+			echo -e "\n----------------------------------------------------------------------\n"
+		fi
+
+	}
+
+	echo "Install samtools"
+	if [ ! -d /scif/apps/samtools ]; then
+		scif install samtools_v1.9_centos7.scif
+	else
+		ver=$(samtools --version | awk '/samtools/{print $2}')
+		check_version "1.9" $ver "Samtools"
+	fi
+
+	echo "Install bowtie2"
+	if [ ! -d /scif/apps/bowtie2 ]; then
+		scif install bowtie2_v2.3.4.2_centos7.scif
+	else
+		ver=$(bowtie2 --version 2>&1 | awk '/bowtie2/{print $3}')
+		check_version "2.3.4.2" $ver "Bowtie2"
+	fi
+
+	echo "Install dependencies"
+	pip install scipy
+
+	echo "Installing srst2"
+	SRST2_VERSION="0.2.0"
+	pip3 install srst2==${SRST2_VERSION}
+
+%apphelp srst2
+    This app runs srst2 software
+%apprun srst2
+    exec srst2 "$@"
+%applabels srst2
+    VERSION 0.2.0
+%apptest srst2
+    srst2 --version
+	if [ $? -ne 0 ] ; then
+	   echo 1
+	else
+	   echo 0
+	fi

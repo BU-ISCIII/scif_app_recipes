@@ -1,0 +1,39 @@
+%appfiles ngsplot
+	/opt/ngsplotdb_hg19_75_3.00.tar.gz
+	/opt/ngsplotdb_mm10_75_3.00.tar.gz
+	/opt/ngsplotdb_StrepPneumo1_40_3.00.tar.gz
+%appinstall ngsplot
+	# Install ngsplot
+	echo "Install ngsplot"
+	NGSPLOT_VERSION="2.63"
+	curl -fsSL https://github.com/shenlab-sinai/ngsplot/archive/${NGSPLOT_VERSION}.tar.gz -o /opt/ngsplot_${NGSPLOT_VERSION}.tar.gz && \
+	tar xvzf /opt/ngsplot_${NGSPLOT_VERSION}.tar.gz -C /opt/ && \
+	rm /opt/ngsplot_${NGSPLOT_VERSION}.tar.gz
+
+	## Study how to add this variable to PATH
+	#export NGSPLOT=/opt/ngsplot-${NGSPLOT_VERSION}
+	#echo 'export NGSPLOT=/opt/ngsplot-${NGSPLOT_VERSION}' >> $SINGULARITY_ENVIRONMENT
+
+	ln -s $PWD/ngsplot-${NGSPLOT_VERSION}/bin bin
+
+	echo "Install NGSPLOT databases"
+	echo y | python /opt/ngsplot-${NGSPLOT_VERSION}/bin/ngsplotdb.py install /opt/ngsplotdb_mm10_75_3.00.tar.gz && \
+	echo y | python /opt/ngsplot-${NGSPLOT_VERSION}/bin/ngsplotdb.py install /opt/ngsplotdb_hg19_75_3.00.tar.gz && \
+	echo y | python /opt/ngsplot-${NGSPLOT_VERSION}/bin/ngsplotdb.py install /opt/ngsplotdb_StrepPneumo1_40_3.00.tar.gz && \
+	rm /opt/ngsplotdb_hg19_75_3.00.tar.gz && \
+	rm /opt/ngsplotdb_mm10_75_3.00.tar.gz && \
+	rm /opt/ngsplotdb_StrepPneumo1_40_3.00.tar.gz
+
+%apphelp ngsplot
+    This app runs ngsplot software
+%apprun ngsplot
+    exec ngsplot "$@"
+%applabels ngsplot
+    VERSION 2.63
+%apptest ngsplot
+    ngsplot --version
+	if [ $? -ne 0 ] ; then
+	   echo 1
+	else
+	   echo 0
+	fi
