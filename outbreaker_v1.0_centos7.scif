@@ -1,13 +1,18 @@
 %appfiles wgsoutbreaker
 	/opt/trimmomatic_v0.38_centos7.scif
 	/opt/samtools_v1.9_centos7.scif
-	/opt/spades_v3.12.0_centos7.scif
-	/opt/ncbiblast_v2.7.1_centos7.scif
 	/opt/bedtools_v2.27_centos7.scif
 	/opt/bowtie2_v2.3.4.2_centos7.scif
-	/opt/prokka_v1.13_centos7.scif
-	/opt/cdhit_v4.6.6_centos7.scif
-	/opt/circos_v0.69.6_centos7.scif
+	/opt/srst2_v0.2.0_centos7.scif
+	/opt/bwa_v0.7.17_centos7.scif
+	/opt/R_v3.5.1_centos7.scif
+
+	/opt/snppipeline_v1.0.0_centos7.scif
+	/opt/gatk_v3.8_centos7.scif
+	/opt/raxml_v8.2.9_centos7.scif
+	/opt/openmpi_v1.10.0_centos7.scif
+	/opt/vcftools_v0.1.12b_centos7.scif
+	/opt/bamutil_v1.0.13_centos7.scif
 
 %appinstall wgsoutbreaker
 	echo "Install wgsoutbreaker dependencies"
@@ -51,20 +56,6 @@
 		ver=$(samtools --version | awk '/samtools/{print $2}')
 		check_version "1.9" $ver "Samtools"
 	fi
-	echo "Install Spades"
-	if [ ! -d /scif/apps/spades ]; then
-		scif install spades_v3.12.0_centos7.scif
-	else
-		ver=$(spades.py --help 2>&1 | awk '/SPAdes genome/{print $4}')
-		check_version "v3.12" $ver "SPAdes"
-	fi
-	echo "Install Blast+"
-	if [ ! -d /scif/apps/ncbiblast ]; then
-		scif install ncbiblast_v2.7.1_centos7.scif
-	else
-		ver=$(blastp -version 2>&1 | awk '/blastp/{print $2}')
-		check_version "2.7.1" $ver "Blast+"
-	fi
 	echo "Install bedtools"
 	if [ ! -d /scif/apps/bedtools ]; then
 		scif install bedtools_v2.27_centos7.scif
@@ -79,48 +70,26 @@
 		ver=$(bowtie2 --version 2>&1 | awk '/bowtie2/{print $3}')
 		check_version "2.3.4.2" $ver "Bowtie2"
 	fi
-	echo "Install prokka"
-	if [ ! -d /scif/apps/prokka ]; then
-		scif install prokka_v1.13_centos7.scif
-	else
-		ver=$(prokka --version 2>&1 | awk '/prokka/{print $2}')
-		check_version "1.13" $ver "Prokka"
-	fi
-	echo "Install CD-HIT"
-	if [ ! -d /scif/apps/cdhit ]; then
-		scif install cdhit_v4.6.6_centos7.scif
-	else
-		ver=$(cd-hit -h 2>&1 | awk '/CD-HIT/ {print $4}')
-		check_version "4.6.6" $ver "CD-HIT"
-	fi
-	echo "Install Circos"
-	if [ ! -d /scif/apps/circos ]; then
-		scif install circos_v0.69.6_centos7.scif
-	else
-		ver=$(circos --version 2>&1 | awk '/circos/{print $4}')
-		check_version "0.69-6" $ver "Circos"
-	fi
 
 	echo "Finished dependencies installation"
 
     echo "Install wgsoutbreaker"
-    wgsoutbreaker_VERSION="1.4.1"
+    WGSOUTBREAKER_VERSION="1.0"
 
-	curl -fsSL https://github.com/BU-ISCIII/wgsoutbreaker/archive/${wgsoutbreaker_VERSION}.tar.gz -o wgsoutbreaker.tar.gz && \
+	curl -fsSL https://github.com/BU-ISCIII/WGS-Outbreaker/archive/${WGSOUTBREAKER_VERSION}.tar.gz -o wgsoutbreaker.tar.gz && \
     tar xvf wgsoutbreaker.tar.gz -C . && \
     rm wgsoutbreaker.tar.gz
 
-	ln -s $PWD/wgsoutbreaker/wgsoutbreaker.sh bin
-	ln -s $PWD/wgsoutbreaker/bin/* bin
+	ln -s $PWD/wgsoutbreaker-v${WGSOUTBREAKER_VERSION}/lib/* bin
 
 %apphelp wgsoutbreaker
     This app runs wgsoutbreaker pipeline for plasmid characterization.
 %apprun wgsoutbreaker
-    exec wgsoutbreaker.sh "$@"
+    exec run_outbreak_wgs.sh "$@"
 %applabels wgsoutbreaker
-    VERSION 1.4.1
+    VERSION 1.0
 %apptest wgsoutbreaker
-    wgsoutbreaker.sh --version
+    run_outbreak_wgs.sh
 	if [ $? -ne 0 ] ; then
 	   echo 1
 	else
