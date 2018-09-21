@@ -1,0 +1,26 @@
+%appinstall deeptools
+	DEEPTOOLS_VERSION="2.5.4"
+	echo "Installing dependencies"
+	yum -y install zlib \
+				   zlib-devel
+	pip install matplotlib numpydoc py2bit pyBigWig pysam scipy
+
+	echo "Install deeptools"
+	git clone -b "${DEEPTOOLS_VERSION}" --single-branch --depth 1 https://github.com/deeptools/deepTools && \
+	cd deepTools; python setup.py install
+
+	ln -s ../deepTools/bin/* bin
+
+%apphelp deeptools
+    This app runs deeptools software
+%apprun deeptools
+    exec deeptools "$@"
+%applabels deeptools
+    VERSION 2.5.4
+%apptest deeptools
+    deeptools --version
+	if [ $? -ne 0 ] ; then
+	   echo 1
+	else
+	   echo 0
+	fi
