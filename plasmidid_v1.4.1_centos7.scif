@@ -106,12 +106,12 @@
     echo "Install PlasmidID"
     PLASMIDID_VERSION="1.4.1"
 
-	curl -fsSL https://github.com/BU-ISCIII/plasmidID/archive/${PLASMIDID_VERSION}.tar.gz -o plasmidID-${PLASMIDID_VERSION}.tar.gz && \
+	curl -fsSL https://github.com/BU-ISCIII/plasmidID/archive/${PLASMIDID_VERSION}.tar.gz -o plasmidID.tar.gz && \
     tar xvf plasmidID-${PLASMIDID_VERSION}.tar.gz -C . && \
-    rm plasmidID-${PLASMIDID_VERSION}.tar.gz
+    rm plasmidID.tar.gz
 
-	ln -s $PWD/plasmidID-${PLASMIDID_VERSION}/plasmidID.sh bin
-	ln -s $PWD/plasmidID-${PLASMIDID_VERSION}/bin/* bin
+	ln -s $PWD/plasmidID/plasmidID.sh bin
+	ln -s $PWD/plasmidID/bin/* bin
 
 %apphelp plasmidid
     This app runs plasmidID pipeline for plasmid characterization.
