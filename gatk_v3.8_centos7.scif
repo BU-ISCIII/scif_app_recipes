@@ -1,0 +1,29 @@
+%appinstall gatk
+	echo "Install gatk dependencies"
+    yum -y install  java-1.8.0-openjdk
+
+    echo "Install gatk"
+    GATK_VERSION="3.8"
+    
+    mkdir gatk-${GATK_VERSION} && \
+    cd gatk-${GATK_VERSION} && \
+	curl -fsSL https://github.com/BU-ISCIII/scif_app_recipes/releases/download/0.0/GenomeAnalysisTK.jar -o GenomeAnalysisTK.jar && \
+    cd ..
+    
+    echo '#!/bin/bash' > bin/GenomeAnalysisTK && \
+	echo "java -jar /scif/apps/gatk/gatk-${GATK_VERSION}/GenomeAnalysisTK.jar \$@" >> bin/GenomeAnalysisTK && \
+	chmod 755 bin/GenomeAnalysisTK
+
+%apphelp gatk
+    This app has gatk installed
+%apprun gatk
+    exec GenomeAnalysisTK "$@"
+%applabels gatk
+    VERSION 3.8
+%apptest gatk
+    GenomeAnalysisTK --version
+	if [ $? -ne 0 ] ; then
+	   echo 1
+	else
+	   echo 0
+	fi

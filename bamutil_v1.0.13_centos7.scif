@@ -1,0 +1,35 @@
+%appinstall bamutil
+	echo "Install bamutil dependencies"
+	yum -y groupinstall "Development Tools"
+    yum -y install  unzip  \
+                    zlib-devel
+
+    echo "Install bamutil"
+    BAMUTIL_VERSION="1.0.13"
+	
+    
+    curl -fsSL https://github.com/statgen/libStatGen/archive/master.zip -o stategen.zip && \
+    unzip stategen.zip && \
+    rm -f stategen.zip && \
+    cd libStatGen-master;make;cd .. && \
+    mv libStatGen-master libStatGen && \
+	curl -fsSL https://github.com/statgen/bamUtil/archive/v${BAMUTIL_VERSION}.zip -o bamUtil-${BAMUTIL_VERSION}.zip && \
+    unzip bamUtil-${BAMUTIL_VERSION}.zip && \
+    rm -f bamUtil-${BAMUTIL_VERSION}.zip && \
+    cd bamUtil-${BAMUTIL_VERSION};make;cd .. 
+
+	ln -s $PWD/bamUtil-${BAMUTIL_VERSION}/bin/bam bin
+
+%apphelp bamutil
+    This app has bamutil installed
+%apprun bamutil
+    exec bam "$@"
+%applabels bamutil
+    VERSION 1.0.13
+%apptest bamutil
+    bam --version
+	if [ $? -ne 0 ] ; then
+	   echo 1
+	else
+	   echo 0
+	fi
