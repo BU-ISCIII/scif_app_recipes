@@ -1,0 +1,67 @@
+%appfiles phantompeakqualtools
+	/opt/R_v3.5.1_centos7.scif
+%appinstall phantompeakqualtools
+
+	echo "Install dependencies with scif recipe"
+	check_version() {
+		RED='\033[0;31m'
+		NC='\033[0m'
+		GREEN='\033[0;32m'
+		version=$1
+		version_installed=$2
+		program=$3
+		if [[ "$version" > "$version_installed" ]];then
+			echo -e "\n----------------------------------------------------------------------\n"
+			echo -e "${RED}WARNING:${NC} $program version installed is lower than required for prokka. Check dependencies recipes, and/or change installation order. Omitting installation."
+			echo -e "\n----------------------------------------------------------------------\n"
+		elif [[ "$version" == "$version_installed" ]];then
+			echo -e "\n----------------------------------------------------------------------\n"
+			echo -e "${GREEN}INFO:${NC} Version of $program is already installed with same version, omitting."
+			echo -e "\n----------------------------------------------------------------------\n"
+		else
+			echo -e "\n----------------------------------------------------------------------\n"
+			echo -e "${GREEN}INFO:${NC} Version greater of $program is already installed, omitting."
+			echo -e "\n----------------------------------------------------------------------\n"
+		fi
+
+	}
+
+	echo "Install R"
+	if [ ! -d /scif/apps/R ]; then
+		scif install R_v3.5.1_centos7.scif
+	else
+		ver=$(R --version 2>&1 | awk '/R version/{print $3}')
+		check_version "3.5.1" $ver "R"
+	fi
+
+	echo "Install SPP R package"
+	SPP_VERSION="1.15"
+	curl -fsSL https://github.com/hms-dbmi/spp/archive/${SPP_VERSION}.tar.gz -o SPP_${SPP_VERSION}.tar.gz && \
+	Rscript -e "install.packages('SPP_${SPP_VERSION}.tar.gz',dependencies=TRUE)" && \
+	rm /opt/SPP_${SPP_VERSION}.tar.gz
+
+	echo "Installing phantompeakqualtools"
+
+	PHANTOMPEAKQUALTOOLS_VERSION="v.1.1"
+	curl -fsSL https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/phantompeakqualtools/ccQualityControl.${PHANTOMPEAKQUALTOOLS_VERSION}.tar.gz -o phantompeakqualtools.${PHANTOMPEAKQUALTOOLS_VERSION}.tar.gz && \
+	tar xvzf phantompeakqualtools.${PHANTOMPEAKQUALTOOLS_VERSION}.tar.gz -C /opt/ && \
+	rm phantompeakqualtools.${PHANTOMPEAKQUALTOOLS_VERSION}.tar.gz && \
+	mkdir phantompeakqualtools/bin && \
+	echo 'Rscript phantompeakqualtools/run_spp.R $@' > phantompeakqualtools/bin/run_spp.R && \
+	chmod 755 phantompeakqualtools/bin/run_spp.R
+
+	ln -s $PWD/phantompeakqualtools/bin bin
+
+%apphelp phantompeakqualtools
+    This app runs phantompeakqualtools software
+%apprun phantompeakqualtools
+    exec run_spp.R "$@"
+%applabels phantompeakqualtools
+    VERSION 0.2.9
+%apptest phantompeakqualtools
+    run_spp.R
+	if [ $? -ne 0 ] ; then
+	   echo 1
+	else
+	   echo 0
+	fi
