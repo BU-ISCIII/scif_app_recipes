@@ -42,7 +42,8 @@
 	if [ ! -d /scif/apps/trimmomatic ]; then
 		scif install trimmomatic_v0.38_centos7.scif
 	else
-		echo "${RED}WARNING:${NC}There is a trimmomatic version already installed. You should check the other dependencies installed in order to check which version is installed."
+		ver=$(trimmomatic -version)
+		check_version "0.38" $ver "FastQC"
 	fi
 	echo "Install samtools"
 	if [ ! -d /scif/apps/samtools ]; then
