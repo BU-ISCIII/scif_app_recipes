@@ -1,0 +1,40 @@
+%appinstall picard
+	echo "Install picard dependencies"
+	yum install -y java-1.8.0-openjdk \
+        unzip 
+
+    echo "Install picard"
+	PICARD_VERSION="1.140"
+
+	mkdir picard-${PICARD_VERSION} && \
+    cd picard-${PICARD_VERSION} && \
+	curl -fsSL https://github.com/BU-ISCIII/scif_app_recipes/releases/download/0.1/picard-${PICARD_VERSION}.zip -o picard-${PICARD_VERSION}.zip && \
+    unzip picard-${PICARD_VERSION}.zip && \
+    rm -rf picard-${PICARD_VERSION}.zip && \
+    cd ..
+
+	echo '#!/bin/bash' > bin/picard
+	echo "java -jar /scif/apps/picard/picard-${PICARD_VERSION}/picard.jar \$@" >> bin/picard
+	chmod 755 bin/picard
+    
+    echo '#!/bin/bash' > bin/htsjdk
+	echo "java -jar /scif/apps/picard/picard-${PICARD_VERSION}/htsjdk.jar \$@" >> bin/htsjdk
+	chmod 755 bin/htsjdk
+    
+    echo '#!/bin/bash' > bin/picard-lib
+	echo "java -jar /scif/apps/picard/picard-${PICARD_VERSION}/picard-lib.jar \$@" >> bin/picard-lib
+	chmod 755 bin/picard-lib
+
+%apphelp picard
+    picard
+%apprun picard
+    exec picard "$@"
+%applabels picard
+    VERSION 1.140
+%apptest picard
+    picard -version
+	if [ $? -ne 0 ] ; then
+	   echo 1
+	else
+	   echo 0
+	fi
