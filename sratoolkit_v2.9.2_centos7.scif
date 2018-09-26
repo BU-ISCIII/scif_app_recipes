@@ -1,0 +1,24 @@
+%appinstall sratoolkit
+	echo "Install sratoolkit dependencies"
+
+    echo "Install sratoolkit"
+    MACS_VERSION="latest"
+    
+    curl -fsSL https://ftp-trace.ncbi.nlm.nih.gov/sra/sdk/current/sratoolkit.current-centos_linux64.tar.gz -o sratoolkit.current-centos_linux64.tar.gz && \
+    tar -zxvf sratoolkit.current-centos_linux64.tar.gz && \
+    rm -f sratoolkit.current-centos_linux64.tar.gz && \
+    mv sratoolkit.2.9.2-centos_linux64 sratoolkit-2.9.2
+
+	ln -s $PWD/sratoolkit-2.9.2/bin/* bin
+
+%apphelp sratoolkit
+    This app has sratoolkit installed
+%applabels sratoolkit
+    VERSION latest
+%apptest sratoolkit
+    sra-search --version
+	if [ $? -ne 0 ] ; then
+	   echo 1
+	else
+	   echo 0
+	fi
