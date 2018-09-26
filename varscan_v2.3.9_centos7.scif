@@ -1,0 +1,29 @@
+%appinstall varscan
+	echo "Install varscan dependencies"
+	yum install -y java-1.8.0-openjdk
+
+    echo "Install varscan"
+	VARSCAN_VERSION="2.3.9"
+
+    mkdir varscan-${VARSCAN_VERSION} && \
+    cd varscan-${VARSCAN_VERSION} && \
+	curl -fsSL https://datapacket.dl.sourceforge.net/project/varscan/VarScan.v${VARSCAN_VERSION}.jar -o varscan-${VARSCAN_VERSION}.tar && \
+    cd ..
+
+	echo '#!/bin/bash' > bin/varscan
+	echo "java -jar /scif/apps/varscan/varscan-${VARSCAN_VERSION}/varscan-${VARSCAN_VERSION}.tar \$@" >> bin/varscan
+	chmod 755 bin/varscan
+
+%apphelp varscan
+    varscan
+%apprun varscan
+    exec varscan "$@"
+%applabels varscan
+    VERSION 2.3.9
+%apptest varscan
+    varscan -version
+	if [ $? -ne 0 ] ; then
+	   echo 1
+	else
+	   echo 0
+	fi

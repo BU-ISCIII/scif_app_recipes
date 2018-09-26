@@ -1,0 +1,42 @@
+%appinstall raxml
+	echo "Install raxml dependencies"
+    yum -y groupinstall "Development Tools"
+    yum -y install  unzip
+
+    echo "Install raxml"
+    RAXML_VERSION="8.2.9"
+    
+	curl -fsSL https://github.com/stamatak/standard-RAxML/archive/v${RAXML_VERSION}.zip -o RAxML-${RAXML_VERSION}.zip && \
+    unzip RAxML-${RAXML_VERSION}.zip && \
+    rm -rf RAxML-${RAXML_VERSION}.zip && \
+    mv standard-RAxML-${RAXML_VERSION} RAxML-${RAXML_VERSION} && \
+    cd RAxML-${RAXML_VERSION} && \
+    make -f Makefile.gcc && \
+    make -f Makefile.SSE3.gcc && \
+    make -f Makefile.AVX.gcc && \
+    make -f Makefile.PTHREADS.gcc && \
+    make -f Makefile.SSE3.PTHREADS.gcc && \
+    make -f Makefile.AVX.PTHREADS.gcc && \
+#    make -f Makefile.MPI.gcc && \
+#    make -f Makefile.SSE3.MPI.gcc && \
+#    make -f Makefile.AVX.MPI.gcc && \
+#    make -f Makefile.HYBRID.gcc && \
+#    make -f Makefile.SSE3.HYBRID.gcc && \
+#    make -f Makefile.AVX.HYBRID.gcc && \
+    rm *.o && \
+    cd ..
+    
+    ln -s $PWD/RAxML-${RAXML_VERSION}/raxmlHPC* bin
+    
+
+%apphelp raxml
+    This app has raxml installed
+%applabels raxml
+    VERSION 8.2.9
+%apptest raxml
+    raxml --version
+	if [ $? -ne 0 ] ; then
+	   echo 1
+	else
+	   echo 0
+	fi

@@ -1,0 +1,3 @@
+%appinstall openmpi
+	echo "Install openmpi"
+    yum -y install  openmpi

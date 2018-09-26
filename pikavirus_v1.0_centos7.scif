@@ -21,15 +21,93 @@
 	pip install scif
 
     echo "Install pikavirus dependencies"
-    scif install fastqc_v0.11.7_centos7.scif
-    scif install trimmomatic_v0.38_centos7.scif
-    scif install bowtie2_v2.3.4.2_centos7.scif
-    scif install samtools_v1.2_centos7.scif
-    scif install spades_v3.12.0_centos7.scif
-    scif install quast_v5.0.0_centos7.scif
-    scif install ncbiblast_v2.7.1_centos7.scif
-    scif install bedtools_v2.27_centos7.scif
-    scif install R_v3.5.1_centos7.scif
+
+	check_version() {
+		RED='\033[0;31m'
+		NC='\033[0m'
+		GREEN='\033[0;32m'
+		version=$1
+		version_installed=$2
+		program=$3
+		if [[ "$version" > "$version_installed" ]];then
+			echo -e "\n----------------------------------------------------------------------\n"
+			echo -e "${RED}WARNING:${NC} $program version installed is lower than required for plasmidID. Check dependencies recipes, and/or change installation order. Omitting installation."
+			echo -e "\n----------------------------------------------------------------------\n"
+		elif [[ "$version" == "$version_installed" ]];then
+			echo -e "\n----------------------------------------------------------------------\n"
+			echo -e "${GREEN}INFO:${NC} Version of $program is already installed with same version, omitting."
+			echo -e "\n----------------------------------------------------------------------\n"
+		else
+			echo -e "\n----------------------------------------------------------------------\n"
+			echo -e "${GREEN}INFO:${NC} Version greater of $program is already installed, omitting."
+			echo -e "\n----------------------------------------------------------------------\n"
+		fi
+
+	}
+
+	if [ ! -d /scif/apps/fastqc ]; then
+		scif install fastqc_v0.11.7_centos7.scif
+	else
+		ver=$(fastqc -v | awk '{print $2}')
+		check_version "v0.11.7" $ver "FastQC"
+	fi
+
+	if [ ! -d /scif/apps/trimmomatic ]; then
+		scif install trimmomatic_v0.38_centos7.scif
+	else
+		ver=$(trimmomatic -version)
+		check_version "0.38" $ver "FastQC"
+	fi
+
+	if [ ! -d /scif/apps/bowtie2 ]; then
+		scif install bowtie2_v2.3.4.2_centos7.scif
+	else
+		ver=$(bowtie2 --version 2>&1 | awk '/bowtie2/{print $3}')
+		check_version "2.3.4.2" $ver "Bowtie2"
+	fi
+
+	if [ ! -d /scif/apps/samtools ]; then
+		scif install samtools_v1.2_centos7.scif
+	else
+		ver=$(samtools --version | awk '/samtools/{print $2}')
+		check_version "1.2" $ver "Samtools"
+	fi
+
+	if [ ! -d /scif/apps/spades ]; then
+		scif install spades_v3.12.0_centos7.scif
+	else
+		ver=$(spades.py 2>&1 | head -1 | awk '{print $4}')
+		check_version "v3.12" $ver "SPAdes"
+	fi
+
+	if [ ! -d /scif/apps/quast ]; then
+		scif install quast_v5.0.0_centos7.scif
+	else
+		ver=$(quast.py 2>&1 | head -2 | tail -1 | awk '{print $2}')
+		check_version "5.0.0" $ver "Quast"
+	fi
+
+	if [ ! -d /scif/apps/ncbiblast ]; then
+		scif install ncbiblast_v2.7.1_centos7.scif
+	else
+		ver=$(blastp -version 2>&1 | awk '/blastp/{print $2}')
+		check_version "2.7.1" $ver "Blast+"
+	fi
+
+	echo "Install bedtools"
+	if [ ! -d /scif/apps/bedtools ]; then
+		scif install bedtools_v2.27_centos7.scif
+	else
+		ver=$(bedtools --version 2>&1 | awk '{print $2}')
+		check_version "v2.27.0" $ver "Bedtools"
+	fi
+
+	if [ ! -d /scif/apps/R ]; then
+		scif install R_v3.5.1_centos7.scif
+	else
+		ver=$(R --version | head -1 | awk '{print $3}')
+		check_version "3.5.1" $ver "R"
+	fi
 
     echo "Install pikavirus"
     wget https://github.com/BU-ISCIII/PikaVirus/archive/feature/nextflow-a.zip && \
