@@ -1,0 +1,37 @@
+%appinstall macs2
+	echo "Install macs2 dependencies"
+	yum -y groupinstall "Development Tools"
+    yum -y install  unzip \
+                    numpy \
+                    scipy \
+                    Cython
+
+    echo "Install macs2"
+    MACS_VERSION="2.1.0"
+	
+    
+    curl -fsSL https://github.com/taoliu/MACS/archive/master.zip -o macs2.zip && \
+    unzip macs2.zip && \
+    rm -f macs2.zip && \
+    mv MACS-master macs2 && \
+    cd macs2 && \
+    python setup_w_cython.py install && \
+    python setup.py install && \
+    chmod 777 bin/* && \
+    cd ..
+
+	ln -s $PWD/bamUtil-${MACS_VERSION}/bin/* bin
+
+%apphelp macs2
+    This app has macs2 installed
+%apprun macs2
+    exec macs2 "$@"
+%applabels macs2
+    VERSION 2.1.0
+%apptest macs2
+    macs2 --version
+	if [ $? -ne 0 ] ; then
+	   echo 1
+	else
+	   echo 0
+	fi
