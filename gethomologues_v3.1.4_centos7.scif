@@ -1,3 +1,5 @@
+%appfiles get_homologues
+	/opt/R_v3.5.1_centos7.scif
 %appinstall get_homologues
 
 	echo "Install dependencies with scif recipe"
@@ -31,7 +33,9 @@
 		ver=$(R --version 2>&1 | awk '/R version/{print $3}')
 		check_version "3.5.1" $ver "R"
 	fi
+
 	export PATH=$PATH:/scif/apps/R/bin
+
 	echo "Install dependencies"
 	yum -y install perl-GD
 
@@ -43,7 +47,10 @@
 	cd get_homologues-${GETHOMOLOGUES_VERSION}; yes yes | perl install.pl; cd - && \
 	rm get_homologues_v${GETHOMOLOGUES_VERSION}.tar.gz
 
-	ln -s $PWD/get_homologues_v${GETHOMOLOGUES_VERSION}/get_homologues.pl bin
+	ln -s $PWD/get_homologues-${GETHOMOLOGUES_VERSION}/*.pl bin
+	ln -s $PWD/get_homologues-${GETHOMOLOGUES_VERSION}/*.sh bin
+	ln -s $PWD/get_homologues-${GETHOMOLOGUES_VERSION}/bin/* bin
+	ln -s $PWD/get_homologues-${GETHOMOLOGUES_VERSION}/lib/* lib
 
 %apphelp get_homologues
     This app runs get_homologues software
