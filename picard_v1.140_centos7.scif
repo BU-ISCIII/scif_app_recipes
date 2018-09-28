@@ -1,7 +1,7 @@
 %appinstall picard
 	echo "Install picard dependencies"
 	yum install -y java-1.8.0-openjdk \
-        unzip 
+        unzip
 
     echo "Install picard"
 	PICARD_VERSION="1.140"
@@ -16,11 +16,11 @@
 	echo '#!/bin/bash' > bin/picard
 	echo "java -jar /scif/apps/picard/picard-${PICARD_VERSION}/picard.jar \$@" >> bin/picard
 	chmod 755 bin/picard
-    
+
     echo '#!/bin/bash' > bin/htsjdk
 	echo "java -jar /scif/apps/picard/picard-${PICARD_VERSION}/htsjdk.jar \$@" >> bin/htsjdk
 	chmod 755 bin/htsjdk
-    
+
     echo '#!/bin/bash' > bin/picard-lib
 	echo "java -jar /scif/apps/picard/picard-${PICARD_VERSION}/picard-lib.jar \$@" >> bin/picard-lib
 	chmod 755 bin/picard-lib
