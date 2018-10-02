@@ -6,7 +6,6 @@
 	/opt/srst2_v0.2.0_centos7.scif
 	/opt/bwa_v0.7.17_centos7.scif
 	/opt/R_v3.5.1_centos7.scif
-
 	/opt/snppipeline_v1.0.0_centos7.scif
 	/opt/gatk_v3.8_centos7.scif
 	/opt/raxml_v8.2.9_centos7.scif
@@ -70,7 +69,66 @@
 		ver=$(bowtie2 --version 2>&1 | awk '/bowtie2/{print $3}')
 		check_version "2.3.4.2" $ver "Bowtie2"
 	fi
-
+	if [ ! -d /scif/apps/picard ]; then
+		scif install bowtie2_v2.3.4.2_centos7.scif
+	else
+		ver=$(bowtie2 --version 2>&1 | awk '/bowtie2/{print $3}')
+		check_version "2.3.4.2" $ver "Bowtie2"
+	fi
+	if [ ! -d /scif/apps/gatk ]; then
+		scif install gatk_v3.8_centos7.scif
+	else
+		ver=$(GenomeAnalysisTK --version 2>&1 | cut -d "-" -f 1)
+		check_version "3.8" $ver "GATK"
+	fi
+	if [ ! -d /scif/apps/R ]; then
+		scif install R_v3.5.1_centos7.scif
+	else
+		ver=$(R --version | head -1 | awk '{print $3}')
+		check_version "3.5.1" $ver "R"
+	fi
+	if [ ! -d /scif/apps/vcftools ]; then
+		scif install vcftools_v0.1.12b_centos7.scif
+	else
+		ver=$(vcftools 2>&1 | awk '/VCFtools/{print $2}' | sed -r 's/(\(|\))//g')
+		check_version "v0.1.12b" $ver "vcftools"
+	fi
+	if [ ! -d /scif/apps/srst2 ]; then
+		scif install srst2_v0.2.0_centos7.scif
+	else
+		ver=$(srst2 --version 2>&1 | awk '/srst2/{print $2})
+		check_version "0.2.0" $ver "SRST2"
+	fi
+	if [ ! -d /scif/apps/bwa ]; then
+		scif install bwa_v0.7.17_centos7.scif
+	else
+		ver=$(bwa 2>&1 | awk '/Version/{print $2} | cut -d "-" -f 1)
+		check_version "0.7.17" $ver "bwa"
+	fi
+	if [ ! -d /scif/apps/openmpi ]; then
+		scif install openmpi_v1.10.0_centos7.scif
+	else
+		ver=$(mpirun --version 2>&1 | awk '/mpirun/{print $4}')
+		check_version "1.10.0" $ver "OpenMPI"
+	fi
+	if [ ! -d /scif/apps/raxml ]; then
+		scif install raxml_v8.2.9_centos7.scif
+	else
+		ver=$(raxmlHPC -v 2>&1 | awk '/RAxML/{print $5}')
+		check_version "8.2.9" $ver "RAxML"
+	fi
+	if [ ! -d /scif/apps/bamutil ]; then
+		scif install bamutil_v1.0.13_centos7.scif
+	else
+		ver=$(bam 2>&1 | awk '/Version/{print $2}' | sed 's/;//g')
+		check_version "1.0.13" $ver "BAMUtil"
+	fi
+	if [ ! -d /scif/apps/snppipeline ]; then
+		scif install snppipeline_v2.0.2_centos7.scif
+	else
+		ver=$(cfsan_snp_pipeline --version 2>&1 | awk '/cfsan_snp_pipeline/{print $3}')
+		check_version "2.0.2" $ver "CFSAN snp pipeline"
+	fi
 	echo "Finished dependencies installation"
 
     echo "Install wgsoutbreaker"

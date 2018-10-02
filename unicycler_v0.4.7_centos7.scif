@@ -27,6 +27,14 @@
 	}
 
 	echo "Install python3"
+	if [ ! -d /scif/apps/gcc ]; then
+		scif install gcc_v8.2.0_centos7.scif
+		export PATH=$PATH:/scif/apps/gcc/bin
+		export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/scif/apps/gcc/lib
+	else
+		ver=$(gcc --version 2>&1 | awk '/gcc/{print $3}')
+		check_version "8.2.0" $ver "GCC compiler"
+	fi
 	if [ ! -d /scif/apps/python3 ]; then
 		scif install python3_v3.4.9_centos7.scif
 	else

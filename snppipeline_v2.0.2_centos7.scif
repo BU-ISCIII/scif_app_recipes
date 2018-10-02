@@ -1,0 +1,106 @@
+%appfiles snppipeline
+	/opt/samtools_v1.9_centos7.scif
+	/opt/bowtie2_v2.3.4.2_centos7.scif
+	/opt/picard_v1.140_centos7.scif
+	/opt/gatk_v3.8_centos7.scif
+	/opt/varscan_v2.3.9_centos7.scif
+	/opt/bcftools_v1.9_centos7.scif
+	/opt/sratoolkit_v2.8.1_centos7.scif
+%appenv snppipeline
+	CLASSPATH=~/scif/apps/varscan/varscan-2.3.9/varscan-2.3.9.jar:$CLASSPATH
+	CLASSPATH=~/scif/apps/picard/picard.jar:$CLASSPATH
+	CLASSPATH=~/scif/apps/gatk/gatk-3.8/GenomeAnalysisTK.jar:$CLASSPATH
+%appinstall snppipeline
+	echo "Install snppipeline dependencies"
+
+	check_version() {
+		RED='\033[0;31m'
+		NC='\033[0m'
+		GREEN='\033[0;32m'
+		version=$1
+		version_installed=$2
+		program=$3
+		if [[ "$version" > "$version_installed" ]];then
+			echo -e "\n----------------------------------------------------------------------\n"
+			echo -e "${RED}WARNING:${NC} $program version installed is lower than required for plasmidID. Check dependencies recipes, and/or change installation order. Omitting installation."
+			echo -e "\n----------------------------------------------------------------------\n"
+		elif [[ "$version" == "$version_installed" ]];then
+			echo -e "\n----------------------------------------------------------------------\n"
+			echo -e "${GREEN}INFO:${NC} Version of $program is already installed with same version, omitting."
+			echo -e "\n----------------------------------------------------------------------\n"
+		else
+			echo -e "\n----------------------------------------------------------------------\n"
+			echo -e "${GREEN}INFO:${NC} Version greater of $program is already installed, omitting."
+			echo -e "\n----------------------------------------------------------------------\n"
+		fi
+
+	}
+
+	if [ ! -d /scif/apps/samtools ]; then
+		scif install samtools_v1.9_centos7.scif
+	else
+		ver=$(samtools --version | awk '/samtools/{print $2}')
+		check_version "1.9" $ver "Samtools"
+	fi
+	echo "Install bowtie2"
+	if [ ! -d /scif/apps/bowtie2 ]; then
+		scif install bowtie2_v2.3.4.2_centos7.scif
+	else
+		ver=$(bowtie2 --version 2>&1 | awk '/bowtie2/{print $3}')
+		check_version "2.3.4.2" $ver "Bowtie2"
+	fi
+	if [ ! -d /scif/apps/picard ]; then
+		scif install bowtie2_v2.3.4.2_centos7.scif
+	else
+		ver=$(bowtie2 --version 2>&1 | awk '/bowtie2/{print $3}')
+		check_version "2.3.4.2" $ver "Bowtie2"
+	fi
+	if [ ! -d /scif/apps/gatk ]; then
+		scif install gatk_v3.8_centos7.scif
+	else
+		ver=$(GenomeAnalysisTK --version 2>&1 | cut -d "-" -f 1)
+		check_version "3.8" $ver "GATK"
+	fi
+	if [ ! -d /scif/apps/varscan ]; then
+		scif install varscan_v2.3.9_centos7.scif
+	else
+		ver=$(varscan 2>&1 | awk '/^VarScan/{print $2}')
+		check_version "v2.3" $ver "VarScan"
+	fi
+	if [ ! -d /scif/apps/bcftools ]; then
+		scif install bcftools_v1.9_centos7.scif
+	else
+		ver=$(bcftools --version 2>&1 | awk '/bcftools/{print $2}')
+		check_version "1.9" $ver "bcftools"
+	fi
+	if [ ! -d /scif/apps/sratoolkit ]; then
+		scif install sratoolkit_v2.8_centos7.scif
+	else
+		ver=$(fastq-dump --version 2>&1 | awk '/fastq-dump/{print $3}')
+		check_version "2.8" $ver "SRAToolkit"
+	fi
+    echo "Install not scif dependencies"
+    yum -y install python-devel
+    pip install biopython
+
+	echo "ENVIRONMENT VARIABLES"
+
+	echo "${RED}Warning:${NC} Environment variable CLASSPATH need to be set in docker-entrypoint. Check this when snppipeline is updated"
+
+    echo "Install snppipeline"
+    SNPPIPELINE_VERSION="2.0.2"
+	pip install snp-pipeline
+
+%apphelp snppipeline
+    snppipeline
+%apprun snppipeline
+    exec snppipeline "$@"
+%applabels snppipeline
+    VERSION 2.0.2
+%apptest snppipeline
+    snppipeline --version
+	if [ $? -ne 0 ] ; then
+	   echo 1
+	else
+	   echo 0
+	fi

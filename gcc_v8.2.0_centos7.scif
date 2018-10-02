@@ -1,0 +1,30 @@
+%appinstall gcc
+	echo "Install gcc dependencies"
+	yum -y install bzip2 gmp-devel mpfr-devel libmpc-devel
+
+	echo "Install gcc"
+	GCC_VERSION="8.2.0"
+	curl https://ftp.gnu.org/gnu/gcc/gcc-${GCC_VERSION}/gcc-${GCC_VERSION}.tar.gz -O && \
+	tar -xvzf gcc-${GCC_VERSION}.tar.gz && \
+	mkdir gcc-${GCC_VERSION}-build && \
+	cd gcc-${GCC_VERSION}-build && \
+	../gcc-${GCC_VERSION}/configure --prefix /scif/apps/gcc/gcc-${GCC_VERSION}-install --enable-languages=c,c++ --disable-multilib && \
+	make -j$(nproc) && make install && \
+	cd ..
+
+	ln -s $PWD/gcc-${GCC_VERSION}-install/bin/* bin
+	ln -s $PWD/gcc-${GCC_VERSION}-install/lib64/* lib
+
+%apphelp gcc
+    This app runs gcc compiler
+%apprun gcc
+    exec gcc "$@"
+%applabels gcc
+    VERSION 8.2.0
+%apptest gcc
+    gcc --version
+	if [ $? -ne 0 ] ; then
+	   echo 1
+	else
+	   echo 0
+	fi
