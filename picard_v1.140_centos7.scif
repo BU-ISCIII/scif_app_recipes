@@ -16,6 +16,7 @@
 	echo '#!/bin/bash' > bin/picard
 	echo "java -jar /scif/apps/picard/picard-${PICARD_VERSION}/picard.jar \$@" >> bin/picard
 	chmod 755 bin/picard
+	ln -s $PWD/picard-${PICARD_VERSION}/picard.jar bin
 
     echo '#!/bin/bash' > bin/htsjdk
 	echo "java -jar /scif/apps/picard/picard-${PICARD_VERSION}/htsjdk.jar \$@" >> bin/htsjdk
