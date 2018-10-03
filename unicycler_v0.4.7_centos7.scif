@@ -1,7 +1,14 @@
 %appfiles unicycler
 	/opt/python3_v3.4.9_centos7.scif
+	/opt/gcc_v8.2.0_centos7.scif
+	/opt/bowtie2_v2.3.4.2_centos7.scif
+	/opt/pilon_v1.22_centos7.scif
+	/opt/samtools_v1.9_centos7.scif
+	/opt/ncbiblast_v2.7.1_centos7.scif
+	/opt/spades_v3.8.0_centos7.scif
 %appinstall unicycler
-
+	echo "Install dependencies"
+	yum -y install zlib-devel
 	echo "Install dependencies with scif recipe"
 	check_version() {
 		RED='\033[0;31m'
@@ -26,28 +33,70 @@
 
 	}
 
-	echo "Install python3"
+	echo "Install gcc"
+
 	if [ ! -d /scif/apps/gcc ]; then
 		scif install gcc_v8.2.0_centos7.scif
+		export CXX=/scif/apps/gcc/bin/gcc
 		export PATH=$PATH:/scif/apps/gcc/bin
 		export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/scif/apps/gcc/lib
 	else
 		ver=$(gcc --version 2>&1 | awk '/gcc/{print $3}')
 		check_version "8.2.0" $ver "GCC compiler"
 	fi
+	echo "Install python3"
 	if [ ! -d /scif/apps/python3 ]; then
 		scif install python3_v3.4.9_centos7.scif
 	else
 		ver=$(python3 --version 2>&1 | awk '/Python/{print $2}')
 		check_version "3.4.9" $ver "Python3"
 	fi
+	echo "Install pilon"
+	if [ ! -d /scif/apps/pilon ]; then
+		scif install pilon_v1.22_centos7.scif
+	else
+		ver=$(pilon --version 2>&1 | awk '/Pilon/{print $3}')
+		check_version "1.22" $ver "Pilon"
+	fi
+	echo "Install samtools"
+	if [ ! -d /scif/apps/samtools ]; then
+		scif install samtools_v1.9_centos7.scif
+	else
+		ver=$(samtools --version | awk '/samtools/{print $2}')
+		check_version "1.9" $ver "Samtools"
+	fi
+	echo "Install Spades"
+	if [ ! -d /scif/apps/spades ]; then
+		scif install spades_v3.12.0_centos7.scif
+	else
+		ver=$(spades.py --help 2>&1 | awk '/SPAdes genome/{print $4}')
+		check_version "v3.12" $ver "SPAdes"
+	fi
+	echo "Install Blast+"
+	if [ ! -d /scif/apps/ncbiblast ]; then
+		scif install ncbiblast_v2.7.1_centos7.scif
+	else
+		ver=$(blastp -version 2>&1 | awk '/blastp/{print $2}')
+		check_version "2.7.1" $ver "Blast+"
+	fi
+	echo "Install bowtie2"
+	if [ ! -d /scif/apps/bowtie2 ]; then
+		scif install bowtie2_v2.3.4.2_centos7.scif
+	else
+		ver=$(bowtie2 --version 2>&1 | awk '/bowtie2/{print $3}')
+		check_version "2.3.4.2" $ver "Bowtie2"
+	fi
+
     echo "Install unicycler"
     UNICYCLER_VERSION="0.4.7"
 
 	curl -fsSL https://github.com/rrwick/Unicycler/archive/v${UNICYCLER_VERSION}.tar.gz -o unicycler-${UNICYCLER_VERSION}.tar.gz && \
     tar xvf unicycler-${UNICYCLER_VERSION}.tar.gz -C . && \
-    cd Unicycler-${UNICYCLER_VERSION}; python3 setup.py install --prefix=../bin;cd - && \
+    cd Unicycler-${UNICYCLER_VERSION}; python3 setup.py install --prefix=.;cd - && \
     rm -f unicycler-${unicycler_VERSION}.tar.gz
+
+	ln -s $PWD/Unicycler-${UNICYCLER_VERSION}/bin/* bin
+	ln -s $PWD/Unicycler-${UNICYCLER_VERSION}/lib/* lib
 
 %apphelp unicycler
     This app runs unicycler assembler
