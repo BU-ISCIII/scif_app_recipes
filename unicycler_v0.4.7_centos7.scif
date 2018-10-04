@@ -5,7 +5,7 @@
 	/opt/pilon_v1.22_centos7.scif
 	/opt/samtools_v1.9_centos7.scif
 	/opt/ncbiblast_v2.7.1_centos7.scif
-	/opt/spades_v3.8.0_centos7.scif
+	/opt/spades_v3.12.0_centos7.scif
 %appinstall unicycler
 	echo "Install dependencies"
 	yum -y install zlib-devel
