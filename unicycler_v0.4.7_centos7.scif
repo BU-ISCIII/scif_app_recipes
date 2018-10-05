@@ -37,9 +37,11 @@
 
 	if [ ! -d /scif/apps/gcc ]; then
 		scif install gcc_v8.2.0_centos7.scif
-		export CXX=/scif/apps/gcc/bin/gcc
+		export CC=/scif/apps/gcc/bin/gcc
+		export CPP=/scif/apps/gcc/bin/cpp
+		export CXX=/scif/apps/gcc/bin/g++
 		export PATH=$PATH:/scif/apps/gcc/bin
-		export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/scif/apps/gcc/lib
+		export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/scif/apps/gcc/lib64
 	else
 		ver=$(gcc --version 2>&1 | awk '/gcc/{print $3}')
 		check_version "8.2.0" $ver "GCC compiler"
