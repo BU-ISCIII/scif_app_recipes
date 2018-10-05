@@ -94,11 +94,8 @@
 
 	curl -fsSL https://github.com/rrwick/Unicycler/archive/v${UNICYCLER_VERSION}.tar.gz -o unicycler-${UNICYCLER_VERSION}.tar.gz && \
     tar xvf unicycler-${UNICYCLER_VERSION}.tar.gz -C . && \
-    cd Unicycler-${UNICYCLER_VERSION}; python3 setup.py install --prefix=.;cd - && \
+    cd Unicycler-${UNICYCLER_VERSION}; python3 setup.py install;cd - && \
     rm -f unicycler-${unicycler_VERSION}.tar.gz
-
-	ln -s $PWD/Unicycler-${UNICYCLER_VERSION}/bin/* bin
-	ln -s $PWD/Unicycler-${UNICYCLER_VERSION}/lib/* lib
 
 %apphelp unicycler
     This app runs unicycler assembler
