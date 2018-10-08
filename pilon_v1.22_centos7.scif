@@ -1,0 +1,28 @@
+%appinstall pilon
+	echo "Install pilon dependencies"
+	yum install -y java-1.8.0-openjdk \
+
+    echo "Install pilon"
+	PILON_VERSION="1.22"
+
+	curl -fsSL https://github.com/broadinstitute/pilon/releases/download/v${PILON_VERSION}/pilon-${PILON_VERSION}.jar -o pilon-${PILON_VERSION}.jar
+
+	echo '#!/bin/bash' > bin/pilon
+	echo "java -jar /scif/apps/pilon/pilon-${PILON_VERSION}.jar \$@" >> bin/pilon
+	chmod 755 bin/pilon
+
+	ln -s $PWD/pilon-${PILON_VERSION}.jar bin
+
+%apphelp pilon
+    pilon
+%apprun pilon
+    exec pilon "$@"
+%applabels pilon
+    VERSION 1.22
+%apptest pilon
+    pilon --version
+	if [ $? -ne 0 ] ; then
+	   echo 1
+	else
+	   echo 0
+	fi

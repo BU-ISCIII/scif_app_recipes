@@ -6,7 +6,7 @@
 	/opt/srst2_v0.2.0_centos7.scif
 	/opt/bwa_v0.7.17_centos7.scif
 	/opt/R_v3.5.1_centos7.scif
-	/opt/snppipeline_v1.0.0_centos7.scif
+	/opt/snppipeline_v2.0.2_centos7.scif
 	/opt/gatk_v3.8_centos7.scif
 	/opt/raxml_v8.2.9_centos7.scif
 	/opt/openmpi_v1.10.0_centos7.scif
@@ -134,11 +134,11 @@
     echo "Install wgsoutbreaker"
     WGSOUTBREAKER_VERSION="1.0"
 
-	curl -fsSL https://github.com/BU-ISCIII/WGS-Outbreaker/archive/${WGSOUTBREAKER_VERSION}.tar.gz -o wgsoutbreaker.tar.gz && \
+	curl -fsSL https://github.com/BU-ISCIII/WGS-Outbreaker/archive/v${WGSOUTBREAKER_VERSION}.tar.gz -o wgsoutbreaker.tar.gz && \
     tar xvf wgsoutbreaker.tar.gz -C . && \
     rm wgsoutbreaker.tar.gz
 
-	ln -s $PWD/wgsoutbreaker-v${WGSOUTBREAKER_VERSION}/lib/* bin
+	ln -s $PWD/WGS-Outbreaker-${WGSOUTBREAKER_VERSION}/lib/* bin
 
 %apphelp wgsoutbreaker
     This app runs wgsoutbreaker pipeline for plasmid characterization.

@@ -6,6 +6,7 @@
 	/opt/varscan_v2.3.9_centos7.scif
 	/opt/bcftools_v1.9_centos7.scif
 	/opt/sratoolkit_v2.8.1_centos7.scif
+	/opt/snppipeline_v2.0.2_centos7.scif
 %appenv snppipeline
 	CLASSPATH=~/scif/apps/varscan/varscan-2.3.9/varscan-2.3.9.jar:$CLASSPATH
 	CLASSPATH=~/scif/apps/picard/picard.jar:$CLASSPATH
