@@ -48,7 +48,7 @@
 
 	echo "Installing srst2"
 	SRST2_VERSION="0.2.0"
-	pip3 install srst2==${SRST2_VERSION}
+	pip install srst2/
 
 %apphelp srst2
     This app runs srst2 software
