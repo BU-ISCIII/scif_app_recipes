@@ -1,8 +1,10 @@
 %appfiles srst2
 	/opt/samtools_v1.9_centos7.scif
 	/opt/bowtie2_v2.3.4.2_centos7.scif
+	
 %appinstall srst2
-
+	yum install -y wget && \
+					unzip
 	echo "Install dependencies with scif recipe"
 	check_version() {
 		RED='\033[0;31m'
@@ -48,7 +50,10 @@
 
 	echo "Installing srst2"
 	SRST2_VERSION="0.2.0"
-	pip install srst2/
+	wget https://github.com/katholt/srst2/archive/v${SRST2_VERSION}.zip && \
+	unzip v${SRST2_VERSION}.zip && \
+	rm -rf v${SRST2_VERSION}.zip && \
+	pip install srst2-${SRST2_VERSION}/
 
 %apphelp srst2
     This app runs srst2 software
