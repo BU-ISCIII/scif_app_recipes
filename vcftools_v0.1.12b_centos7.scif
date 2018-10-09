@@ -6,20 +6,22 @@
 
     echo "Install vcftools"
     VCFTOOLS_VERSION="0.1.12b"
-    
+
     curl -fsSL https://netix.dl.sourceforge.net/project/vcftools/vcftools_${VCFTOOLS_VERSION}.tar.gz -o vcftools_${VCFTOOLS_VERSION}.tar.gz && \
     tar -zxvf vcftools_${VCFTOOLS_VERSION}.tar.gz  && \
     rm -rf vcftools_${VCFTOOLS_VERSION}.tar.gz  && \
     mv vcftools_${VCFTOOLS_VERSION} vcftools-${VCFTOOLS_VERSION} &&\
     cd vcftools-${VCFTOOLS_VERSION}; make; cd ..
-    
+
+    ln -s $PWD/vcftools-${VCFTOOLS_VERSION}/bin/* bin
+
 
 %apphelp vcftools
     This app has vcftools installed
 %applabels vcftools
     VERSION 0.1.12b
 %apptest vcftools
-    bam --version
+    vcftools --version
 	if [ $? -ne 0 ] ; then
 	   echo 1
 	else
