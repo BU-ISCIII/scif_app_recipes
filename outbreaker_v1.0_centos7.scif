@@ -52,7 +52,7 @@
 	if [ ! -d /scif/apps/samtools ]; then
 		scif install samtools_v1.9_centos7.scif
 	else
-		ver=$(samtools --version | awk '/samtools/{print $2}')
+		ver=$(samtools --version 2>&1 | awk '/samtools/{print $2}')
 		check_version "1.9" $ver "Samtools"
 	fi
 	echo "Install bedtools"
@@ -84,7 +84,7 @@
 	if [ ! -d /scif/apps/R ]; then
 		scif install R_v3.5.1_centos7.scif
 	else
-		ver=$(R --version | head -1 | awk '{print $3}')
+		ver=$(R --version 2>&1 | head -1 | awk '{print $3}')
 		check_version "3.5.1" $ver "R"
 	fi
 	if [ ! -d /scif/apps/vcftools ]; then
