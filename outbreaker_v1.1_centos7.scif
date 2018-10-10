@@ -1,0 +1,155 @@
+%appfiles wgsoutbreaker
+	/opt/trimmomatic_v0.38_centos7.scif
+	/opt/samtools_v1.9_centos7.scif
+	/opt/bedtools_v2.27_centos7.scif
+	/opt/bowtie2_v2.3.4.2_centos7.scif
+	/opt/srst2_v0.2.0_centos7.scif
+	/opt/bwa_v0.7.17_centos7.scif
+	/opt/R_v3.5.1_centos7.scif
+	/opt/snppipeline_v2.0.2_centos7.scif
+	/opt/gatk_v3.8_centos7.scif
+	/opt/raxml_v8.2.9_centos7.scif
+	/opt/openmpi_v1.10.0_centos7.scif
+	/opt/vcftools_v0.1.12b_centos7.scif
+	/opt/bamutil_v1.0.13_centos7.scif
+
+%appinstall wgsoutbreaker
+	echo "Install wgsoutbreaker dependencies"
+	yum install -y bc \
+				   gawk
+
+	check_version() {
+		RED='\033[0;31m'
+		NC='\033[0m'
+		GREEN='\033[0;32m'
+		version=$1
+		version_installed=$2
+		program=$3
+		if [[ "$version" > "$version_installed" ]];then
+			echo -e "\n----------------------------------------------------------------------\n"
+			echo -e "${RED}WARNING:${NC} $program version installed is lower than required for wgsoutbreaker. Check dependencies recipes, and/or change installation order. Omitting installation."
+			echo -e "\n----------------------------------------------------------------------\n"
+		elif [[ "$version" == "$version_installed" ]];then
+			echo -e "\n----------------------------------------------------------------------\n"
+			echo -e "${GREEN}INFO:${NC} Version of $program is already installed with same version, omitting."
+			echo -e "\n----------------------------------------------------------------------\n"
+		else
+			echo -e "\n----------------------------------------------------------------------\n"
+			echo -e "${GREEN}INFO:${NC} Version greater of $program is already installed, omitting."
+			echo -e "\n----------------------------------------------------------------------\n"
+		fi
+
+	}
+
+	echo "Install dependencies with scif recipe"
+	echo "Install trimmomatic"
+	if [ ! -d /scif/apps/trimmomatic ]; then
+		scif install trimmomatic_v0.38_centos7.scif
+	else
+		echo "${RED}WARNING:${NC}There is a trimmomatic version already installed. You should check the other dependencies installed in order to check which version is installed."
+	fi
+	echo "Install samtools"
+	if [ ! -d /scif/apps/samtools ]; then
+		scif install samtools_v1.9_centos7.scif
+	else
+		ver=$(samtools --version | awk '/samtools/{print $2}')
+		check_version "1.9" $ver "Samtools"
+	fi
+	echo "Install bedtools"
+	if [ ! -d /scif/apps/bedtools ]; then
+		scif install bedtools_v2.27_centos7.scif
+	else
+		ver=$(bedtools --version 2>&1 | awk '{print $2}')
+		check_version "v2.27" $ver "Bedtools"
+	fi
+	echo "Install bowtie2"
+	if [ ! -d /scif/apps/bowtie2 ]; then
+		scif install bowtie2_v2.3.4.2_centos7.scif
+	else
+		ver=$(bowtie2 --version 2>&1 | awk '/bowtie2/{print $3}')
+		check_version "2.3.4.2" $ver "Bowtie2"
+	fi
+	if [ ! -d /scif/apps/picard ]; then
+		scif install bowtie2_v2.3.4.2_centos7.scif
+	else
+		ver=$(bowtie2 --version 2>&1 | awk '/bowtie2/{print $3}')
+		check_version "2.3.4.2" $ver "Bowtie2"
+	fi
+	if [ ! -d /scif/apps/gatk ]; then
+		scif install gatk_v3.8_centos7.scif
+	else
+		ver=$(GenomeAnalysisTK --version 2>&1 | cut -d "-" -f 1)
+		check_version "3.8" $ver "GATK"
+	fi
+	if [ ! -d /scif/apps/R ]; then
+		scif install R_v3.5.1_centos7.scif
+	else
+		ver=$(R --version | head -1 | awk '{print $3}')
+		check_version "3.5.1" $ver "R"
+	fi
+	if [ ! -d /scif/apps/vcftools ]; then
+		scif install vcftools_v0.1.12b_centos7.scif
+	else
+		ver=$(vcftools 2>&1 | awk '/VCFtools/{print $2}' | sed -r 's/(\(|\))//g')
+		check_version "v0.1.12b" $ver "vcftools"
+	fi
+	if [ ! -d /scif/apps/srst2 ]; then
+		scif install srst2_v0.2.0_centos7.scif
+	else
+		ver=$(srst2 --version 2>&1 | awk '/srst2/{print $2})
+		check_version "0.2.0" $ver "SRST2"
+	fi
+	if [ ! -d /scif/apps/bwa ]; then
+		scif install bwa_v0.7.17_centos7.scif
+	else
+		ver=$(bwa 2>&1 | awk '/Version/{print $2} | cut -d "-" -f 1)
+		check_version "0.7.17" $ver "bwa"
+	fi
+	if [ ! -d /scif/apps/openmpi ]; then
+		scif install openmpi_v1.10.0_centos7.scif
+	else
+		ver=$(mpirun --version 2>&1 | awk '/mpirun/{print $4}')
+		check_version "1.10.0" $ver "OpenMPI"
+	fi
+	if [ ! -d /scif/apps/raxml ]; then
+		scif install raxml_v8.2.9_centos7.scif
+	else
+		ver=$(raxmlHPC -v 2>&1 | awk '/RAxML/{print $5}')
+		check_version "8.2.9" $ver "RAxML"
+	fi
+	if [ ! -d /scif/apps/bamutil ]; then
+		scif install bamutil_v1.0.13_centos7.scif
+	else
+		ver=$(bam 2>&1 | awk '/Version/{print $2}' | sed 's/;//g')
+		check_version "1.0.13" $ver "BAMUtil"
+	fi
+	if [ ! -d /scif/apps/snppipeline ]; then
+		scif install snppipeline_v2.0.2_centos7.scif
+	else
+		ver=$(cfsan_snp_pipeline --version 2>&1 | awk '/cfsan_snp_pipeline/{print $3}')
+		check_version "2.0.2" $ver "CFSAN snp pipeline"
+	fi
+	echo "Finished dependencies installation"
+
+    echo "Install wgsoutbreaker"
+    WGSOUTBREAKER_VERSION="1.1"
+
+	curl -fsSL https://github.com/BU-ISCIII/WGS-Outbreaker/archive/v${WGSOUTBREAKER_VERSION}.tar.gz -o wgsoutbreaker.tar.gz && \
+    tar xvf wgsoutbreaker.tar.gz -C . && \
+    rm wgsoutbreaker.tar.gz
+
+	ln -s $PWD/WGS-Outbreaker-${WGSOUTBREAKER_VERSION}/lib/* bin
+
+%apphelp wgsoutbreaker
+    This app runs wgsoutbreaker pipeline for plasmid characterization.
+%apprun wgsoutbreaker
+    exec run_outbreak_wgs.sh "$@"
+%applabels wgsoutbreaker
+    VERSION 1.1
+%apptest wgsoutbreaker
+    run_outbreak_wgs.sh
+	if [ $? -ne 0 ] ; then
+	   echo 1
+	else
+	   echo 0
+	fi
