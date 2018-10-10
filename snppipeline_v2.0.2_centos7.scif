@@ -5,7 +5,7 @@
 	/opt/gatk_v3.8_centos7.scif
 	/opt/varscan_v2.3.9_centos7.scif
 	/opt/bcftools_v1.9_centos7.scif
-	/opt/sratoolkit_v2.8.1_centos7.scif
+	/opt/sratoolkit_v2.9.2_centos7.scif
 	/opt/snppipeline_v2.0.2_centos7.scif
 %appenv snppipeline
 	CLASSPATH=~/scif/apps/varscan/varscan-2.3.9/varscan-2.3.9.jar:$CLASSPATH
@@ -75,10 +75,10 @@
 		check_version "1.9" $ver "bcftools"
 	fi
 	if [ ! -d /scif/apps/sratoolkit ]; then
-		scif install sratoolkit_v2.8_centos7.scif
+		scif install sratoolkit_v2.9.2_centos7.scif
 	else
 		ver=$(fastq-dump --version 2>&1 | awk '/fastq-dump/{print $3}')
-		check_version "2.8" $ver "SRAToolkit"
+		check_version "2.9.2" $ver "SRAToolkit"
 	fi
     echo "Install not scif dependencies"
     yum -y install python-devel
