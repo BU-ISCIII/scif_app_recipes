@@ -1,9 +1,9 @@
 %appfiles srst2
 	/opt/samtools_v1.9_centos7.scif
 	/opt/bowtie2_v2.3.4.2_centos7.scif
-	
+
 %appinstall srst2
-	yum install -y wget && \
+	yum install -y wget  \
 					unzip
 	echo "Install dependencies with scif recipe"
 	check_version() {
@@ -33,7 +33,7 @@
 	if [ ! -d /scif/apps/samtools ]; then
 		scif install samtools_v1.9_centos7.scif
 	else
-		ver=$(samtools --version | awk '/samtools/{print $2}')
+		ver=$(samtools --version 2>&1 | awk '/samtools/{print $2}')
 		check_version "1.9" $ver "Samtools"
 	fi
 
