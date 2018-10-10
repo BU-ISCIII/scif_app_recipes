@@ -10,7 +10,7 @@
     curl -fsSL https://netix.dl.sourceforge.net/project/vcftools/vcftools_${VCFTOOLS_VERSION}.tar.gz -o vcftools_${VCFTOOLS_VERSION}.tar.gz && \
     tar -zxvf vcftools_${VCFTOOLS_VERSION}.tar.gz  && \
     rm -rf vcftools_${VCFTOOLS_VERSION}.tar.gz  && \
-    mv vcftools_${VCFTOOLS_VERSION} vcftools-${VCFTOOLS_VERSION} &&\
+    mv vcftools_${VCFTOOLS_VERSION} vcftools-${VCFTOOLS_VERSION} && \
     cd vcftools-${VCFTOOLS_VERSION}; make; cd ..
 
     ln -s $PWD/vcftools-${VCFTOOLS_VERSION}/bin/* bin
