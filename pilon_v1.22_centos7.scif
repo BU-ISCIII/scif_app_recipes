@@ -1,6 +1,6 @@
 %appinstall pilon
 	echo "Install pilon dependencies"
-	yum install -y java-1.8.0-openjdk \
+	yum install -y java-1.8.0-openjdk
 
     echo "Install pilon"
 	PILON_VERSION="1.22"

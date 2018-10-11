@@ -53,7 +53,7 @@
 	wget https://github.com/katholt/srst2/archive/v${SRST2_VERSION}.zip && \
 	unzip v${SRST2_VERSION}.zip && \
 	rm -rf v${SRST2_VERSION}.zip && \
-	pip install srst2-${SRST2_VERSION}/
+	pip install srst2-${SRST2_VERSION}
 
 %apphelp srst2
     This app runs srst2 software
