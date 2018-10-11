@@ -7,13 +7,17 @@
         epel-release
     yum install -y R \
         python-devel \
-        python-matplotlib-tk
+        python-setuptools
+    yum install -y libpng-devel \
+        freetype-devel
+    easy_install pip
+    pip install --ignore-installed matplotlib numpy scipy
     echo 'yes' | cpan App::cpanminus
     cpanm Time::HiRes
 
     echo "Install quast"
     QUAST_VERSION="4.1"
-    
+
     curl -fsSL https://github.com/ablab/quast/archive/quast_${QUAST_VERSION}.zip -o quast_${QUAST_VERSION}.zip && \
     unzip quast_${QUAST_VERSION}.zip && \
     rm -f quast_${QUAST_VERSION}.zip && \
@@ -29,7 +33,7 @@
     ln -s $PWD/quast_${QUAST_VERSION}/metaquast.py bin
     ln -s $PWD/quast_${QUAST_VERSION}/quast.py bin
     ln -s $PWD/quast_${QUAST_VERSION}/quast-lg.py bin
-    
+
 %apphelp quast
     This app has quast installed
 %apprun quast
