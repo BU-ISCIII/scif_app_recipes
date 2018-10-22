@@ -1,5 +1,5 @@
 %appfiles unicycler
-	/opt/python3_v3.4.9_centos7.scif
+	/opt/python3_v3.6.1_centos7.scif
 	/opt/gcc_v8.2.0_centos7.scif
 	/opt/bowtie2_v2.3.4.2_centos7.scif
 	/opt/pilon_v1.22_centos7.scif
@@ -48,10 +48,10 @@
 	fi
 	echo "Install python3"
 	if [ ! -d /scif/apps/python3 ]; then
-		scif install python3_v3.4.9_centos7.scif
+		scif install python3_v3.6.1_centos7.scif
 	else
 		ver=$(python3 --version 2>&1 | awk '/Python/{print $2}')
-		check_version "3.4.9" $ver "Python3"
+		check_version "3.6.1" $ver "Python3"
 	fi
 	echo "Install pilon"
 	if [ ! -d /scif/apps/pilon ]; then
