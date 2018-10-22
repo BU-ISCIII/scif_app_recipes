@@ -8,10 +8,10 @@ source /opt/path_export
 source /opt/ld_library_export
 
 ## Custom parameters needed for some software.
-if [[ echo ${PATH} | grep -q /scif/apps/snppipeline ]];then
-	export CLASSPATH=~/scif/apps/varscan/varscan-2.3.9/varscan-2.3.9.jar:$CLASSPATH
-	export CLASSPATH=~/scif/apps/picard/picard.jar:$CLASSPATH
-	export CLASSPATH=~/scif/apps/gatk/gatk-3.8/GenomeAnalysisTK.jar:$CLASSPATH
+if [[ ":$PATH:" == *":/scif/apps/snppipeline:"* ]];then
+	export CLASSPATH=~/scif/apps/varscan/varscan-2.3.9/varscan-2.3.9.jar:$CLASSPATH >> $SINGULARITY_ENVIRONMENT
+	export CLASSPATH=~/scif/apps/picard/picard.jar:$CLASSPATH >> $SINGULARITY_ENVIRONMENT
+	export CLASSPATH=~/scif/apps/gatk/gatk-3.8/GenomeAnalysisTK.jar:$CLASSPATH >> $SINGULARITY_ENVIRONMENT
 fi
 
 exec "$@"
