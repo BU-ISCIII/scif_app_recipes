@@ -46,7 +46,7 @@
 	pip3 install biopython bcbio-gff
 
 	echo "Installing taranis"
-	TARANIS_VERSION="0.3.0"
+	TARANIS_VERSION="0.3.1"
 	curl -fsSL https://github.com/BU-ISCIII/taranis/archive/${TARANIS_VERSION}.tar.gz -o taranis_${TARANIS_VERSION}.tar.gz && \
 	tar xvf taranis_${TARANIS_VERSION}.tar.gz &&
 
