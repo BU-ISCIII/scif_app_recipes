@@ -39,10 +39,10 @@
 
 	echo "Install bowtie2"
 	if [ ! -d /scif/apps/bowtie2 ]; then
-		scif install bowtie2_v2.3.4.2_centos7.scif
+		scif install bowtie2_v2.2.4_centos7.scif
 	else
 		ver=$(bowtie2 --version 2>&1 | awk '/bowtie2/{print $3}')
-		check_version "2.3.4.2" $ver "Bowtie2"
+		check_version "2.2.4" $ver "Bowtie2"
 	fi
 
 	echo "Install dependencies"

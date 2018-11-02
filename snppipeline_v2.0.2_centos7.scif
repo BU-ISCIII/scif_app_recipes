@@ -23,7 +23,7 @@
 		program=$3
 		if [[ "$version" > "$version_installed" ]];then
 			echo -e "\n----------------------------------------------------------------------\n"
-			echo -e "${RED}WARNING:${NC} $program version installed is lower than required for plasmidID. Check dependencies recipes, and/or change installation order. Omitting installation."
+			echo -e "${RED}WARNING:${NC} $program version installed is lower than required for $program. Check dependencies recipes, and/or change installation order. Omitting installation."
 			echo -e "\n----------------------------------------------------------------------\n"
 		elif [[ "$version" == "$version_installed" ]];then
 			echo -e "\n----------------------------------------------------------------------\n"
