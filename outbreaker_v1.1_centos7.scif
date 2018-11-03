@@ -62,18 +62,11 @@
 		ver=$(bedtools --version 2>&1 | awk '{print $2}')
 		check_version "v2.27" $ver "Bedtools"
 	fi
-	echo "Install bowtie2"
-	if [ ! -d /scif/apps/bowtie2 ]; then
-		scif install bowtie2_v2.3.4.2_centos7.scif
-	else
-		ver=$(bowtie2 --version 2>&1 | awk '/bowtie2/{print $3}')
-		check_version "2.3.4.2" $ver "Bowtie2"
-	fi
 	if [ ! -d /scif/apps/picard ]; then
-		scif install bowtie2_v2.3.4.2_centos7.scif
+		scif install picard_v1.140_centos7.scif
 	else
-		ver=$(bowtie2 --version 2>&1 | awk '/bowtie2/{print $3}')
-		check_version "2.3.4.2" $ver "Bowtie2"
+		ver=$(picard --version 2>&1 | awk '/picard/{print $3}')
+		check_version "1.140" $ver "Bowtie2"
 	fi
 	if [ ! -d /scif/apps/gatk ]; then
 		scif install gatk_v3.8_centos7.scif
