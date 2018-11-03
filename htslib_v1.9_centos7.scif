@@ -1,0 +1,36 @@
+%appinstall htslib
+	echo "Install htslib dependencies"
+	yum -y install  zlib \
+				    zlib-devel \
+					bzip2 \
+					bzip2-libs \
+					bzip2-devel \
+					xz \
+					xz-libs \
+					xz-devel
+
+    echo "Install htslib"
+    HTSLIB_VERSION="1.9"
+
+	curl -fsSL https://github.com/samtools/htslib/releases/download/${HTSLIB_VERSION}/htslib-${HTSLIB_VERSION}.tar.bz2 -o htslib-${HTSLIB_VERSION}.tar.bz2 && \
+    tar xvjf htslib-${HTSLIB_VERSION}.tar.bz2 -C . && \
+    cd htslib-${HTSLIB_VERSION};make;cd - && \
+    rm htslib-${HTSLIB_VERSION}.tar.bz2
+
+	ln -s $PWD/htslib-${HTSLIB_VERSION}/* lib
+	ln -s $PWD/htslib-${HTSLIB_VERSION}/bgzip bin
+	ln -s $PWD/htslib-${HTSLIB_VERSION}/tabix bin
+
+%apphelp htslib
+    This app has htslib installed
+%apprun htslib
+    exec htslib "$@"
+%applabels htslib
+    VERSION 1.9
+%apptest htslib
+    htslib --version
+	if [ $? -ne 0 ] ; then
+	   echo 1
+	else
+	   echo 0
+	fi

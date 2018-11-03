@@ -1,11 +1,8 @@
-%appfiles deeptools
+%appfiles bigsdbdownload
 	/opt/python3_v3.6.1_centos7.scif
-%appinstall deeptools
-	DEEPTOOLS_VERSION="2.5.4"
-	echo "Installing dependencies"
-	yum -y install zlib \
-				   zlib-devel
-	echo "Install dependencies with scif recipe"
+
+%appinstall bigsdbdownload
+	echo "Install scif recipes dependencies"
 	check_version() {
 		RED='\033[0;31m'
 		NC='\033[0m'
@@ -37,22 +34,21 @@
 		check_version "3.6.1" $ver "Python3"
 	fi
 
-	pip3 install matplotlib numpydoc py2bit pyBigWig pysam scipy
+	echo "Install dependencies"
+	pip3 install requests
 
-	echo "Install deeptools"
-	git clone -b "${DEEPTOOLS_VERSION}" --single-branch --depth 1 https://github.com/deeptools/deepTools && \
-	cd deepTools; python3 setup.py install
+	echo "Installing bigsdbdownload"
+	BIGSDBDOWNLOAD_VERSION="0.1"
+	curl -fsSL https://github.com/BU-ISCIII/download_bigsdb_api/archive/${BIGSDBDOWNLOAD_VERSION}.tar.gz -o bigsdbdownload_${BIGSDBDOWNLOAD_VERSION}.tar.gz && \
+	tar xvf bigsdbdownload_${BIGSDBDOWNLOAD_VERSION}.tar.gz &&
 
-	ln -s $PWD/deepTools/bin/* bin
+	chmod +x download_bigsdb_api-${BIGSDBDOWNLOAD_VERSION}/get_files_from_rest_api.py
+	ln -s $PWD/download_bigsdb_api-${BIGSDBDOWNLOAD_VERSION}/get_files_from_rest_api.py bin
 
-%apphelp deeptools
-    This app runs deeptools software
-%apprun deeptools
-    exec deeptools "$@"
-%applabels deeptools
-    VERSION 2.5.4
-%apptest deeptools
-    deeptools --version
+%applabels bigsdbdownload
+    VERSION 0.1
+%apptest bigsdbdownload
+   get_files_from_rest_api.py --version
 	if [ $? -ne 0 ] ; then
 	   echo 1
 	else

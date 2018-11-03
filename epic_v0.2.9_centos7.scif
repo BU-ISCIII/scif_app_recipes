@@ -1,5 +1,5 @@
 %appfiles epic
-	/opt/python3_v3.4.9_centos7.scif
+	/opt/python3_v3.6.1_centos7.scif
 %appinstall epic
 
 	echo "Install dependencies with scif recipe"
@@ -28,10 +28,10 @@
 
 	echo "Install python3"
 	if [ ! -d /scif/apps/python3 ]; then
-		scif install python3_v3.4.9_centos7.scif
+		scif install python3_v3.6.1_centos7.scif
 	else
 		ver=$(python3 --version 2>&1 | awk '/Python/{print $2}')
-		check_version "3.4.9" $ver "Python3"
+		check_version "3.6.1" $ver "Python3"
 	fi
 
 	echo "Installing epic"

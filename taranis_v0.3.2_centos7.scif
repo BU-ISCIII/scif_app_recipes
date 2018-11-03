@@ -1,11 +1,9 @@
-%appfiles deeptools
+%appfiles taranis
 	/opt/python3_v3.6.1_centos7.scif
-%appinstall deeptools
-	DEEPTOOLS_VERSION="2.5.4"
-	echo "Installing dependencies"
-	yum -y install zlib \
-				   zlib-devel
-	echo "Install dependencies with scif recipe"
+	/opt/ncbiblast_v2.7.1_centos7.scif
+
+%appinstall taranis
+	echo "Install scif recipes dependencies"
 	check_version() {
 		RED='\033[0;31m'
 		NC='\033[0m'
@@ -29,6 +27,13 @@
 
 	}
 
+	echo "Install Blast+"
+	if [ ! -d /scif/apps/ncbiblast ]; then
+		scif install ncbiblast_v2.7.1_centos7.scif
+	else
+		ver=$(blastp -version 2>&1 | awk '/blastp/{print $2}')
+		check_version "2.7.1" $ver "Blast+"
+	fi
 	echo "Install python3"
 	if [ ! -d /scif/apps/python3 ]; then
 		scif install python3_v3.6.1_centos7.scif
@@ -37,22 +42,21 @@
 		check_version "3.6.1" $ver "Python3"
 	fi
 
-	pip3 install matplotlib numpydoc py2bit pyBigWig pysam scipy
+	echo "Install dependencies"
+	pip3 install biopython bcbio-gff ProgressBar
 
-	echo "Install deeptools"
-	git clone -b "${DEEPTOOLS_VERSION}" --single-branch --depth 1 https://github.com/deeptools/deepTools && \
-	cd deepTools; python3 setup.py install
+	echo "Installing taranis"
+	TARANIS_VERSION="0.3.2"
+	curl -fsSL https://github.com/BU-ISCIII/taranis/archive/${TARANIS_VERSION}.tar.gz -o taranis_${TARANIS_VERSION}.tar.gz && \
+	tar xvf taranis_${TARANIS_VERSION}.tar.gz &&
 
-	ln -s $PWD/deepTools/bin/* bin
+	chmod +x taranis-${TARANIS_VERSION}/taranis.py
+	ln -s $PWD/taranis-${TARANIS_VERSION}/taranis.py bin
 
-%apphelp deeptools
-    This app runs deeptools software
-%apprun deeptools
-    exec deeptools "$@"
-%applabels deeptools
-    VERSION 2.5.4
-%apptest deeptools
-    deeptools --version
+%applabels taranis
+    VERSION 0.1
+%apptest taranis
+    taranis --version
 	if [ $? -ne 0 ] ; then
 	   echo 1
 	else
