@@ -1,3 +1,16 @@
 %appinstall openmpi
 	echo "Install openmpi"
     yum -y install  openmpi
+%apphelp openmpi
+    This app runs openmpi software
+%apprun openmpi
+    exec mpirun "$@"
+%applabels openmpi
+    VERSION 2.63
+%apptest openmpi
+    mpirun --version
+	if [ $? -ne 0 ] ; then
+	   echo 1
+	else
+	   echo 0
+	fi
