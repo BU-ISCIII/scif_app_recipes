@@ -1,5 +1,5 @@
 %appfiles srst2
-	/opt/samtools_v1.9_centos7.scif
+	/opt/samtools_v1.2_centos7.scif
 	/opt/bowtie2_v2.2.4_centos7.scif
 
 %appinstall srst2
@@ -31,10 +31,10 @@
 
 	echo "Install samtools"
 	if [ ! -d /scif/apps/samtools ]; then
-		scif install samtools_v1.9_centos7.scif
+		scif install samtools_v1.2_centos7.scif
 	else
 		ver=$(samtools --version 2>&1 | awk '/samtools/{print $2}')
-		check_version "1.9" $ver "Samtools"
+		check_version "1.2" $ver "Samtools"
 	fi
 
 	echo "Install bowtie2"
