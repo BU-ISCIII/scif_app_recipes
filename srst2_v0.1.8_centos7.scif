@@ -59,13 +59,15 @@
 	unzip v${SRST2_VERSION}.zip && \
 	rm -rf v${SRST2_VERSION}.zip && \
 	pip install srst2-${SRST2_VERSION}/
+	
+	## export SRST2_SAMTOOLS=samtools-0.1.18
 
 %apphelp srst2
     This app runs srst2 software
 %apprun srst2
     exec srst2 "$@"
 %applabels srst2
-    VERSION 0.2.0
+    VERSION 0.1.8
 %apptest srst2
     srst2 --version
 	if [ $? -ne 0 ] ; then
