@@ -3,7 +3,7 @@
 	/opt/samtools_v1.9_centos7.scif
 	/opt/bedtools_v2.27_centos7.scif
 	/opt/bowtie2_v2.3.4.2_centos7.scif
-	/opt/srst2_v0.2.0_centos7.scif
+	/opt/srst2_v0.1.8_centos7.scif
 	/opt/bwa_v0.7.17_centos7.scif
 	/opt/R_v3.5.1_centos7.scif
 	/opt/snppipeline_v2.0.2_centos7.scif
@@ -87,10 +87,10 @@
 		check_version "v0.1.12b" $ver "vcftools"
 	fi
 	if [ ! -d /scif/apps/srst2 ]; then
-		scif install srst2_v0.2.0_centos7.scif
+		scif install srst2_v0.1.8_centos7.scif
 	else
 		ver=$(srst2 --version 2>&1 | awk '/srst2/{print $2})
-		check_version "0.2.0" $ver "SRST2"
+		check_version "0.1.8" $ver "SRST2"
 	fi
 	if [ ! -d /scif/apps/bwa ]; then
 		scif install bwa_v0.7.17_centos7.scif
