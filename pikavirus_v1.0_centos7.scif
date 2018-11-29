@@ -110,9 +110,9 @@
 	fi
 
     echo "Install pikavirus"
-    wget https://github.com/BU-ISCIII/PikaVirus/archive/feature/nextflow-a.zip && \
-    unzip nextflow-a.zip && \
-    rm -f nextflow-a.zip
+    wget https://github.com/BU-ISCIII/PikaVirus/archive/develop.zip && \
+    unzip develop.zip && \
+    rm -f develop.zip
 
 %apphelp pikavirus
     This app has pikavirus installed
