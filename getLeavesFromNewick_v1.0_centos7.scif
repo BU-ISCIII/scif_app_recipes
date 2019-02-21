@@ -1,7 +1,7 @@
-%appfiles checktreeformat
+%appfiles getleavesfromnewick
 	/opt/python3_v3.6.1_centos7.scif
-	/opt/checkTreeFormat.py
-%appinstall checktreeformat
+	/opt/getleavesfromnewick.py
+%appinstall getleavesfromnewick
 	echo "Install dependencies with scif recipe"
 	check_version() {
 		RED='\033[0;31m'
@@ -37,19 +37,19 @@
 	echo "Install dependencies"
 	pip3 install biopython>=1.70
 
-	echo "Installing checktreeformat"
-	CHECKTREEFORMAT_VERSION="1.0"
-	cp /opt/checkTreeFormat.py bin
-	chmod +x bin/checkTreeFormat.py
+	echo "Installing getleavesfromnewick"
+	GETLEAVESFROMNEWICK_VERSION="1.0"
+	cp /opt/getLeavesFromNewick.py bin
+	chmod +x bin/getLeavesFromNewick.py
 
-%apphelp checktreeformat
-    This app runs checktreeformat script
-%apprun checktreeformat
-    exec checkTreeFormat.py "$@"
-%applabels checktreeformat
+%apphelp getleavesfromnewick
+    This app runs getleavesfromnewick script
+%apprun getleavesfromnewick
+    exec getLeavesFromNewick.py "$@"
+%applabels getleavesfromnewick
     VERSION 1.0
-%apptest checktreeformat
-    checktreeformat.py -h
+%apptest getleavesfromnewick
+    getLeavesFromNewick.py -h
 	if [ $? -ne 0 ] ; then
 	   echo 1
 	else
