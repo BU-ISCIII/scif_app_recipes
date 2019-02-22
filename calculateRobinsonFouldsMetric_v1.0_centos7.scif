@@ -1,7 +1,7 @@
-%appfiles calculaterobinfouldsmetric
+%appfiles calculaterobinsonfouldsmetric
 	/opt/python3_v3.6.1_centos7.scif
-	/opt/calculateRobinFouldsMetric.py
-%appinstall calculaterobinfouldsmetric
+	/opt/calculaterobinsonfouldsmetric.py
+%appinstall calculaterobinsonfouldsmetric
 	echo "Install dependencies with scif recipe"
 	check_version() {
 		RED='\033[0;31m'
@@ -49,19 +49,19 @@
 	echo "Install dependencies"
 	pip3 install biopython>=1.70
 
-	echo "Installing calculaterobinfouldsmetric"
-	CALCULATEROBINFOULDSMETRIC_VERSION="1.0"
-	cp /opt/calculateRobinFouldsMetric.py bin
-	chmod +x bin/calculateRobinFouldsMetric.py
+	echo "Installing calculaterobinsonfouldsmetric"
+	CALCULATEROBINSONFOULDSMETRIC_VERSION="1.0"
+	cp /opt/calculateRobinsonFouldsMetric.py bin
+	chmod +x bin/calculateRobinsonFouldsMetric.py
 
-%apphelp calculaterobinfouldsmetric
-    This app runs calculaterobinfouldsmetric script
-%apprun calculaterobinfouldsmetric
-    exec calculateRobinFouldsMetric.py "$@"
-%applabels calculaterobinfouldsmetric
+%apphelp calculaterobinsonfouldsmetric
+    This app runs calculaterobinsonfouldsmetric script
+%apprun calculaterobinsonfouldsmetric
+    exec calculateRobinsonFouldsMetric.py "$@"
+%applabels calculaterobinsonfouldsmetric
     VERSION 1.0
-%apptest calculaterobinfouldsmetric
-    calculateRobinFouldsMetric.py -h
+%apptest calculaterobinsonfouldsmetric
+    calculateRobinsonFouldsMetric.py -h
 	if [ $? -ne 0 ] ; then
 	   echo 1
 	else
