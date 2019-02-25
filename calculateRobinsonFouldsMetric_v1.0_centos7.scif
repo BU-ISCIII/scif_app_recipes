@@ -47,7 +47,7 @@
 	fi
 
 	echo "Install dependencies"
-	pip3 install biopython>=1.70
+	pip3 install biopython>=1.70 dendropy>=4.4.0
 
 	echo "Installing calculaterobinsonfouldsmetric"
 	CALCULATEROBINSONFOULDSMETRIC_VERSION="1.0"
