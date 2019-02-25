@@ -35,7 +35,7 @@
 	fi
 
 	echo "Install dependencies"
-	pip3 install biopython>=1.70
+	pip3 install biopython
 
 	echo "Installing checktreeformat"
 	CHECKTREEFORMAT_VERSION="1.0"
