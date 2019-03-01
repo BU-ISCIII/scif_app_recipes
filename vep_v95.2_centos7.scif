@@ -1,0 +1,38 @@
+%appinstall vep
+    echo "Install vep"
+    VEP_VERSION="95.2"
+
+    #Install dependencies
+    yum -y install perl perl-devel perl-CPAN cpanminus make gcc zlib-devel mysql-devel gcc-c++ unzip which
+    cpanm Archive::Zip
+    cpanm DBI
+    cpanm DBD::mysql
+    cpanm ExtUtils::CppGuess
+    cpanm Set::IntervalTree
+    cpanm JSON
+    cpanm PerlIO::gzip
+    cpanm Archive::Extract
+    cpanm Try::Tiny 
+    # cpanm Bio::DB::BigFile ### Needs extra: https://github.com/GMOD/GBrowse-Adaptors/tree/master/Bio-BigFile
+
+    curl -fsSL https://github.com/Ensembl/ensembl-vep/archive/release/${VEP_VERSION}.tar.gz -o vep-${VEP_VERSION}.tar.gz && \
+    tar xvf vep-${VEP_VERSION}.tar.gz -C . && \
+    cd ensembl-vep-release-${VEP_VERSION};yes | perl INSTALL.pl --NO_HTSLIB;cd - && \
+    rm -f vep-${VEP_VERSION}.tar.gz
+
+    ln -s $PWD/vep-${VEP_VERSION}/*.h ../vep-${VEP_VERSION}/*.o lib
+    ln -s $PWD/vep-${VEP_VERSION}/cd-hit* ../vep-${VEP_VERSION}/*.pl bin
+
+%apphelp vep
+    This app runs vep software
+%apprun vep
+    exec vep "$@"
+%applabels vep
+    VERSION 95.2
+%apptest vep
+    vep --version
+    if [ $? -ne 0 ] ; then
+        echo 1
+    else
+        echo 0
+    fi

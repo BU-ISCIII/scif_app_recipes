@@ -1,0 +1,30 @@
+%appinstall IGV
+    echo "Install IGV dependencies"
+    yum install -y java-1.8.0-openjdk unzip
+    yum -y groupinstall "X Window System"
+    yum -y install gdm gnome-classic-session gnome-terminal liberation-fonts
+
+    echo "Install IGV"
+    IGV_VERSION="2.4.19"
+
+    curl -fsSL http://data.broadinstitute.org/igv/projects/downloads/2.4/IGV_${IGV_VERSION}.zip -o IGV_${IGV_VERSION}.zip && \
+    unzip IGV_${IGV_VERSION}.zip && \
+    rm -rf IGV_${IGV_VERSION}.zip
+
+    echo '#!/bin/bash' > bin/IGV
+    echo "java -jar /scif/apps/IGV/IGV_${IGV_VERSION}/IGV_${IGV_VERSION}.jar \$@" >> bin/IGV
+    chmod 755 bin/IGV
+
+%apphelp IGV
+    IGV
+%apprun IGV
+    exec IGV "$@"
+%applabels IGV
+    VERSION 2.4.19
+%apptest IGV
+    IGV -version
+	if [ $? -ne 0 ] ; then
+	   echo 1
+	else
+	   echo 0
+	fi

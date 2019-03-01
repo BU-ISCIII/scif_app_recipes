@@ -1,0 +1,28 @@
+%appinstall seqtk
+    echo "Install seqtk"
+    SEQTK_VERSION="1.3"
+
+    #Install dependencies
+    yum -y install make gcc zlib-devel
+
+    curl -fsSL https://github.com/lh3/seqtk/archive/v${SEQTK_VERSION}.tar.gz -o seqtk-${SEQTK_VERSION}.tar.gz && \
+    tar xvf seqtk-${SEQTK_VERSION}.tar.gz -C . && \
+    cd seqtk-${SEQTK_VERSION};make;cd - && \
+    rm -f seqtk-${SEQTK_VERSION}.tar.gz
+
+    ln -s $PWD/seqtk-${SEQTK_VERSION}/*.h ../seqtk-${SEQTK_VERSION}/*.o lib
+    ln -s $PWD/seqtk-${SEQTK_VERSION}/cd-hit* ../seqtk-${SEQTK_VERSION}/*.pl bin
+
+%apphelp seqtk
+    This app runs seqtk software
+%apprun seqtk
+    exec seqtk "$@"
+%applabels seqtk
+    VERSION 4.6.6
+%apptest seqtk
+    seqtk --version
+	if [ $? -ne 0 ] ; then
+	   echo 1
+	else
+	   echo 0
+	fi
