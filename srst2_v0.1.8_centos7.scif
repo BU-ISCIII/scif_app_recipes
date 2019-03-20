@@ -1,5 +1,5 @@
 %appfiles srst2
-	/opt/bowtie2_v2.2.4_centos7.scif
+	/opt/scif_app_recipes/bowtie2_v2.2.4_centos7.scif
 
 %appinstall srst2
 	yum install -y wget  \
@@ -39,8 +39,8 @@
 	cd samtools-0.1.18 && \
 	make && \
 	cd ..
-	
-	
+
+
 
 	echo "Install bowtie2"
 	if [ ! -d /scif/apps/bowtie2 ]; then
@@ -59,7 +59,7 @@
 	unzip v${SRST2_VERSION}.zip && \
 	rm -rf v${SRST2_VERSION}.zip && \
 	pip install srst2-${SRST2_VERSION}/
-	
+
 	## export SRST2_SAMTOOLS=samtools-0.1.18
 
 %apphelp srst2

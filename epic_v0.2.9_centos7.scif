@@ -1,5 +1,5 @@
 %appfiles epic
-	/opt/python3_v3.6.1_centos7.scif
+	/opt/scif_app_recipes/python3_v3.6.1_centos7.scif
 %appinstall epic
 
 	echo "Install dependencies with scif recipe"

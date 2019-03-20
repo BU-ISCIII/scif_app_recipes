@@ -1,6 +1,6 @@
 %appfiles srst2
-	/opt/samtools_v1.2_centos7.scif
-	/opt/bowtie2_v2.2.4_centos7.scif
+	/opt/scif_app_recipes/samtools_v1.2_centos7.scif
+	/opt/scif_app_recipes/bowtie2_v2.2.4_centos7.scif
 
 %appinstall srst2
 	yum install -y wget  \

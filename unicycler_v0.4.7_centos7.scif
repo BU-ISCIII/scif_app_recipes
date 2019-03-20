@@ -1,11 +1,11 @@
 %appfiles unicycler
-	/opt/python3_v3.6.1_centos7.scif
-	/opt/gcc_v8.2.0_centos7.scif
-	/opt/bowtie2_v2.3.4.2_centos7.scif
-	/opt/pilon_v1.22_centos7.scif
-	/opt/samtools_v1.9_centos7.scif
-	/opt/ncbiblast_v2.7.1_centos7.scif
-	/opt/spades_v3.12.0_centos7.scif
+	/opt/scif_app_recipes/python3_v3.6.1_centos7.scif
+	/opt/scif_app_recipes/gcc_v8.2.0_centos7.scif
+	/opt/scif_app_recipes/bowtie2_v2.3.4.2_centos7.scif
+	/opt/scif_app_recipes/pilon_v1.22_centos7.scif
+	/opt/scif_app_recipes/samtools_v1.9_centos7.scif
+	/opt/scif_app_recipes/ncbiblast_v2.7.1_centos7.scif
+	/opt/scif_app_recipes/spades_v3.12.0_centos7.scif
 %appinstall unicycler
 	echo "Install dependencies"
 	yum -y install zlib-devel

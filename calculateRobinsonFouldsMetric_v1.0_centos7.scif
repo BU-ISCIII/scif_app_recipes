@@ -1,6 +1,6 @@
 %appfiles calculaterobinsonfouldsmetric
-	/opt/python3_v3.6.1_centos7.scif
-	/opt/calculaterobinsonfouldsmetric.py
+	/opt/scif_app_recipes/python3_v3.6.1_centos7.scif
+	/opt/scif_app_recipes/calculaterobinsonfouldsmetric.py
 %appinstall calculaterobinsonfouldsmetric
 	echo "Install dependencies with scif recipe"
 	check_version() {

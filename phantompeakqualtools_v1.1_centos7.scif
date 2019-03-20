@@ -1,5 +1,5 @@
 %appfiles phantompeakqualtools
-	/opt/R_v3.5.1_centos7.scif
+	/opt/scif_app_recipes/R_v3.5.1_centos7.scif
 %appinstall phantompeakqualtools
 
 	echo "Install dependencies with scif recipe"
