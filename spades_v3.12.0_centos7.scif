@@ -1,5 +1,5 @@
 %appfiles spades
-	/opt/gcc_v8.2.0_centos7.scif
+	/opt/scif_app_recipes/gcc_v8.2.0_centos7.scif
 %appinstall spades
 	echo "Install spades dependencies"
 	yum groupinstall -y "Development Tools"
