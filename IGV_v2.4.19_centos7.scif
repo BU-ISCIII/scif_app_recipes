@@ -12,7 +12,7 @@
     rm -rf IGV_${IGV_VERSION}.zip
 
     echo '#!/bin/bash' > bin/IGV
-    echo "java -jar /scif/apps/IGV/IGV_${IGV_VERSION}/IGV_${IGV_VERSION}.jar \$@" >> bin/IGV
+    echo "bash /scif/apps/IGV/IGV_2.4.19/igv.sh" >> bin/IGV
     chmod 755 bin/IGV
 
 %apphelp IGV

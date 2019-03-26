@@ -20,8 +20,7 @@
     cd ensembl-vep-release-${VEP_VERSION};yes | perl INSTALL.pl --NO_HTSLIB;cd - && \
     rm -f vep-${VEP_VERSION}.tar.gz
 
-    ln -s $PWD/vep-${VEP_VERSION}/*.h ../vep-${VEP_VERSION}/*.o lib
-    ln -s $PWD/vep-${VEP_VERSION}/cd-hit* ../vep-${VEP_VERSION}/*.pl bin
+    ln -s $PWD/ensembl-vep-release-${VEP_VERSION}/vep bin
 
 %apphelp vep
     This app runs vep software

@@ -1,0 +1,29 @@
+%appinstall seq_crumbs
+    echo "Install seq_crumbs"
+    SC_VERSION="0.1.9"
+
+    #Install dependencies
+    echo "Install python2.7 setuptools and biopython"
+    yum -y install python-setuptools
+	easy_install biopython
+
+	curl -fsSL http://bioinf.comav.upv.es/downloads/seq_crumbs-0.1.9.tar.gz -o seq_crumbs-${SC_VERSION}.tar.gz && \
+	tar -xzvf seq_crumbs-${SC_VERSION}.tar.gz && \
+	cd seq_crumbs-${SC_VERSION} && \
+	python setup.py install
+
+    ln -s $PWD/seq_crumbs-${SC_VERSION}/crumbs/*.py bin
+
+%apphelp seq_crumbs
+    This app runs seq_crumbs software
+%apprun seq_crumbs
+    exec seq_crumbs "$@"
+%applabels seq_crumbs
+    VERSION 0.1
+%apptest seq_crumbs
+    seq_crumbs --version
+    if [ $? -ne 0 ] ; then
+        echo 1
+    else
+        echo 0
+    fi
