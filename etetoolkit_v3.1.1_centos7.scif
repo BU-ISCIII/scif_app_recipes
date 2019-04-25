@@ -1,0 +1,21 @@
+%appinstall etetoolkit
+	ETETOOLKIT_VERSION="3.6.1"
+
+	echo "Install ete dependencies"
+	yum install PyQt4.x86_64 numpy.x86_64 python-lxml.x86_64 python-six.noarch
+	echo "Install ete"
+	pip install --upgrade ete3
+
+%apphelp etetoolkit
+    This app runs etetoolkit software
+%apprun etetoolkit
+    exec ete "$@"
+%applabels etetoolkit
+    VERSION 3.1.1
+%apptest etetoolkit
+    ete --version
+	if [ $? -ne 0 ] ; then
+	   echo 1
+	else
+	   echo 0
+	fi
