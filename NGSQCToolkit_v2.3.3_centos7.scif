@@ -1,0 +1,39 @@
+%appinstall NGSQCToolkit
+    echo "Install NGSQCToolkit"
+    NGS_VERSION="2.3.3"
+
+    #Install dependencies
+    yum -y install perl perl-devel perl-CPAN cpanminus make gcc zlib-devel mysql-devel gcc-c++ unzip which
+    cpanm Archive::Zip
+    cpanm DBI
+    cpanm DBD::mysql
+    cpanm ExtUtils::CppGuess
+    cpanm Set::IntervalTree
+    cpanm JSON
+    cpanm PerlIO::gzip
+    cpanm Archive::Extract
+    cpanm Try::Tiny
+    # cpanm Bio::DB::BigFile ### Needs extra: https://github.com/GMOD/GBrowse-Adaptors/tree/master/Bio-BigFile
+
+    curl -fsSL http://14.139.61.3:8080/ngsqctoolkit/NGSQCToolkit_v2.3.3.zip -o NGSQCToolkit_v${NGS_VERSION}.zip && \
+    unzip NGSQCToolkit_v${NGS_VERSION}.zip && \
+    rm -f NGSQCToolkit_v${NGS_VERSION}.zip
+
+    ln -s $PWD/NGSQCToolkit_v${NGS_VERSION}/Format-converter/*.pl bin
+    ln -s $PWD/NGSQCToolkit_v${NGS_VERSION}/QC/*.pl bin
+    ln -s $PWD/NGSQCToolkit_v${NGS_VERSION}/Statistics/*.pl bin
+    ln -s $PWD/NGSQCToolkit_v${NGS_VERSION}/Trimming/*.pl bin
+
+%apphelp NGSQCToolkit
+    This app runs NGSQCToolkit software
+%apprun NGSQCToolkit
+    exec NGSQCToolkit "$@"
+%applabels NGSQCToolkit
+    VERSION 2.3.3
+%apptest NGSQCToolkit
+    NGSQCToolkit --version
+    if [ $? -ne 0 ] ; then
+        echo 1
+    else
+        echo 0
+    fi
