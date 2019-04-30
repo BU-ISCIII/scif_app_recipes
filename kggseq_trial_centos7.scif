@@ -18,14 +18,6 @@
 	chmod 755 bin/kggseq
 	ln -s $PWD/kggseq-${KGGSEQ_VERSION}/kggseq.jar bin
 
-    echo '#!/bin/bash' > bin/htsjdk
-	echo "java -jar /scif/apps/picard/picard-${PICARD_VERSION}/htsjdk.jar \$@" >> bin/htsjdk
-	chmod 755 bin/htsjdk
-
-    echo '#!/bin/bash' > bin/picard-lib
-	echo "java -jar /scif/apps/picard/picard-${PICARD_VERSION}/picard-lib.jar \$@" >> bin/picard-lib
-	chmod 755 bin/picard-lib
-
 %apphelp kggseq
     kggseq
 %apprun kggseq
