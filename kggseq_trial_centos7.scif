@@ -14,7 +14,7 @@
     cd ..
 
 	echo '#!/bin/bash' > bin/kggseq
-	echo "java -jar /scif/apps/kggseq/kggseq-${KGGSEQ_VERSION}/kggseq.jar --resource path/to/resource/files \$@" >> bin/kggseq
+	echo "java -jar /scif/apps/kggseq/kggseq-${KGGSEQ_VERSION}/kggseq.jar \$@" >> bin/kggseq
 	chmod 755 bin/kggseq
 	ln -s $PWD/kggseq-${KGGSEQ_VERSION}/kggseq.jar bin
 
