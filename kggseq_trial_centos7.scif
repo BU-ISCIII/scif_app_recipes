@@ -4,7 +4,7 @@
         unzip
 
     echo "Install kggseq"
-	KGGSEQ_VERSION="1.0"
+	KGGSEQ_VERSION="1.1"
 
 	mkdir kggseq-${KGGSEQ_VERSION} && \
     cd kggseq-${KGGSEQ_VERSION} && \
@@ -23,7 +23,7 @@
 %apprun kggseq
     exec kggseq "$@"
 %applabels kggseq
-    VERSION 1.0
+    VERSION 1.1
 %apptest kggseq
     kggseq -version
 	if [ $? -ne 0 ] ; then
