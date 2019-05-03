@@ -1,6 +1,7 @@
 %appfiles calculaterobinsonfouldsmetric
 	/opt/scif_app_recipes/python3_v3.6.1_centos7.scif
-	/opt/scif_app_recipes/calculaterobinsonfouldsmetric.py
+	/opt/scif_app_recipes/etetoolkit_v3.1.1_centos7.scif
+	/opt/calculateRobinsonFouldsMetric.py
 %appinstall calculaterobinsonfouldsmetric
 	echo "Install dependencies with scif recipe"
 	check_version() {
@@ -33,17 +34,10 @@
 		ver=$(python3 --version 2>&1 | awk '/Python/{print $2}')
 		check_version "3.6.1" $ver "Python3"
 	fi
-	if [ ! -d /scif/apps/openmpi ]; then
-		scif install openmpi_v1.10.0_centos7.scif
+	if [ ! -d /scif/apps/etetoolkit ]; then
+		scif install etetoolkit_v3.1.1_centos7.scif
 	else
-		ver=$(mpirun --version 2>&1 | awk '/mpirun/{print $4}')
-		check_version "1.10.0" $ver "OpenMPI"
-	fi
-	if [ ! -d /scif/apps/raxml ]; then
-		scif install raxml_v8.2.9_centos7.scif
-	else
-		ver=$(raxmlHPC -v 2>&1 | awk '/RAxML/{print $5}')
-		check_version "8.2.9" $ver "RAxML"
+		echo "etetoolkit already installed. Check version."
 	fi
 
 	echo "Install dependencies"
