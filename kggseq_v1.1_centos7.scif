@@ -1,0 +1,33 @@
+%appinstall kggseq
+	echo "Install kggseq dependencies"
+	yum install -y java-1.8.0-openjdk \
+        unzip
+
+    echo "Install kggseq"
+	KGGSEQ_VERSION="1.1"
+
+	mkdir kggseq-${KGGSEQ_VERSION} && \
+    cd kggseq-${KGGSEQ_VERSION} && \
+	curl -fsSL http://grass.cgs.hku.hk/limx/kggseq/download/kggseqhg19min.zip -o kggseq-${KGGSEQ_VERSION}.zip && \
+    unzip kggseq-${KGGSEQ_VERSION}.zip && \
+    rm -rf kggseq-${KGGSEQ_VERSION}.zip && \
+    cd ..
+
+	echo '#!/bin/bash' > bin/kggseq
+	echo "java -jar /scif/apps/kggseq/kggseq-${KGGSEQ_VERSION}/kggseq.jar \$@" >> bin/kggseq
+	chmod 755 bin/kggseq
+	ln -s $PWD/kggseq-${KGGSEQ_VERSION}/kggseq.jar bin
+
+%apphelp kggseq
+    kggseq
+%apprun kggseq
+    exec kggseq "$@"
+%applabels kggseq
+    VERSION 1.1
+%apptest kggseq
+    kggseq -version
+	if [ $? -ne 0 ] ; then
+	   echo 1
+	else
+	   echo 0
+	fi
