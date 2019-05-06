@@ -25,9 +25,11 @@
 %applabels kggseq
     VERSION 1.1
 %apptest kggseq
-    kggseq -version
-	if [ $? -ne 0 ] ; then
-	   echo 1
-	else
-	   echo 0
-	fi
+#There is not available test for kggseq
+#    kggseq -version
+#	if [ $? -ne 0 ] ; then
+#	   echo 1
+#	else
+#	   echo 0
+#	fi
+    echo 1
