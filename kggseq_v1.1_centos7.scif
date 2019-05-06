@@ -6,10 +6,11 @@
     echo "Install kggseq"
 	KGGSEQ_VERSION="1.1"
 
-	mkdir kggseq-${KGGSEQ_VERSION} && \
-    cd kggseq-${KGGSEQ_VERSION} && \
+#	mkdir kggseq-${KGGSEQ_VERSION} && \
+#    cd kggseq-${KGGSEQ_VERSION} && \
 	curl -fsSL http://grass.cgs.hku.hk/limx/kggseq/download/kggseqhg19min.zip -o kggseq-${KGGSEQ_VERSION}.zip && \
     unzip kggseq-${KGGSEQ_VERSION}.zip && \
+    mv kggseqhg19min/ kggseq-${KGGSEQ_VERSION}/
     rm -rf kggseq-${KGGSEQ_VERSION}.zip && \
     cd ..
 
@@ -25,9 +26,11 @@
 %applabels kggseq
     VERSION 1.1
 %apptest kggseq
-    kggseq -version
-	if [ $? -ne 0 ] ; then
-	   echo 1
-	else
-	   echo 0
-	fi
+#There is not available test for kggseq
+#    kggseq -version
+#	if [ $? -ne 0 ] ; then
+#	   echo 1
+#	else
+#	   echo 0
+#	fi
+    echo 1
