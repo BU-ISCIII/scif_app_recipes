@@ -1,0 +1,63 @@
+%appfiles calculatesnprecision
+	/opt/scif_app_recipes/python3_v3.6.1_centos7.scif
+	/opt/scif_app_recipes/etetoolkit_v3.1.1_centos7.scif
+	/opt/calculateSnPrecision.py
+%appinstall calculatesnprecision
+	echo "Install dependencies with scif recipe"
+	check_version() {
+		RED='\033[0;31m'
+		NC='\033[0m'
+		GREEN='\033[0;32m'
+		version=$1
+		version_installed=$2
+		program=$3
+		if [[ "$version" > "$version_installed" ]];then
+			echo -e "\n----------------------------------------------------------------------\n"
+			echo -e "${RED}WARNING:${NC} $program version installed is lower than required for prokka. Check dependencies recipes, and/or change installation order. Omitting installation."
+			echo -e "\n----------------------------------------------------------------------\n"
+		elif [[ "$version" == "$version_installed" ]];then
+			echo -e "\n----------------------------------------------------------------------\n"
+			echo -e "${GREEN}INFO:${NC} Version of $program is already installed with same version, omitting."
+			echo -e "\n----------------------------------------------------------------------\n"
+		else
+			echo -e "\n----------------------------------------------------------------------\n"
+			echo -e "${GREEN}INFO:${NC} Version greater of $program is already installed, omitting."
+			echo -e "\n----------------------------------------------------------------------\n"
+		fi
+
+	}
+
+	echo "Install python3"
+	if [ ! -d /scif/apps/python3 ]; then
+		scif install python3_v3.6.1_centos7.scif
+	else
+		ver=$(python3 --version 2>&1 | awk '/Python/{print $2}')
+		check_version "3.6.1" $ver "Python3"
+	fi
+	if [ ! -d /scif/apps/etetoolkit ]; then
+		scif install etetoolkit_v3.1.1_centos7.scif
+	else
+		echo "etetoolkit already installed. Check version."
+	fi
+
+	echo "Install dependencies"
+	pip3 install 'biopython>=1.70' 'dendropy>=4.4.0'
+
+	echo "Installing calculatesnprecision"
+	CALCULATESNPRECISION_VERSION="1.0"
+	cp /opt/calculateSnPrecision.py bin
+	chmod +x bin/calculateSnPrecision.py
+
+%apphelp calculatesnprecision
+    This app runs calculatesnprecision script
+%apprun calculatesnprecision
+    exec calculateSnPrecision.py "$@"
+%applabels calculatesnprecision
+    VERSION 1.0
+%apptest calculatesnprecision
+    calculateSnPrecision.py -h
+	if [ $? -ne 0 ] ; then
+	   echo 1
+	else
+	   echo 0
+	fi
