@@ -9,7 +9,7 @@
 	mkdir kggseq-${KGGSEQ_VERSION} && \
     cd kggseq-${KGGSEQ_VERSION} && \
 	curl -fsSL http://grass.cgs.hku.hk/limx/kggseq/download/kggseqhg19min.zip -o kggseq-${KGGSEQ_VERSION}.zip && \
-    unzip kggseq-${KGGSEQ_VERSION}.zip && \
+    unzip -j kggseq-${KGGSEQ_VERSION}.zip && \
 #    mv kggseqhg19min/ kggseq-${KGGSEQ_VERSION}/
     rm -rf kggseq-${KGGSEQ_VERSION}.zip && \
     cd ..
