@@ -1,7 +1,7 @@
-%appfiles manageassessmentrbheatmap
+%appfiles manageassessmentrfheatmap
 	/opt/scif_app_recipes/python3_v3.6.1_centos7.scif
-	/opt/manageAssessmentRbHeatmap.py
-%appinstall manageassessmentrbheatmap
+	/opt/manageAssessmentRfHeatmap.py
+%appinstall manageassessmentrfheatmap
 	echo "Install dependencies with scif recipe"
 	check_version() {
 		RED='\033[0;31m'
@@ -37,19 +37,19 @@
 	echo "Install dependencies"
 	pip3 install matplotlib numpy
 
-	echo "Installing manageassessmentrbheatmap"
-	MANAGEASSESSMENTRBHEATMAP_VERSION="1.0"
-	cp /opt/manageAssessmentRbHeatmap.py bin
-	chmod +x bin/manageAssessmentRbHeatmap.py
+	echo "Installing manageassessmentrfheatmap"
+	MANAGEASSESSMENTRFHEATMAP_VERSION="1.0"
+	cp /opt/manageAssessmentRfHeatmap.py bin
+	chmod +x bin/manageAssessmentRfHeatmap.py
 
-%apphelp manageassessmentrbheatmap
-    This app runs manageassessmentrbheatmap script
-%apprun manageassessmentrbheatmap
-    exec manageAssessmentRbHeatmap.py "$@"
-%applabels manageassessmentrbheatmap
+%apphelp manageassessmentrfheatmap
+    This app runs manageassessmentrfheatmap script
+%apprun manageassessmentrfheatmap
+    exec manageAssessmentRfHeatmap.py "$@"
+%applabels manageassessmentrfheatmap
     VERSION 1.0
-%apptest manageassessmentrbheatmap
-    manageAssessmentRbHeatmap.py -h
+%apptest manageassessmentrfheatmap
+    manageAssessmentRfHeatmap.py -h
 	if [ $? -ne 0 ] ; then
 	   echo 1
 	else
