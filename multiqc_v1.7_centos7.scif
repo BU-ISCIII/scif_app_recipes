@@ -26,6 +26,10 @@
 
 	}
 
+	echo "Install dependencies"
+	yum install -y libyaml libyaml-devel php-symfony-yaml python36-PyYAML python36-yamlordereddictloader
+	# yum install -y python36-ruamel-yaml​
+
 	echo "Install python3"
 	if [ ! -d /scif/apps/python3 ]; then
 		scif install python3_v3.6.1_centos7.scif
