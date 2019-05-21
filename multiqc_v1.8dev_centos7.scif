@@ -1,0 +1,53 @@
+%appfiles multiqc
+	/opt/scif_app_recipes/python3_v3.6.1_centos7.scif
+%appinstall multiqc
+
+	echo "Install dependencies with scif recipe"
+	check_version() {
+		RED='\033[0;31m'
+		NC='\033[0m'
+		GREEN='\033[0;32m'
+		version=$1
+		version_installed=$2
+		program=$3
+		if [[ "$version" > "$version_installed" ]];then
+			echo -e "\n----------------------------------------------------------------------\n"
+			echo -e "${RED}WARNING:${NC} $program version installed is lower than required for prokka. Check dependencies recipes, and/or change installation order. Omitting installation."
+			echo -e "\n----------------------------------------------------------------------\n"
+		elif [[ "$version" == "$version_installed" ]];then
+			echo -e "\n----------------------------------------------------------------------\n"
+			echo -e "${GREEN}INFO:${NC} Version of $program is already installed with same version, omitting."
+			echo -e "\n----------------------------------------------------------------------\n"
+		else
+			echo -e "\n----------------------------------------------------------------------\n"
+			echo -e "${GREEN}INFO:${NC} Version greater of $program is already installed, omitting."
+			echo -e "\n----------------------------------------------------------------------\n"
+		fi
+
+	}
+
+	echo "Install python3"
+	if [ ! -d /scif/apps/python3 ]; then
+		scif install python3_v3.6.1_centos7.scif
+	else
+		ver=$(python3 --version 2>&1 | awk '/Python/{print $2}')
+		check_version "3.6.1" $ver "Python3"
+	fi
+
+	echo "Installing multiqc"
+	MULTIQC_VERSION="1.8dev"
+	pip3 install --upgrade --force-reinstall git+https://github.com/ewels/MultiQC.git
+
+%apphelp multiqc
+    This app runs multiqc software
+%apprun multiqc
+    exec multiqc "$@"
+%applabels multiqc
+    VERSION 1.7
+%apptest multiqc
+    multiqc --version
+	if [ $? -ne 0 ] ; then
+	   echo 1
+	else
+	   echo 0
+fi
