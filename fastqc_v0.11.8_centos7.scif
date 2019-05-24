@@ -1,0 +1,32 @@
+%appinstall fastqc
+    echo "Install fastqc dependencies"
+    yum install -y java-1.8.0-openjdk \
+        unzip \
+        perl
+
+    echo "Install fastqc"
+    FASTQ_VERSION="0.11.8"
+    
+    curl -fsSL https://www.bioinformatics.babraham.ac.uk/projects/fastqc/fastqc_v${FASTQ_VERSION}.zip -o fastqc_v${FASTQ_VERSION}.zip && \
+    unzip fastqc_v${FASTQ_VERSION}.zip && \
+    rm -f fastqc_v${FASTQ_VERSION}.zip && \
+    mv FastQC FastQC_${FASTQ_VERSION} && \
+    cd FastQC_${FASTQ_VERSION}/ && \
+    chmod 755 fastqc && \
+    cd ..
+
+    ln -s $PWD/FastQC_${FASTQ_VERSION}/fastqc bin
+    
+%apphelp fastqc
+    This app has fastqc installed
+%apprun fastqc
+    exec fastqc "$@"
+%applabels fastqc
+    VERSION 0.11.7
+%apptest fastqc
+    fastqc -version
+	if [ $? -ne 0 ] ; then
+	   echo 1
+	else
+	   echo 0
+	fi
