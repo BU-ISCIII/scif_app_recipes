@@ -39,7 +39,8 @@
 
 	MINICONDA_VERSION="4.6.14"
 	curl -fsSL https://repo.continuum.io/miniconda/Miniconda3-4.6.14-Linux-x86_64.sh -o ./miniconda-${MINICONDA_VERSION}.sh&& \
-	bash miniconda-${MINICONDA_VERSION}.sh
+	bash miniconda-${MINICONDA_VERSION}.sh -b -p $HOME/miniconda
+	export PATH="$HOME/miniconda/bin:$PATH"
 
 %apphelp miniconda
 	conda --help
