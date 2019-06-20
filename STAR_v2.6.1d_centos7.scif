@@ -1,0 +1,25 @@
+%appinstall star
+	yum -y install zlib \
+				   zlib-devel
+
+	STAR_VERSION="2.6.1d"
+	
+	curl -fsSL https://github.com/alexdobin/STAR/archive/${STAR_VERSION}.tar.gz -o ./STAR-${STAR_VERSION}.tar.gz
+	tar -xzf STAR-${STAR_VERSION}.tar.gz -C . && \
+	cd STAR-${STAR_VERSION}/source;make STAR; cd - && \
+	rm STAR-${STAR_VERSION}.tar.gz
+	
+	ln -s $PWD/STAR-${STAR_VERSION}/* lib
+	ln -s $PWD/STAR-${STAR_VERSION}/source/STAR bin
+	
+%apphelp star
+    STAR --help
+%applabels star
+    VERSION 2.6.1d
+%apptest bwa
+    STAR --version
+	if [ $? -ne 0 ] ; then
+	   echo 1
+	else
+	   echo 0
+	fi
