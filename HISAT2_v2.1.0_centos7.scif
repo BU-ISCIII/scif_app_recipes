@@ -1,0 +1,24 @@
+%appinstall hisat2
+	yum -y install zlib \
+				   zlib-devel
+
+	HISAT2_VERSION="2.1.0"
+	
+	curl -fsSL http://ccb.jhu.edu/software/hisat2/dl/hisat2-${HISAT2_VERSION}-Linux_x86_64.zip -o ./HISAT2-${HISAT2_VERSION}.zip
+	unzip HISAT2-${HISAT2_VERSION}.zip -d ./HISAT2-${HISAT2_VERSION} && \
+	rm HISAT2-${HISAT2_VERSION}.zip
+	
+	ln -s $PWD/HISAT2-${HISAT2_VERSION}/hisat2-${HISAT2_VERSION}/* lib
+	ln -s $PWD/HISAT2-${HISAT2_VERSION}/hisat2-${HISAT2_VERSION}/ bin
+	
+%apphelp hisat2
+    HISAT2 --help
+%applabels hisat2
+    VERSION 2.1.0
+%apptest hisat2
+    HISAT2 --version
+	if [ $? -ne 0 ] ; then
+	   echo 1
+	else
+	   echo 0
+	fi
