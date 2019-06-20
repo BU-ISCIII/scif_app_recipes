@@ -16,7 +16,7 @@
     STAR --help
 %applabels star
     VERSION 2.6.1d
-%apptest bwa
+%apptest star
     STAR --version
 	if [ $? -ne 0 ] ; then
 	   echo 1
