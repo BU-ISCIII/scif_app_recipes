@@ -4,19 +4,19 @@
 
 	HISAT2_VERSION="2.1.0"
 	
-	curl -fsSL http://ccb.jhu.edu/software/hisat2/dl/hisat2-${HISAT2_VERSION}-Linux_x86_64.zip -o ./HISAT2-${HISAT2_VERSION}.zip
-	unzip HISAT2-${HISAT2_VERSION}.zip -d ./HISAT2-${HISAT2_VERSION} && \
-	rm HISAT2-${HISAT2_VERSION}.zip
+	curl -fsSL http://ccb.jhu.edu/software/hisat2/dl/hisat2-${HISAT2_VERSION}-Linux_x86_64.zip -o ./hisat2-${HISAT2_VERSION}.zip
+	unzip hisat2-${HISAT2_VERSION}.zip -d . && \
+	rm hisat2-${HISAT2_VERSION}.zip
 	
-	ln -s $PWD/HISAT2-${HISAT2_VERSION}/hisat2-${HISAT2_VERSION}/* lib
-	ln -s $PWD/HISAT2-${HISAT2_VERSION}/hisat2-${HISAT2_VERSION}/ bin
+	ln -s $PWD/hisat2-${HISAT2_VERSION}/* lib
+	ln -s $PWD/hisat2-${HISAT2_VERSION}/ bin
 	
 %apphelp hisat2
-    HISAT2 --help
+    hisat2 --help
 %applabels hisat2
     VERSION 2.1.0
 %apptest hisat2
-    HISAT2 --version
+    hisat2 --version
 	if [ $? -ne 0 ] ; then
 	   echo 1
 	else
