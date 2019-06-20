@@ -4,11 +4,11 @@
         unzip
 
     echo "Install picard"
-	PICARD_VERSION="1.140"
+	PICARD_VERSION="2.18.27"
 
 	mkdir picard-${PICARD_VERSION} && \
     cd picard-${PICARD_VERSION} && \
-	curl -fsSL https://github.com/BU-ISCIII/scif_app_recipes/releases/download/0.1/picard-${PICARD_VERSION}.zip -o picard-${PICARD_VERSION}.zip && \
+	curl -fsSL https://github.com/broadinstitute/picard/archive/${PICARD_VERSION}.zip -o picard-${PICARD_VERSION}.zip && \
     unzip picard-${PICARD_VERSION}.zip && \
     rm -rf picard-${PICARD_VERSION}.zip && \
     cd ..
@@ -31,7 +31,7 @@
 %apprun picard
     exec picard "$@"
 %applabels picard
-    VERSION 1.140
+    VERSION 2.18.27
 %apptest picard
     picard -version
 	if [ $? -ne 0 ] ; then
