@@ -4,15 +4,17 @@
 
 	PRESEQ_VERSION="2.0.3"
 	
-	curl -fsSL https://anaconda.org/bioconda/preseq/${PRESEQ_VERSION}/download/linux-64/preseq-${PRESEQ_VERSION}-h26b358d_2.tar.bz2 -o ./preseq-${PRESEQ_VERSION}.tar.bz2
-	mkdir preseq-${PRESEQ_VERSION} && \
-	tar -xvjf preseq-${PRESEQ_VERSION}.tar.bz2 -C ./preseq-${PRESEQ_VERSION} && \
-	cd preseq-${PRESEQ_VERSION};make all; cd - && \
-	rm preseq-${PRESEQ_VERSION}.tar.bz2
+#	curl -fsSL https://anaconda.org/bioconda/preseq/${PRESEQ_VERSION}/download/linux-64/preseq-${PRESEQ_VERSION}-h26b358d_2.tar.bz2 -o ./preseq-${PRESEQ_VERSION}.tar.bz2
+#	mkdir preseq-${PRESEQ_VERSION} && \
+#	tar -xvjf preseq-${PRESEQ_VERSION}.tar.bz2 -C ./preseq-${PRESEQ_VERSION} && \
+#	cd preseq-${PRESEQ_VERSION};make all; cd - && \
+#	rm preseq-${PRESEQ_VERSION}.tar.bz2
 	
-	ln -s $PWD/preseq-${PRESEQ_VERSION}/* lib
-	ln -s $PWD/preseq-${PRESEQ_VERSION}/bin/* bin
-	
+
+	conda install preseq=${PRESEQ_VERSION}
+	ln -s /scif/apps/preseq/* lib
+	ln -s /scif/apps/preseq/bin/* bin
+
 %apphelp preseq
     preseq --help
 %applabels preseq
