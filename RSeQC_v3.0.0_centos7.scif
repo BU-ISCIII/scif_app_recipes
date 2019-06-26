@@ -10,14 +10,14 @@
 	curl -fsSL https://sourceforge.net/projects/rseqc/files/RSeQC-${RSEQC_VERSION}.tar.gz/download -o ./RSeQC-${RSEQC_VERSION}.tar.gz
 	tar -xzf RSeQC-${RSEQC_VERSION}.tar.gz -C . && \
 	cd RSeQC-${RSEQC_VERSION} && \
-	python3 setup.py install --root=/user/lib/python2.7/site-packages; cd - && \
+	python3 setup.py install --root=/usr/lib/python3.6/site-packages; cd - && \
 	rm RSeQC-${RSEQC_VERSION}.tar.gz
 	
 	export PYTHONPATH=/user/lib/python2.7/site-packages:$PYTHONPATH
 	export PATH=/home/user/bin:$PATH
 	
-	ln -s $PWD/RSeQC-${RSEQC_VERSION}/* lib
-	ln -s $PWD/RSeQC-${RSEQC_VERSION}/scripts/* bin
+#	ln -s $PWD/RSeQC-${RSEQC_VERSION}/* lib
+#	ln -s $PWD/RSeQC-${RSEQC_VERSION}/scripts/* bin
 	
 %apphelp rseqc
     bam_stat.py --help
