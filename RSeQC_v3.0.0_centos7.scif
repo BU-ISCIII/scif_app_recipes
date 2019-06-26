@@ -1,4 +1,4 @@
-%appfiles deeptools
+%appfiles rseqc
 	/opt/scif_app_recipes/python3_v3.6.1_centos7.scif
 
 %appinstall rseqc
