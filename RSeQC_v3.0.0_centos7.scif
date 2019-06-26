@@ -13,8 +13,8 @@
 	python3 setup.py install --root=/usr/lib/python3.6/site-packages; cd - && \
 	rm RSeQC-${RSEQC_VERSION}.tar.gz
 	
-	export PYTHONPATH=/user/lib/python2.7/site-packages:$PYTHONPATH
-	export PATH=/home/user/bin:$PATH
+	export PYTHONPATH=/usr/lib/python2.7/site-packages:$PYTHONPATH
+	export PATH=/usr/bin:$PATH
 	
 #	ln -s $PWD/RSeQC-${RSEQC_VERSION}/* lib
 #	ln -s $PWD/RSeQC-${RSEQC_VERSION}/scripts/* bin
