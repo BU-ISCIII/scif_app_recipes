@@ -16,8 +16,8 @@
 	export PYTHONPATH=/usr/lib/python2.7/site-packages:$PYTHONPATH
 	export PATH=/usr/bin:$PATH
 	
-#	ln -s $PWD/RSeQC-${RSEQC_VERSION}/* lib
-#	ln -s $PWD/RSeQC-${RSEQC_VERSION}/scripts/* bin
+	ln -s $PWD/RSeQC-${RSEQC_VERSION}/* lib
+	ln -s $PWD/RSeQC-${RSEQC_VERSION}/scripts/* bin
 	
 %apphelp rseqc
     bam_stat.py --help
