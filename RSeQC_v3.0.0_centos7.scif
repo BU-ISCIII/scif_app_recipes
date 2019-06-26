@@ -7,7 +7,7 @@
 	curl -fsSL https://sourceforge.net/projects/rseqc/files/RSeQC-${RSEQC_VERSION}.tar.gz/download -o ./RSeQC-${RSEQC_VERSION}.tar.gz
 	tar -xzf RSeQC-${RSEQC_VERSION}.tar.gz -C . && \
 	cd RSeQC-${RSEQC_VERSION} && \
-	python setup.py install; cd - && \
+	python3 setup.py install; cd - && \
 	rm RSeQC-${RSEQC_VERSION}.tar.gz
 	
 	export PYTHONPATH=/user/lib/python2.7/site-packages:$PYTHONPATH
