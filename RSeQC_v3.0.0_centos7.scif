@@ -6,19 +6,24 @@
 				   zlib-devel
 
 	RSEQC_VERSION="3.0.0"
+
+###Not working
+#	curl -fsSL https://sourceforge.net/projects/rseqc/files/RSeQC-${RSEQC_VERSION}.tar.gz/download -o ./RSeQC-${RSEQC_VERSION}.tar.gz
+#	tar -xzf RSeQC-${RSEQC_VERSION}.tar.gz -C . && \
+#	cd RSeQC-${RSEQC_VERSION} && \
+#	python3 setup.py install --root=/usr/lib/python3.6/site-packages; cd - && \
+#	rm RSeQC-${RSEQC_VERSION}.tar.gz
 	
-	curl -fsSL https://sourceforge.net/projects/rseqc/files/RSeQC-${RSEQC_VERSION}.tar.gz/download -o ./RSeQC-${RSEQC_VERSION}.tar.gz
-	tar -xzf RSeQC-${RSEQC_VERSION}.tar.gz -C . && \
-	cd RSeQC-${RSEQC_VERSION} && \
-	python3 setup.py install --root=/usr/lib/python3.6/site-packages; cd - && \
-	rm RSeQC-${RSEQC_VERSION}.tar.gz
+#	export PYTHONPATH=/usr/lib/python2.7/site-packages:$PYTHONPATH
+#	export PATH=/usr/bin:$PATH
 	
-	export PYTHONPATH=/usr/lib/python2.7/site-packages:$PYTHONPATH
-	export PATH=/usr/bin:$PATH
-	
-	ln -s $PWD/RSeQC-${RSEQC_VERSION}/* lib
-	ln -s $PWD/RSeQC-${RSEQC_VERSION}/scripts/* bin
-	
+#	ln -s $PWD/RSeQC-${RSEQC_VERSION}/* lib
+#	ln -s $PWD/RSeQC-${RSEQC_VERSION}/scripts/* bin
+
+	####Instaling with conda
+	conda init; conda install -y -c bioconda rseqc=${RSEQC_VERSION}
+
+
 %apphelp rseqc
     bam_stat.py --help
 %applabels rseqc
@@ -30,5 +35,3 @@
 	else
 	   echo 0
 	fi
-	
-###############################PIP3??????############################
