@@ -3,15 +3,19 @@
 				   zlib-devel
 
 	PRESEQ_VERSION="2.0.3"
+
+###Not working due mto libgsl.so.19
+#	curl -fsSL https://anaconda.org/bioconda/preseq/${PRESEQ_VERSION}/download/linux-64/preseq-${PRESEQ_VERSION}-h26b358d_2.tar.bz2 -o ./preseq-${PRESEQ_VERSION}.tar.bz2
+#	mkdir preseq-${PRESEQ_VERSION} && \
+#	tar -xvjf preseq-${PRESEQ_VERSION}.tar.bz2 -C ./preseq-${PRESEQ_VERSION} && \
+#	cd preseq-${PRESEQ_VERSION};make all; cd - && \
+#	rm preseq-${PRESEQ_VERSION}.tar.bz2
 	
-	curl -fsSL https://anaconda.org/bioconda/preseq/${PRESEQ_VERSION}/download/linux-64/preseq-${PRESEQ_VERSION}-h26b358d_2.tar.bz2 -o ./preseq-${PRESEQ_VERSION}.tar.bz2
-	mkdir preseq-${PRESEQ_VERSION} && \
-	tar -xvjf preseq-${PRESEQ_VERSION}.tar.bz2 -C ./preseq-${PRESEQ_VERSION} && \
-	cd preseq-${PRESEQ_VERSION};make all; cd - && \
-	rm preseq-${PRESEQ_VERSION}.tar.bz2
-	
-	ln -s $PWD/preseq-${PRESEQ_VERSION}/* lib
-	ln -s $PWD/preseq-${PRESEQ_VERSION}/bin/* bin
+#	ln -s $PWD/preseq-${PRESEQ_VERSION}/* lib
+#	ln -s $PWD/preseq-${PRESEQ_VERSION}/bin/* bin
+    
+	####Instaling with conda
+	conda init; conda install -y -c bioconda preseq=${PRESEQ_VERSION}
 	
 %apphelp preseq
     preseq --help
