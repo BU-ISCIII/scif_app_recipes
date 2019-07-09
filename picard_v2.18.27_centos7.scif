@@ -5,26 +5,27 @@
 
     echo "Install picard"
 	PICARD_VERSION="2.18.27"
+###Not working due to Java problems
+#	curl -fsSL https://github.com/broadinstitute/picard/archive/${PICARD_VERSION}.zip -o picard-${PICARD_VERSION}.zip && \
+#    unzip picard-${PICARD_VERSION}.zip && \
+#    rm -rf picard-${PICARD_VERSION}.zip && \
+#
+#	echo '#!/bin/bash' > bin/picard
+#	echo "java -jar /scif/apps/picard/bin/picard \$@" >> bin/picard
+#	chmod 755 bin/picard
+#	ln -s $PWD/picard-${PICARD_VERSION}/picard bin
 
-	mkdir picard-${PICARD_VERSION} && \
-    cd picard-${PICARD_VERSION} && \
-	curl -fsSL https://github.com/broadinstitute/picard/archive/${PICARD_VERSION}.zip -o picard-${PICARD_VERSION}.zip && \
-    unzip picard-${PICARD_VERSION}.zip && \
-    rm -rf picard-${PICARD_VERSION}.zip && \
-    cd ..
+#   echo '#!/bin/bash' > bin/htsjdk
+#	echo "java -jar /scif/apps/picard/bin/htsjdk \$@" >> bin/htsjdk
+#	chmod 755 bin/htsjdk
+#
+#    echo '#!/bin/bash' > bin/picard-lib
+#	echo "java -jar /scif/apps/picard/picard-${PICARD_VERSION}/picard-lib.jar \$@" >> bin/picard-lib
+#	chmod 755 bin/picard-lib
 
-	echo '#!/bin/bash' > bin/picard
-	echo "java -jar /scif/apps/picard/picard-${PICARD_VERSION}/picard.jar \$@" >> bin/picard
-	chmod 755 bin/picard
-	ln -s $PWD/picard-${PICARD_VERSION}/picard.jar bin
+	####Instaling with conda
+	conda init; conda install -y -c bioconda picard=${PICARD_VERSION}
 
-    echo '#!/bin/bash' > bin/htsjdk
-	echo "java -jar /scif/apps/picard/picard-${PICARD_VERSION}/htsjdk.jar \$@" >> bin/htsjdk
-	chmod 755 bin/htsjdk
-
-    echo '#!/bin/bash' > bin/picard-lib
-	echo "java -jar /scif/apps/picard/picard-${PICARD_VERSION}/picard-lib.jar \$@" >> bin/picard-lib
-	chmod 755 bin/picard-lib
 
 %apphelp picard
     picard
