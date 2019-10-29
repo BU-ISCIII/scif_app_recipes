@@ -1,0 +1,221 @@
+%appfiles prokka
+	/opt/scif_app_recipes/ncbiblast_v2.7.1_centos7.scif
+	/opt/scif_app_recipes/prodigal_v2.6.3_centos7.scif
+	/opt/scif_app_recipes/bedtools_v2.27_centos7.scif
+
+%appinstall prokka
+	echo "Install prokka dependencies"
+	yum install -y perl-Time-Piece \
+				perl-XML-Simple \
+				perl-Digest-MD5 \
+				perl-App-cpanminus \
+				java \
+				perl-CPAN \
+				perl-Module-Build \
+				parallel
+
+	echo "Install dependencies with scif recipe"
+	check_version() {
+		RED='\033[0;31m'
+		NC='\033[0m'
+		GREEN='\033[0;32m'
+		version=$1
+		version_installed=$2
+		program=$3
+		if [[ "$version" > "$version_installed" ]];then
+			echo -e "\n----------------------------------------------------------------------\n"
+			echo -e "${RED}WARNING:${NC} $program version installed is lower than required for prokka. Check dependencies recipes, and/or change installation order. Omitting installation."
+			echo -e "\n----------------------------------------------------------------------\n"
+		elif [[ "$version" == "$version_installed" ]];then
+			echo -e "\n----------------------------------------------------------------------\n"
+			echo -e "${GREEN}INFO:${NC} Version of $program is already installed with same version, omitting."
+			echo -e "\n----------------------------------------------------------------------\n"
+		else
+			echo -e "\n----------------------------------------------------------------------\n"
+			echo -e "${GREEN}INFO:${NC} Version greater of $program is already installed, omitting."
+			echo -e "\n----------------------------------------------------------------------\n"
+		fi
+
+	}
+
+	echo "Install Blast+"
+	if [ ! -d /scif/apps/ncbiblast ]; then
+		scif install ncbiblast_v2.7.1_centos7.scif
+	else
+		ver=$(blastp -version 2>&1 | awk '/blastp/{print $2}')
+		check_version "2.7.1" $ver "Blast+"
+	fi
+	echo "Install Bedtools"
+	if [ ! -d /scif/apps/bedtools ]; then
+		scif install bedtools_v2.27_centos7.scif
+	else
+		ver=$(bedtools --version 2>&1 | awk '{print $2}')
+		check_version "v2.27.0" $ver "Bedtools"
+	fi
+	echo "Install Prodigal"
+	if [ ! -d /scif/apps/prodigal ]; then
+		scif install prodigal_v2.6.3_centos7.scif
+	else
+		echo "${RED}WARNING:${NC}There is a prodigal version already installed. You should check the other dependencies installed in order to check which version is installed."
+	fi
+
+	echo "Install Bio-Perl"
+	cpanm Bio::Perl Bio::Root:Version
+
+    echo "Install prokka"
+    PROKKA_VERSION="1.14.0"
+
+	curl -fsSL https://github.com/tseemann/prokka/archive/v${PROKKA_VERSION}.tar.gz -o prokka-${PROKKA_VERSION}.tar.gz && \
+    tar xvf prokka-${PROKKA_VERSION}.tar.gz -C . && \
+    rm -f prokka-${PROKKA_VERSION}.tar.gz && \
+    ./prokka-${PROKKA_VERSION}/bin/prokka --setupdb
+
+	ln -s $PWD/prokka-${PROKKA_VERSION}/lib lib
+	ln -s $PWD/prokka-${PROKKA_VERSION}/bin/* bin
+
+	echo "Install SignalP - not install (optional)"
+	## Not installed due to license issues. Not used in plasmidID, install separately when needed.
+
+	echo "Install Infernal - not install (optional)"
+	## Not installed because I don't like the installation instructions
+
+	echo "Install RNAmmer - not install (optional)"
+
+	## Not installed due to license issues.
+%apphelp prokka
+    prokka
+%apprun prokka
+    exec prokka "$@"
+%applabels prokka
+    VERSION 1.14.0
+%apptest prokka
+    prokka --version
+	if [ $? -ne 0 ] ; then
+	   echo 1
+	else
+	   echo 0
+	fi
+
+%appinstall tbl2asn
+	echo "Install TBL2ASN"
+
+	wget ftp://ftp.ncbi.nih.gov/toolbox/ncbi_tools/converters/by_program/tbl2asn/linux.tbl2asn.gz && \
+    gzip -d linux.tbl2asn.gz && \
+    mv linux.tbl2asn tbl2asn && \
+    chmod +x tbl2asn && \
+    mv tbl2asn bin
+%apphelp tbl2asn
+	This app runs ncbi tool tbl2asn
+%apprun tbl2asn
+	exec tbl2asn "$@"
+%applabels tbl2asn
+	VERSION latest
+%apptest tbl2asn
+    tbl2asn --version
+	if [ $? -ne 0 ] ; then
+	   echo 1
+	else
+	   echo 0
+	fi
+
+%appinstall aragorn
+	echo "Install Aragorn"
+	ARAGORN_VERSION="1.2.38"
+
+	curl -fsSL http://mbio-serv2.mbioekol.lu.se/ARAGORN/Downloads/aragorn${ARAGORN_VERSION}.tgz -o aragorn-${ARAGORN_VERSION}.tgz && \
+	tar -xvf aragorn-${ARAGORN_VERSION}.tgz && \
+	cd aragorn${ARAGORN_VERSION} && \
+	gcc -O3 -ffast-math -finline-functions -o aragorn aragorn1.2.38.c && \
+	cd - && \
+	rm -f aragorn-${ARAGORN_VERSION}.tgz
+
+	ln -s $PWD/aragorn${ARAGORN_VERSION}/aragorn bin
+%apphelp aragorn
+	This app runs aragorn software.
+
+%apprun aragorn
+	exec aragorn "$@"
+%applabels aragorn
+	VERSION 1.2.38
+%apptest aragorn
+    aragorn -h
+	if [ $? -ne 0 ] ; then
+	   echo 1
+	else
+	   echo 0
+	fi
+
+%appinstall hmmer3
+	echo "Install HMMER3"
+	## HMMER3 MUST be installed before Barrnap as it is a dependency.
+ 	HMMER3_VERSION="3.2.1"
+	curl -fsSL http://eddylab.org/software/hmmer/hmmer-${HMMER3_VERSION}.tar.gz -o hmmer3-${HMMER3_VERSION}.tar.gz
+	tar -xvf hmmer3-${HMMER3_VERSION}.tar.gz && \
+	cd hmmer-${HMMER3_VERSION}; ./configure --prefix $PWD; make; cd - && \
+	rm -f hmmer3-${HMMER3_VERSION}.tar.gz
+
+	ln -s $PWD/hmmer-${HMMER3_VERSION}/src/*hmm*[!.cohtstamp] ../hmmer-${HMMER3_VERSION}/src/alimask bin
+%apphelp hmmer3
+	This app runs hmmer3 software
+%applabels hmmer3
+	VERSION 3.2.1
+%apptest hmmer3
+    nhmmer -h
+	if [ $? -ne 0 ] ; then
+	   echo 1
+	else
+	   echo 0
+	fi
+%apprun hmmer3
+	nhmmer "$@"
+
+%appinstall barrnap
+	echo "Install BARRNAP"
+
+	BARRNAP_VERSION="0.9"
+	curl -fsSL https://github.com/tseemann/barrnap/archive/${BARRNAP_VERSION}.tar.gz -o barrnap-${BARRNAP_VERSION}.tar.gz && \
+	tar -xvf barrnap-${BARRNAP_VERSION}.tar.gz && \
+	rm -f barrnap-${BARRNAP_VERSION}.tar.gz
+
+	ln -s $PWD/barrnap-${BARRNAP_VERSION}/bin/* bin
+%apphelp barrnap
+	This app runs barnnap tool.
+
+%applabels barrnap
+	VERSION 0.9
+%apprun barrnap
+	exec barrnap "$@"
+%apptest
+    barrnap --versionn
+	if [ $? -ne 0 ] ; then
+	   echo 1
+	else
+	   echo 0
+	fi
+
+%appinstall minced
+	echo "Install minced"
+	echo "Install minced dependencies"
+	yum install -y java java-devel
+
+	MINCED_VERSION="0.3.0"
+	curl -fsSL https://github.com/ctSkennerton/minced/archive/${MINCED_VERSION}.tar.gz -o minced-${MINCED_VERSION}.tar.gz && \
+	tar -xvf minced-${MINCED_VERSION}.tar.gz && \
+	cd minced-${MINCED_VERSION}; make; cd - && \
+	rm -f minced-${MINCED_VERSION}.tar.gz
+
+	ln -s $PWD/minced-${MINCED_VERSION}/minced bin
+
+%apphelp minced
+	This app runs minced software
+%apprun minced
+	exec minced "$@"
+%applabels minced
+	VERSION 0.3.0
+%apptest minced
+    minced --version
+	if [ $? -ne 0 ] ; then
+	   echo 1
+	else
+	   echo 0
+	fi
